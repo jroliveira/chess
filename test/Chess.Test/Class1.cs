@@ -6,21 +6,46 @@ namespace Chess.Test
     [TestFixture]
     public class Console
     {
+        private Chessboard _chessboard;
+
+        [SetUp]
+        public void Setup()
+        {
+            _chessboard = new Chessboard();
+            _chessboard.Start();
+
+            Print(_chessboard);
+        }
+
         [Test]
-        public void Start()
+        public void Start() { }
+
+        [Test]
+        public void Move()
         {
             var chessboard = new Chessboard();
             chessboard.Start();
 
+            var piece = chessboard.GetPiece("a7");
+
+            chessboard.MovePiece(piece, "a5");
+
+            Print(chessboard);
+        }
+
+        private static void Print(Chessboard chessboard)
+        {
             Debug.WriteLine("");
             Debug.WriteLine("");
             Debug.WriteLine("CHESSBOARD");
             Debug.WriteLine("");
-            Debug.WriteLine("-------------------------------------------------------------------------");
+            Debug.Write("   ");
             foreach (var file in chessboard.Files)
             {
-                Debug.Write(string.Format("   {0}     ", file));
+                Debug.Write(string.Format("|   {0}    ", file));
             }
+
+            Debug.WriteLine("----------------------------------------------------------------------------");
 
             foreach (var rank in chessboard.Ranks)
             {
@@ -41,9 +66,8 @@ namespace Chess.Test
                     }
                 }
                 Debug.WriteLine("|");
-                Debug.WriteLine("-------------------------------------------------------------------------");
+                Debug.WriteLine("----------------------------------------------------------------------------");
             }
-
         }
     }
 }

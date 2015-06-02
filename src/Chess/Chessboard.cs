@@ -26,7 +26,7 @@ namespace Chess
             _mountChessboard.Mount();
         }
 
-        public Piece GetPiece(string position)
+        public virtual Piece GetPiece(string position)
         {
             return Pieces.FirstOrDefault(piece => piece.Position.Equals(position.ToPosition()));
         }

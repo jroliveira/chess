@@ -8,8 +8,8 @@ namespace Chess.Validations
         private readonly FileAndRankLimitValidate _fileAndRankLimitValidate;
         private readonly HasPieceValidate _hasPieceValidate;
 
-        protected PawnValidator(FileAndRankLimitValidate fileAndRankLimitValidate,
-                                HasPieceValidate hasPieceValidate)
+        internal PawnValidator(FileAndRankLimitValidate fileAndRankLimitValidate,
+                               HasPieceValidate hasPieceValidate)
         {
             _fileAndRankLimitValidate = fileAndRankLimitValidate;
             _hasPieceValidate = hasPieceValidate;

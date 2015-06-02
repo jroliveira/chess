@@ -7,26 +7,28 @@ namespace Chess.Validations
         protected readonly Piece Piece;
         protected Validate NextValidate;
 
+        internal Validate() { }
+
         protected Validate(Piece piece)
         {
             Piece = piece;
         }
 
-        public void SetNextValidate(Validate nexValidate)
+        public virtual void SetNextValidate(Validate nexValidate)
         {
             NextValidate = nexValidate;
         }
 
-        public bool IsValid(Position newPosition)
+        public virtual bool IsValid(Position newPosition)
         {
-            if (IsValidRule(newPosition))
+            if (!IsValidRule(newPosition))
             {
-                return true;
+                return false;
             }
 
             if (NextValidate == null)
             {
-                return false;
+                return true;
             }
 
             return NextValidate.IsValid(newPosition);

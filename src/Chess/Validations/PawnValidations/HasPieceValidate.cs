@@ -5,19 +5,22 @@ namespace Chess.Validations.PawnValidations
 {
     public class HasPieceValidate : Validate
     {
-        public HasPieceValidate(Pawn pawn)
-            : base(pawn)
+        protected HasPieceValidate() { }
+
+        public HasPieceValidate(Piece piece)
+            : base(piece) 
         { }
 
         protected override bool IsValidRule(Position newPosition)
         {
             var hasPiece = Piece.Chessboard.HasPiece(newPosition.ToString());
 
-            var rankMoved = Math.Abs(Piece.Position.Rank - newPosition.Rank);
+            var fileMoved = Math.Abs(Piece.Position.File - newPosition.File);
+            var rankMoved = Piece.Position.Rank - newPosition.Rank;
 
-            if (hasPiece && rankMoved.Equals(2))
+            if (fileMoved.Equals(1) && rankMoved.Equals(1))
             {
-                return false;
+                return hasPiece;
             }
 
             return true;
