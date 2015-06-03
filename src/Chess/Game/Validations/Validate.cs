@@ -1,8 +1,8 @@
-﻿using Chess.Pieces;
+﻿using Chess.Game.Pieces;
 
-namespace Chess.Validations
+namespace Chess.Game.Validations
 {
-    public abstract class Validate
+    internal abstract class Validate
     {
         protected readonly Piece Piece;
         protected Validate NextValidate;

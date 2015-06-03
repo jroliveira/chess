@@ -1,9 +1,9 @@
-using Chess.Pieces;
-using Chess.Validations.PawnValidations;
+using Chess.Game.Pieces;
+using Chess.Game.Validations.PawnValidations;
 
-namespace Chess.Validations
+namespace Chess.Game.Validations
 {
-    public class PawnValidator
+    internal class PawnValidator
     {
         private readonly FileAndRankLimitValidate _fileAndRankLimitValidate;
         private readonly HasPieceValidate _hasPieceValidate;
