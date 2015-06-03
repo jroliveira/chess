@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Chess
+namespace Chess.Game
 {
-    public class Position : IEquatable<Position>
+    internal class Position : IEquatable<Position>
     {
         public char File { get; private set; }
         public char Rank { get; private set; }

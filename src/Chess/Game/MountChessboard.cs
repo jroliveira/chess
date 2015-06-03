@@ -1,9 +1,9 @@
 ﻿using System;
-using Chess.Pieces;
+using Chess.Game.Pieces;
 
-namespace Chess
+namespace Chess.Game
 {
-    public class MountChessboard
+    internal class MountChessboard
     {
         private readonly Chessboard _chessboard;
 
@@ -70,7 +70,14 @@ namespace Chess
         private void PutPiece<TPiece>(Position position)
             where TPiece : Piece
         {
-            var newPiece = Activator.CreateInstance(typeof(TPiece), position, _chessboard) as Piece;
+            var player = 1;
+
+            if (position.Rank.Equals('7') || position.Rank.Equals('8'))
+            {
+                player = 2;
+            }
+
+            var newPiece = Activator.CreateInstance(typeof(TPiece), player, position, _chessboard) as Piece;
 
             _chessboard.AddPiece(newPiece);
         }

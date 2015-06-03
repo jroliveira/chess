@@ -1,19 +1,19 @@
 ﻿using System;
-using Chess.Pieces;
+using Chess.Game.Pieces;
 
-namespace Chess.Validations.PawnValidations
+namespace Chess.Game.Validations.PawnValidations
 {
-    public class HasPieceValidate : Validate
+    internal class HasPieceValidate : Validate
     {
         protected HasPieceValidate() { }
 
-        public HasPieceValidate(Piece piece)
-            : base(piece) 
+        public HasPieceValidate(Pawn pawn)
+            : base(pawn)
         { }
 
         protected override bool IsValidRule(Position newPosition)
         {
-            var hasPiece = Piece.Chessboard.HasPiece(newPosition.ToString());
+            var hasPiece = Piece.Chessboard.HasPiece(newPosition);
 
             var fileMoved = Math.Abs(Piece.Position.File - newPosition.File);
             var rankMoved = Piece.Position.Rank - newPosition.Rank;

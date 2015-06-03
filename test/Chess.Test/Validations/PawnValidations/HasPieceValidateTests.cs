@@ -1,5 +1,7 @@
-﻿using Chess.Pieces;
-using Chess.Validations.PawnValidations;
+﻿using Chess.Game;
+using Chess.Game.Extensions;
+using Chess.Game.Pieces;
+using Chess.Game.Validations.PawnValidations;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
@@ -17,7 +19,7 @@ namespace Chess.Test.Validations.PawnValidations
         {
             _chessboard = new Mock<Chessboard>();
 
-            var pawn = new Pawn("b7".ToPosition(), _chessboard.Object);
+            var pawn = new Pawn(It.IsAny<int>(), "b7".ToPosition(), _chessboard.Object);
             _validate = new HasPieceValidate(pawn);
         }
 
@@ -35,8 +37,8 @@ namespace Chess.Test.Validations.PawnValidations
         public void IsValid_DadoUmaPosicaoValida_DeveRetornarTrue(string newPosition)
         {
             _chessboard
-                .Setup(c => c.GetPiece(It.IsAny<string>()))
-                .Returns(new Pawn(newPosition.ToPosition(), _chessboard.Object));
+                .Setup(c => c.GetPiece(It.IsAny<Position>()))
+                .Returns(new Pawn(It.IsAny<int>(), newPosition.ToPosition(), _chessboard.Object));
 
             var isValid = _validate.IsValid(newPosition.ToPosition());
 

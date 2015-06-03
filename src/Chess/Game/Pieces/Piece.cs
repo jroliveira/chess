@@ -1,15 +1,18 @@
 using System;
-using Chess.Validations;
+using Chess.Game.Validations;
 
-namespace Chess.Pieces
+namespace Chess.Game.Pieces
 {
-    public abstract class Piece : IEquatable<Piece>
+    internal abstract class Piece : IEquatable<Piece>
     {
         public Chessboard Chessboard { get; protected set; }
         public Position Position { get; private set; }
+        public int Player { get; set; }
+        public string Name { get { return GetType().Name.Substring(0, 4); } }
 
-        protected Piece(Position position, Chessboard chessboard)
+        protected Piece(int player, Position position, Chessboard chessboard)
         {
+            Player = player;
             Position = position;
             Chessboard = chessboard;
         }
@@ -27,12 +30,12 @@ namespace Chess.Pieces
         }
     }
 
-    public class Pawn : Piece
+    internal class Pawn : Piece
     {
         private readonly PawnValidator _pawnValidator;
 
-        public Pawn(Position position, Chessboard chessboard)
-            : base(position, chessboard)
+        public Pawn(int player, Position position, Chessboard chessboard)
+            : base(player, position, chessboard)
         {
             _pawnValidator = new PawnValidator(this);
         }
@@ -43,10 +46,10 @@ namespace Chess.Pieces
         }
     }
 
-    public class King : Piece
+    internal class King : Piece
     {
-        public King(Position position, Chessboard chessboard)
-            : base(position, chessboard)
+        public King(int player, Position position, Chessboard chessboard)
+            : base(player, position, chessboard)
         { }
 
         public override bool CanMove(Position position)
@@ -55,10 +58,10 @@ namespace Chess.Pieces
         }
     }
 
-    public class Queen : Piece
+    internal class Queen : Piece
     {
-        public Queen(Position position, Chessboard chessboard)
-            : base(position, chessboard)
+        public Queen(int player, Position position, Chessboard chessboard)
+            : base(player, position, chessboard)
         { }
 
         public override bool CanMove(Position position)
@@ -67,10 +70,10 @@ namespace Chess.Pieces
         }
     }
 
-    public class Rook : Piece
+    internal class Rook : Piece
     {
-        public Rook(Position position, Chessboard chessboard)
-            : base(position, chessboard)
+        public Rook(int player, Position position, Chessboard chessboard)
+            : base(player, position, chessboard)
         { }
 
         public override bool CanMove(Position position)
@@ -79,10 +82,10 @@ namespace Chess.Pieces
         }
     }
 
-    public class Bishop : Piece
+    internal class Bishop : Piece
     {
-        public Bishop(Position position, Chessboard chessboard)
-            : base(position, chessboard)
+        public Bishop(int player, Position position, Chessboard chessboard)
+            : base(player, position, chessboard)
         { }
 
         public override bool CanMove(Position position)
@@ -91,10 +94,10 @@ namespace Chess.Pieces
         }
     }
 
-    public class Knight : Piece
+    internal class Knight : Piece
     {
-        public Knight(Position position, Chessboard chessboard)
-            : base(position, chessboard)
+        public Knight(int player, Position position, Chessboard chessboard)
+            : base(player, position, chessboard)
         { }
 
         public override bool CanMove(Position position)

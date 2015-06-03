@@ -1,5 +1,8 @@
-﻿using Chess.Pieces;
-using Chess.Validations.PawnValidations;
+﻿using Chess.Extensions;
+using Chess.Game;
+using Chess.Game.Extensions;
+using Chess.Game.Pieces;
+using Chess.Game.Validations.PawnValidations;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
@@ -14,7 +17,7 @@ namespace Chess.Test.Validations.PawnValidations
         [SetUp]
         public void Setup()
         {
-            var pawn = new Pawn("b7".ToPosition(), It.IsAny<Chessboard>());
+            var pawn = new Pawn(It.IsAny<int>(), "b7".ToPosition(), It.IsAny<Chessboard>());
             _validate = new FileAndRankLimitValidate(pawn);
         }
 

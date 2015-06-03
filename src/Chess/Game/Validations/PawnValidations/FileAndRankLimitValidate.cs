@@ -1,9 +1,9 @@
 ﻿using System;
-using Chess.Pieces;
+using Chess.Game.Pieces;
 
-namespace Chess.Validations.PawnValidations
+namespace Chess.Game.Validations.PawnValidations
 {
-    public class FileAndRankLimitValidate : Validate
+    internal class FileAndRankLimitValidate : Validate
     {
         protected FileAndRankLimitValidate() { }
 

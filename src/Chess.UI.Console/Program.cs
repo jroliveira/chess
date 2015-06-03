@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using System;
+using System.Linq;
+using Chess.Exceptions;
 
 namespace Chess.UI.Console
 {
@@ -6,54 +8,95 @@ namespace Chess.UI.Console
     {
         private const char ArrowRight = (char)26;
 
+        private static readonly ScreenText Text = new ScreenText();
+        private static readonly Screen Screen = new Screen();
+
         static void Main()
         {
-            var game = new Game.Game();
+            System.Console.Title = "Chess";
+            System.Console.SetWindowSize(84, 42);
+
+            var game = new ChessGame();
             game.Start();
+
+            Screen.Print(game);
 
             while (true)
             {
                 string piece;
                 var position = NextMove(out piece);
 
-                game.Move(piece, position);
+                try
+                {
+                    game.Move(piece, position);
+                    Screen.Print(game);
+                }
+                catch (ChessException exception)
+                {
+                    Text.Error(exception.Message);
+                }
             }
         }
 
         static string NextMove(out string piece)
         {
+            System.Console.SetCursorPosition(0, 37);
             System.Console.WriteLine("");
-            Text("NEXT MOVE {0}", (char)1);
+            System.Console.WriteLine("           ");
             System.Console.WriteLine("");
-            System.Console.WriteLine("");
+            System.Console.WriteLine("                                                     ");
+            System.Console.SetCursorPosition(0, 37);
 
-            Text(" {0} Piece ", ArrowRight);
-            var file = System.Console.ReadKey().KeyChar;
-            var rawn = System.Console.ReadKey().KeyChar;
+            Text.NewLine();
+            Text.Write("NEXT MOVE {0}", (char)1);
+            Text.NewLine();
+            Text.NewLine();
 
-            piece = new string(new[] { file, rawn });
+            Text.Write(" {0} Piece ", ArrowRight);
+            var file = GetFile();
+            var rank = GetRank();
 
-            Text(" move for ");
+            piece = new string(new[] { file, rank });
 
-            file = System.Console.ReadKey().KeyChar;
-            rawn = System.Console.ReadKey().KeyChar;
+            Text.Write(" move for ");
 
-            return new string(new[] { file, rawn });
+            file = GetFile();
+            rank = GetRank();
+
+            return new string(new[] { file, rank });
         }
 
-        static void Text(string format, params object[] args)
+        static char GetFile()
         {
-            var text = string.Format(format, args);
-            Text(text);
+            var files = new[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
+
+            return GetKey(files.Contains, "( invalid file! please insert between a and h )");
         }
 
-        static void Text(string text)
+        static char GetRank()
         {
-            foreach (var t in text)
+            var ranks = new[] { '8', '7', '6', '5', '4', '3', '2', '1' };
+
+            return GetKey(ranks.Contains, "( invalid rank! please insert between 8 and 1 )");
+        }
+
+        static char GetKey(Func<char, bool> condition, string invalidMessage)
+        {
+            bool keyValid;
+            char key;
+
+            do
             {
-                Thread.Sleep(80);
-                System.Console.Write(t);
-            }
+                key = System.Console.ReadKey().KeyChar;
+                keyValid = condition(key);
+
+                if (!keyValid)
+                {
+                    Text.Error(invalidMessage);
+                }
+            } while (!keyValid);
+
+            return key;
         }
     }
 }

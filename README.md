@@ -4,6 +4,8 @@
 
 Chess is a game console.
 
+![Image of Game](https://github.com/jroliveira/chess/blob/master/docs/game.png)
+
 ### Installing
 
 * `git clone https://github.com/jroliveira/chess.git`
