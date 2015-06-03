@@ -1,3 +1,5 @@
+using System;
+
 namespace Chess.UI.Console.Game
 {
     public class Game
@@ -36,9 +38,12 @@ namespace Chess.UI.Console.Game
             HeaderOrFooter(chessboard);
             Dash();
 
+            var toggle = true;
             foreach (var rank in chessboard.Ranks)
             {
-                Rank(rank, chessboard);
+                Rank(rank, chessboard, toggle);
+
+                toggle = !toggle;
             }
 
             HeaderOrFooter(chessboard);
@@ -60,13 +65,24 @@ namespace Chess.UI.Console.Game
             System.Console.WriteLine("|");
         }
 
-        private static void Rank(char rank, Chessboard chessboard)
+        private static void Rank(char rank, Chessboard chessboard, bool toggle)
         {
             System.Console.Write("   {0} ", rank);
 
             foreach (var file in chessboard.Files)
             {
+                if (toggle)
+                {
+                    System.Console.BackgroundColor = ConsoleColor.White;
+                    System.Console.ForegroundColor = ConsoleColor.Black;
+                }
+
                 File(file, rank, chessboard);
+
+                System.Console.BackgroundColor = ConsoleColor.Black;
+                System.Console.ForegroundColor = ConsoleColor.White;
+
+                toggle = !toggle;
             }
 
             System.Console.WriteLine("| {0} ", rank);
@@ -80,18 +96,38 @@ namespace Chess.UI.Console.Game
 
             if (piece == null)
             {
-                System.Console.Write("|      ");
+                Pipe();
+
+                System.Console.Write("      ");
             }
             else
             {
+                Pipe();
+
                 var name = piece.GetType().Name.Substring(0, 4);
-                System.Console.Write("| {0} ", name);
+                System.Console.Write(" {0} ", name);
             }
         }
 
         private static void Dash()
         {
             System.Console.WriteLine("  ---------------------------------------------------------------");
+        }
+
+        private static void Pipe()
+        {
+            var current = System.Console.BackgroundColor;
+
+            System.Console.BackgroundColor = ConsoleColor.Black;
+            System.Console.ForegroundColor = ConsoleColor.White;
+
+            System.Console.Write("|");
+
+            if (current != ConsoleColor.Black)
+            {
+                System.Console.BackgroundColor = ConsoleColor.White;
+                System.Console.ForegroundColor = ConsoleColor.Black;
+            }
         }
     }
 }
