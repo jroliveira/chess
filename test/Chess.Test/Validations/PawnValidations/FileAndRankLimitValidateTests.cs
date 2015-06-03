@@ -18,13 +18,10 @@ namespace Chess.Test.Validations.PawnValidations
             _validate = new FileAndRankLimitValidate(pawn);
         }
 
-        [TestCase("b8")]
         [TestCase("b7")]
         [TestCase("b4")]
-        [TestCase("a8")]
         [TestCase("a7")]
         [TestCase("a5")]
-        [TestCase("c8")]
         [TestCase("c7")]
         [TestCase("c5")]
         public void IsValid_DadoUmaPosicaoInvalida_DeveRetornarFalse(string newPosition)
@@ -34,9 +31,12 @@ namespace Chess.Test.Validations.PawnValidations
             isValid.Should().BeFalse();
         }
 
+        [TestCase("b8")]
         [TestCase("b6")]
         [TestCase("b5")]
+        [TestCase("a8")]
         [TestCase("a6")]
+        [TestCase("c8")]
         [TestCase("c6")]
         public void IsValid_DadoUmaPosicaoValida_DeveRetornarTrue(string newPosition)
         {
