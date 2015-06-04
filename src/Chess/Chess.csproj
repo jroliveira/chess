@@ -47,6 +47,12 @@
     <Compile Include="Game\MountChessboard.cs" />
     <Compile Include="Exceptions\ChessException.cs" />
     <Compile Include="Game\Chessboard.cs" />
+    <Compile Include="Game\Multiplayer\Client.cs" />
+    <Compile Include="Game\Multiplayer\EventHandlers\ConnectedEventHandler.cs" />
+    <Compile Include="Game\Multiplayer\EventHandlers\DataReceivedEventHandler.cs" />
+    <Compile Include="Game\Multiplayer\EventHandlers\ErrorEventHandler.cs" />
+    <Compile Include="Game\Multiplayer\Server.cs" />
+    <Compile Include="Game\Multiplayer\EventHandlers\WaitingEventHandler.cs" />
     <Compile Include="Game\Pieces\Piece.cs" />
     <Compile Include="Game\Position.cs" />
     <Compile Include="Game\Extensions\StringExtension.cs" />

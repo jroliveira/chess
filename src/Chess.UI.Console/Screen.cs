@@ -1,4 +1,5 @@
 using System;
+using Chess.Extensions;
 
 namespace Chess.UI.Console
 {
@@ -17,12 +18,21 @@ namespace Chess.UI.Console
         {
             System.Console.Clear();
 
-            System.Console.Write("CHESSBOARD");
+            System.Console.Write(@"
+           _                        
+          | |                       
+     ___  | |__     ___   ___   ___ 
+    / __| | '_ \   / _ \ / __| / __|
+   | (__  | | | | |  __/ \__ \ \__ \
+    \___| |_| |_|  \___| |___/ |___/
+  
+            ");
+
             _text.NewLine();
             _text.NewLine();
 
             HeaderOrFooter(game);
-            _text.Dash();
+            _text.Dash(-1);
 
             var toggle = true;
             foreach (var rank in game.Ranks)
@@ -32,7 +42,14 @@ namespace Chess.UI.Console
                     Rank(rank, toggle, game, !i.Equals(1));
                 }
 
-                _text.Dash();
+                if (game.Ranks.IsLast(rank))
+                {
+                    _text.Dash(1);
+                }
+                else
+                {
+                    _text.Dash();
+                }
 
                 toggle = !toggle;
             }
@@ -103,11 +120,9 @@ namespace Chess.UI.Console
 
             foreach (var file in game.Files)
             {
-                _text.Pipe();
-                System.Console.Write("  {0}   ", file);
+                System.Console.Write("   {0}   ", file);
             }
 
-            _text.Pipe();
             _text.NewLine();
         }
     }
