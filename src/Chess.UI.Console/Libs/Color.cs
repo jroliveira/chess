@@ -1,8 +1,8 @@
 using System;
 
-namespace Chess.UI.Console
+namespace Chess.UI.Console.Libs
 {
-    public class ScreenColor
+    public class Color
     {
         public void Toggle(bool toggle)
         {

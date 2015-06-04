@@ -1,28 +1,24 @@
-using System;
+﻿using System;
+using Chess.Extensions;
 
-namespace Chess.UI.Console
+namespace Chess.UI.Console.Libs.Match
 {
-    public class Screen
+    public class Chessboard
     {
-        private readonly ScreenColor _color;
-        private readonly ScreenText _text;
+        private readonly Color _color;
+        private readonly Text _text;
 
-        public Screen()
+        public Chessboard()
         {
-            _color = new ScreenColor();
-            _text = new ScreenText();
+            _color = new Color();
+            _text = new Text();
         }
 
         public void Print(ChessGame game)
         {
-            System.Console.Clear();
-
-            System.Console.Write("CHESSBOARD");
-            _text.NewLine();
-            _text.NewLine();
-
+            Clear();
             HeaderOrFooter(game);
-            _text.Dash();
+            _text.Divider(DividerPosition.Top);
 
             var toggle = true;
             foreach (var rank in game.Ranks)
@@ -32,12 +28,24 @@ namespace Chess.UI.Console
                     Rank(rank, toggle, game, !i.Equals(1));
                 }
 
-                _text.Dash();
+                if (game.Ranks.IsLast(rank))
+                {
+                    _text.Divider(DividerPosition.Bottom);
+                }
+                else
+                {
+                    _text.Divider(DividerPosition.Middle);
+                }
 
                 toggle = !toggle;
             }
 
             HeaderOrFooter(game);
+        }
+
+        private static void Clear()
+        {
+            System.Console.SetCursorPosition(0, 11);
         }
 
         private void Rank(char rank, bool toggle, ChessGame game, bool lacuna)
@@ -103,11 +111,9 @@ namespace Chess.UI.Console
 
             foreach (var file in game.Files)
             {
-                _text.Pipe();
-                System.Console.Write("  {0}   ", file);
+                System.Console.Write("   {0}   ", file);
             }
 
-            _text.Pipe();
             _text.NewLine();
         }
     }
