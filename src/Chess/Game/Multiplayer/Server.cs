@@ -27,6 +27,8 @@ namespace Chess.Game.Multiplayer
 
                     var handler = listener.Accept();
 
+                    OnConnected();
+
                     while (true)
                     {
                         var bytes = new byte[1024];
@@ -72,6 +74,17 @@ namespace Chess.Game.Multiplayer
         protected virtual void OnWaiting()
         {
             var handler = Waiting;
+            if (handler != null)
+            {
+                handler();
+            }
+        }
+
+        public event ConnectedEventHandler Connected;
+
+        protected virtual void OnConnected()
+        {
+            var handler = Connected;
             if (handler != null)
             {
                 handler();

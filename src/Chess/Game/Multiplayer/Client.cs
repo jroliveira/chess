@@ -8,12 +8,9 @@ namespace Chess.Game.Multiplayer
 {
     public class Client
     {
-        public void Connect()
+        public void Connect(IPAddress ipAddress, int port)
         {
-            var host = Dns.Resolve(Dns.GetHostName());
-            var ip = host.AddressList[0];
-            var endPoint = new IPEndPoint(ip, 11000);
-
+            var endPoint = new IPEndPoint(ipAddress, port);
             var sender = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
             try

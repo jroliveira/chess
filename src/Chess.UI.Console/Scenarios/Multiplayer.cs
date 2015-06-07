@@ -42,18 +42,13 @@ namespace Chess.UI.Console.Scenarios
 
             if (option.Equals('1'))
             {
-                _game.Error += exception => _text.Error(exception.Message);
-                _game.Waiting += () => _text.Info("waiting for a opponent");
-                _game.DataReceived += message => _text.Info(message);
-
-                _game.WaitingForOpponent();
+                var opponentWaiting = new OpponentWaiting(_game);
+                opponentWaiting.Start();
             }
             else
             {
-                _game.Error += exception => _text.Error(exception.Message);
-                _game.Connected += () => _text.Info("connected");
-
-                _game.Connect();
+                var opponentConnect = new OpponentConnect(_game);
+                opponentConnect.Start();
             }
         }
 

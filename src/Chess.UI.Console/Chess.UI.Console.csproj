@@ -60,6 +60,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Scenarios\OpponentWaiting.cs" />
+    <Compile Include="Scenarios\OpponentConnect.cs" />
     <Compile Include="Scenarios\Main.cs" />
     <Compile Include="Scenarios\Match.cs" />
     <Compile Include="Scenarios\Multiplayer.cs" />

@@ -1,4 +1,5 @@
-﻿using Chess.Exceptions;
+﻿using System.Net;
+using Chess.Exceptions;
 using Chess.Game;
 using Chess.Game.Extensions;
 using Chess.Game.Multiplayer;
@@ -31,18 +32,20 @@ namespace Chess
 
         public void WaitingForOpponent()
         {
+            _server.Waiting += Waiting;
+            _server.Connected += Connected;
             _server.DataReceived += DataReceived;
             _server.Error += Error;
-            _server.Waiting += Waiting;
 
             _server.Listening();
         }
 
-        public void Connect()
+        public void Connect(IPAddress ipAddress, int port)
         {
             _client.Connected += Connected;
+            _client.Error += Error;
 
-            _client.Connect();
+            _client.Connect(ipAddress, port);
         }
 
         public void Move(string piecePosition, string newPosition)
