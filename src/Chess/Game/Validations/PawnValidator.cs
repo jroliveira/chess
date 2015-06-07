@@ -3,7 +3,7 @@ using Chess.Game.Validations.PawnValidations;
 
 namespace Chess.Game.Validations
 {
-    internal class PawnValidator
+    internal class PawnValidator : IValidator
     {
         private readonly FileAndRankLimitValidate _fileAndRankLimitValidate;
         private readonly HasPieceValidate _hasPieceValidate;

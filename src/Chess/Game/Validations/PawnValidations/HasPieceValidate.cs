@@ -8,7 +8,7 @@ namespace Chess.Game.Validations.PawnValidations
         protected HasPieceValidate() { }
 
         public HasPieceValidate(Pawn pawn)
-            : base(pawn)
+            : base(pawn) 
         { }
 
         protected override bool IsValidRule(Position newPosition)

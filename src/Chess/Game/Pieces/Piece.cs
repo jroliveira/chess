@@ -10,6 +10,8 @@ namespace Chess.Game.Pieces
         public int Player { get; set; }
         public string Name { get { return GetType().Name.Substring(0, 4); } }
 
+        protected abstract IValidator Validator { get; }
+
         protected Piece(int player, Position position, Chessboard chessboard)
         {
             Player = player;
@@ -22,7 +24,10 @@ namespace Chess.Game.Pieces
             Position = newPosition;
         }
 
-        public abstract bool CanMove(Position position);
+        public bool CanMove(Position newPosition)
+        {
+            return Validator.Validate(newPosition);
+        }
 
         public bool Equals(Piece other)
         {
@@ -32,77 +37,55 @@ namespace Chess.Game.Pieces
 
     internal class Pawn : Piece
     {
-        private readonly PawnValidator _pawnValidator;
+        protected override IValidator Validator { get { return new PawnValidator(this); } }
 
         public Pawn(int player, Position position, Chessboard chessboard)
             : base(player, position, chessboard)
-        {
-            _pawnValidator = new PawnValidator(this);
-        }
-
-        public override bool CanMove(Position newPosition)
-        {
-            return _pawnValidator.Validate(newPosition);
-        }
+        { }
     }
 
     internal class King : Piece
     {
+        protected override IValidator Validator { get { return new KingValidator(this); } }
+
         public King(int player, Position position, Chessboard chessboard)
             : base(player, position, chessboard)
         { }
-
-        public override bool CanMove(Position position)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     internal class Queen : Piece
     {
+        protected override IValidator Validator { get { return new QueenValidator(this); } }
+
         public Queen(int player, Position position, Chessboard chessboard)
             : base(player, position, chessboard)
         { }
-
-        public override bool CanMove(Position position)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     internal class Rook : Piece
     {
+        protected override IValidator Validator { get { return new RookValidator(this); } }
+
         public Rook(int player, Position position, Chessboard chessboard)
             : base(player, position, chessboard)
         { }
-
-        public override bool CanMove(Position position)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     internal class Bishop : Piece
     {
+        protected override IValidator Validator { get { return new BishopValidator(this); } }
+
         public Bishop(int player, Position position, Chessboard chessboard)
             : base(player, position, chessboard)
         { }
-
-        public override bool CanMove(Position position)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     internal class Knight : Piece
     {
+        protected override IValidator Validator { get { return new KnightValidator(this); } }
+
         public Knight(int player, Position position, Chessboard chessboard)
             : base(player, position, chessboard)
         { }
-
-        public override bool CanMove(Position position)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
