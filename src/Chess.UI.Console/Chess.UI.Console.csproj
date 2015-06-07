@@ -60,12 +60,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Main.cs" />
-    <Compile Include="Match.cs" />
-    <Compile Include="Multiplayer.cs" />
-    <Compile Include="Screen.cs" />
-    <Compile Include="ScreenColor.cs" />
-    <Compile Include="ScreenText.cs" />
+    <Compile Include="Scenarios\Main.cs" />
+    <Compile Include="Scenarios\Match.cs" />
+    <Compile Include="Scenarios\Multiplayer.cs" />
+    <Compile Include="Libs\Screen.cs" />
+    <Compile Include="Libs\Color.cs" />
+    <Compile Include="Libs\Text.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

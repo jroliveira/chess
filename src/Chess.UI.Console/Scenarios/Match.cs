@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Linq;
 using Chess.Exceptions;
+using Chess.UI.Console.Libs;
 
-namespace Chess.UI.Console
+namespace Chess.UI.Console.Scenarios
 {
     public class Match
     {
         private const char ArrowRight = (char)26;
 
-        private readonly ScreenText _text;
+        private readonly Text _text;
         private readonly Screen _screen;
 
         private readonly ChessGame _game;
 
         public Match(ChessGame game)
         {
-            _text = new ScreenText();
+            _text = new Text();
             _screen = new Screen();
             _game = game;
         }

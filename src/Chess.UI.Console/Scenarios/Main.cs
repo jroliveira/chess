@@ -1,36 +1,33 @@
 ﻿using System;
+using Chess.UI.Console.Libs;
 
-namespace Chess.UI.Console
+namespace Chess.UI.Console.Scenarios
 {
-    public class Multiplayer
+    public class Main
     {
         private const char ArrowRight = (char)26;
 
-        private readonly ScreenText _text;
-        private readonly ChessGame _game;
+        private readonly Text _text;
+        private readonly Multiplayer _multiplayer;
+        private readonly Match _match;
 
-        public Multiplayer(ChessGame game)
+        public Main()
         {
-            _text = new ScreenText();
-            _game = game;
+            System.Console.Title = "Chess";
+            System.Console.SetWindowSize(84, 57);
+
+            _text = new Text();
+
+            var game = new ChessGame();
+            _multiplayer = new Multiplayer(game);
+            _match = new Match(game);
         }
 
         public void Start()
         {
             System.Console.Clear();
 
-            System.Console.Write(@"
-           _                        
-          | |                       
-     ___  | |__     ___   ___   ___ 
-    / __| | '_ \   / _ \ / __| / __|
-   | (__  | | | | |  __/ \__ \ \__ \
-    \___| |_| |_|  \___| |___/ |___/
-  
-            ");
-
-            _text.NewLine();
-            _text.NewLine();
+            _text.Title();
 
             System.Console.WriteLine("   ╔════════════════════╗");
             System.Console.WriteLine("   ║  choose an option  ║");
@@ -38,11 +35,11 @@ namespace Chess.UI.Console
             _text.NewLine();
             _text.NewLine();
             System.Console.WriteLine("   ╔═══╗");
-            System.Console.WriteLine("   ║ 1 ║ waiting for opponent");
+            System.Console.WriteLine("   ║ 1 ║ solo");
             System.Console.WriteLine("   ╚═══╝");
             _text.NewLine();
             System.Console.WriteLine("   ╔═══╗");
-            System.Console.WriteLine("   ║ 2 ║ connect an one opponent");
+            System.Console.WriteLine("   ║ 2 ║ multiplayer");
             System.Console.WriteLine("   ╚═══╝");
             _text.NewLine();
             _text.NewLine();
@@ -52,18 +49,11 @@ namespace Chess.UI.Console
 
             if (option.Equals('1'))
             {
-                _game.Error += exception => _text.Error(exception.Message);
-                _game.Waiting += () => _text.Info("waiting for a opponent");
-                _game.DataReceived += message => _text.Info(message);
-
-                _game.WaitingForOpponent();
+                _match.Start();
             }
             else
             {
-                _game.Error += exception => _text.Error(exception.Message);
-                _game.Connected += () => _text.Info("connected");
-
-                _game.Connect();
+                _multiplayer.Start();
             }
         }
 

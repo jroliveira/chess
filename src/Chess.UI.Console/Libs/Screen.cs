@@ -1,36 +1,25 @@
 using System;
 using Chess.Extensions;
 
-namespace Chess.UI.Console
+namespace Chess.UI.Console.Libs
 {
     public class Screen
     {
-        private readonly ScreenColor _color;
-        private readonly ScreenText _text;
+        private readonly Color _color;
+        private readonly Text _text;
 
         public Screen()
         {
-            _color = new ScreenColor();
-            _text = new ScreenText();
+            _color = new Color();
+            _text = new Text();
         }
 
         public void Print(ChessGame game)
         {
             System.Console.Clear();
 
-            System.Console.Write(@"
-           _                        
-          | |                       
-     ___  | |__     ___   ___   ___ 
-    / __| | '_ \   / _ \ / __| / __|
-   | (__  | | | | |  __/ \__ \ \__ \
-    \___| |_| |_|  \___| |___/ |___/
-  
-            ");
-
-            _text.NewLine();
-            _text.NewLine();
-
+            _text.Title();
+            
             HeaderOrFooter(game);
             _text.Dash(-1);
 

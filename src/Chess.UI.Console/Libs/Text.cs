@@ -1,15 +1,31 @@
 ﻿using System;
 using System.Threading;
 
-namespace Chess.UI.Console
+namespace Chess.UI.Console.Libs
 {
-    public class ScreenText
+    public class Text
     {
-        private readonly ScreenColor _color;
+        private readonly Color _color;
 
-        public ScreenText()
+        public Text()
         {
-            _color = new ScreenColor();
+            _color = new Color();
+        }
+
+        public void Title()
+        {
+            System.Console.Write(@"
+           _                        
+          | |                       
+     ___  | |__     ___   ___   ___ 
+    / __| | '_ \   / _ \ / __| / __|
+   | (__  | | | | |  __/ \__ \ \__ \
+    \___| |_| |_|  \___| |___/ |___/
+  
+
+            ");
+
+            NewLine();
         }
 
         public void NewLine()
