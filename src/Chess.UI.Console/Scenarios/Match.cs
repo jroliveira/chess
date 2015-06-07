@@ -1,30 +1,24 @@
 ﻿using System;
 using System.Linq;
 using Chess.Exceptions;
-using Chess.UI.Console.Libs;
+using Chess.UI.Console.Libs.Match;
 
 namespace Chess.UI.Console.Scenarios
 {
-    public class Match
+    public class Match : Scenario
     {
-        private const char ArrowRight = (char)26;
-
-        private readonly Text _text;
-        private readonly Screen _screen;
-
-        private readonly ChessGame _game;
+        private readonly Chessboard _chessboard;
 
         public Match(ChessGame game)
+            : base(game)
         {
-            _text = new Text();
-            _screen = new Screen();
-            _game = game;
+            _chessboard = new Chessboard();
         }
 
-        public void Start()
+        protected override void Show()
         {
-            _game.Start();
-            _screen.Print(_game);
+            Game.Start();
+            _chessboard.Print(Game);
 
             while (true)
             {
@@ -33,12 +27,12 @@ namespace Chess.UI.Console.Scenarios
 
                 try
                 {
-                    _game.Move(piece, position);
-                    _screen.Print(_game);
+                    Game.Move(piece, position);
+                    _chessboard.Print(Game);
                 }
                 catch (ChessException exception)
                 {
-                    _text.Error(exception.Message);
+                    Text.Error(exception.Message);
                 }
             }
         }
@@ -52,20 +46,18 @@ namespace Chess.UI.Console.Scenarios
             System.Console.WriteLine("                                                     ");
             System.Console.SetCursorPosition(0, 47);
 
-            _text.NewLine();
-            System.Console.WriteLine("   ╔═════════════╗");
-            System.Console.WriteLine("   ║  next move  ║");
-            System.Console.WriteLine("   ╚═════════════╝");
-            _text.NewLine();
-            _text.NewLine();
+            Text.NewLine();
+            Text.WriteInsideTheBox("next move");
+            Text.NewLine();
+            Text.NewLine();
 
-            _text.Write("   {0} piece ", ArrowRight);
+            Text.WriteWithSleep("   {0} piece ", ArrowRight);
             var file = GetFile();
             var rank = GetRank();
 
             piece = new string(new[] { file, rank });
 
-            _text.Write(" move for ");
+            Text.WriteWithSleep(" move for ");
 
             file = GetFile();
             rank = GetRank();
@@ -77,17 +69,17 @@ namespace Chess.UI.Console.Scenarios
         {
             var files = new[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
 
-            return GetKey(files.Contains, "( invalid file! please insert between a and h )");
+            return ReadKey(files.Contains, "( invalid file! please insert between a and h )");
         }
 
         private char GetRank()
         {
             var ranks = new[] { '8', '7', '6', '5', '4', '3', '2', '1' };
 
-            return GetKey(ranks.Contains, "( invalid rank! please insert between 8 and 1 )");
+            return ReadKey(ranks.Contains, "( invalid rank! please insert between 8 and 1 )");
         }
 
-        private char GetKey(Func<char, bool> condition, string invalidMessage)
+        private char ReadKey(Func<char, bool> condition, string invalidMessage)
         {
             bool keyValid;
             char key;
@@ -99,7 +91,7 @@ namespace Chess.UI.Console.Scenarios
 
                 if (!keyValid)
                 {
-                    _text.Error(invalidMessage);
+                    Text.Error(invalidMessage);
                 }
             } while (!keyValid);
 

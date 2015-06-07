@@ -60,12 +60,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Scenarios\OpponentWaiting.cs" />
-    <Compile Include="Scenarios\OpponentConnect.cs" />
+    <Compile Include="Libs\DividerPosition.cs" />
+    <Compile Include="Libs\Match\Chessboard.cs" />
+    <Compile Include="Libs\Match\Text.cs" />
+    <Compile Include="Scenarios\Scenario.cs" />
+    <Compile Include="Scenarios\MultiplayerScenarios\Waiting.cs" />
+    <Compile Include="Scenarios\MultiplayerScenarios\Connect.cs" />
     <Compile Include="Scenarios\Main.cs" />
     <Compile Include="Scenarios\Match.cs" />
     <Compile Include="Scenarios\Multiplayer.cs" />
-    <Compile Include="Libs\Screen.cs" />
     <Compile Include="Libs\Color.cs" />
     <Compile Include="Libs\Text.cs" />
     <Compile Include="Program.cs" />
@@ -95,6 +98,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

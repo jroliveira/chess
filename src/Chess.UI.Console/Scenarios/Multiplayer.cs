@@ -1,74 +1,59 @@
 ﻿using System;
-using Chess.UI.Console.Libs;
+using System.Collections.Generic;
+using Chess.UI.Console.Scenarios.MultiplayerScenarios;
 
 namespace Chess.UI.Console.Scenarios
 {
-    public class Multiplayer
+    public class Multiplayer : Scenario
     {
-        private const char ArrowRight = (char)26;
-
-        private readonly Text _text;
-        private readonly ChessGame _game;
+        private readonly IDictionary<char, Action> _options;
 
         public Multiplayer(ChessGame game)
+            : base(game)
         {
-            _text = new Text();
-            _game = game;
+            var connect = new Connect(Game);
+            var waiting = new Waiting(Game);
+
+            _options = new Dictionary<char, Action>
+            {
+                { '1', waiting.Start },
+                { '2', connect.Start }
+            };
         }
 
-        public void Start()
+        protected override void Show()
         {
-            System.Console.Clear();
+            Text.WriteInsideTheBox("choose an option");
+            Text.NewLine();
+            Text.NewLine();
+            Text.WriteOption("1", "waiting for opponent");
+            Text.NewLine();
+            Text.WriteOption("2", "connect an one opponent");
+            Text.NewLine();
+            Text.NewLine();
+            Text.WriteWithSleep("   {0} option: ", ArrowRight);
 
-            _text.Title();
-
-            System.Console.WriteLine("   ╔════════════════════╗");
-            System.Console.WriteLine("   ║  choose an option  ║");
-            System.Console.WriteLine("   ╚════════════════════╝");
-            _text.NewLine();
-            _text.NewLine();
-            System.Console.WriteLine("   ╔═══╗");
-            System.Console.WriteLine("   ║ 1 ║ waiting for opponent");
-            System.Console.WriteLine("   ╚═══╝");
-            _text.NewLine();
-            System.Console.WriteLine("   ╔═══╗");
-            System.Console.WriteLine("   ║ 2 ║ connect an one opponent");
-            System.Console.WriteLine("   ╚═══╝");
-            _text.NewLine();
-            _text.NewLine();
-            _text.Write("   {0} option: ", ArrowRight);
-
-            var option = GetKey(key => key.Equals('1') || key.Equals('2'), "invalid option! please insert 1 or 2");
-
-            if (option.Equals('1'))
-            {
-                var opponentWaiting = new OpponentWaiting(_game);
-                opponentWaiting.Start();
-            }
-            else
-            {
-                var opponentConnect = new OpponentConnect(_game);
-                opponentConnect.Start();
-            }
+            var option = ReadOption();
+            _options[option]();
         }
 
-        private char GetKey(Func<char, bool> condition, string invalidMessage)
+        private char ReadOption()
         {
-            bool keyValid;
-            char key;
+            bool isValid;
+            char option;
 
             do
             {
-                key = System.Console.ReadKey().KeyChar;
-                keyValid = condition(key);
+                option = System.Console.ReadKey().KeyChar;
+                isValid = _options.ContainsKey(option);
 
-                if (!keyValid)
+                if (!isValid)
                 {
-                    _text.Error(invalidMessage);
+                    Text.Error("invalid option! please insert 1 or 2");
                 }
-            } while (!keyValid);
+            } while (!isValid);
 
-            return key;
+            return option;
         }
     }
 }

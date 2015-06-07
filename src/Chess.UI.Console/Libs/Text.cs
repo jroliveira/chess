@@ -1,77 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace Chess.UI.Console.Libs
 {
     public class Text
     {
-        private readonly Color _color;
-
-        public Text()
-        {
-            _color = new Color();
-        }
-
-        public void Title()
-        {
-            System.Console.Write(@"
-           _                        
-          | |                       
-     ___  | |__     ___   ___   ___ 
-    / __| | '_ \   / _ \ / __| / __|
-   | (__  | | | | |  __/ \__ \ \__ \
-    \___| |_| |_|  \___| |___/ |___/
-  
-
-            ");
-
-            NewLine();
-        }
-
-        public void NewLine()
-        {
-            System.Console.WriteLine("");
-        }
-
-        public void Pipe()
-        {
-            var current = System.Console.BackgroundColor;
-
-            _color.Restore();
-
-            System.Console.Write("│");
-            //System.Console.Write("║");
-
-            if (current == ConsoleColor.White)
-            {
-                _color.White();
-            }
-        }
-
-        public void Dash(int limit = 0)
-        {
-            //System.Console.WriteLine("  ───┼──────┼──────┼──────┼──────┼──────┼──────┼──────┼──────┼───");
-            //System.Console.WriteLine("  ═══╬══════╬══════╬══════╬══════╬══════╬══════╬══════╬══════╬═══");
-
-            switch (limit)
-            {
-                case -1:
-                    System.Console.WriteLine("     ┌──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┐");
-                    //System.Console.WriteLine("     ╔══════╦══════╦══════╦══════╦══════╦══════╦══════╦══════╗");
-                    break;
-
-                case 0:
-                    System.Console.WriteLine("     ├──────┼──────┼──────┼──────┼──────┼──────┼──────┼──────┤");
-                    //System.Console.WriteLine("     ╠══════╬══════╬══════╬══════╬══════╬══════╬══════╬══════╣");
-                    break;
-
-                case 1:
-                    System.Console.WriteLine("     └──────┴──────┴──────┴──────┴──────┴──────┴──────┴──────┘");
-                    //System.Console.WriteLine("     ╚══════╩══════╩══════╩══════╩══════╩══════╩══════╩══════╝");
-                    break;
-            }
-        }
-
         public void Error(string message)
         {
             var left = Math.Abs(System.Console.CursorLeft - 1);
@@ -106,18 +40,107 @@ namespace Chess.UI.Console.Libs
             System.Console.SetCursorPosition(left, top);
         }
 
-        public void Write(string format, params object[] args)
+        public void Write(string text)
         {
-            var text = string.Format(format, args);
-            Write(text);
+            System.Console.Write(text);
         }
 
-        public void Write(string text)
+        public void WriteWithSleep(string format, params object[] args)
+        {
+            var text = string.Format(format, args);
+            WriteWithSleep(text);
+        }
+
+        public void WriteWithSleep(string text)
         {
             foreach (var t in text)
             {
                 Thread.Sleep(60);
                 System.Console.Write(t);
+            }
+        }
+
+        public void WriteOption(string option, string caption)
+        {
+            Divider(DividerPosition.Top, option.Length + 2);
+            Margin();
+            Pipe();
+            Margin(1);
+
+            System.Console.Write(option);
+
+            Margin(1);
+            Pipe();
+
+            Margin(1);
+
+            System.Console.Write(caption);
+
+            NewLine();
+            Divider(DividerPosition.Bottom, option.Length + 2);
+        }
+
+        public void WriteInsideTheBox(string text)
+        {
+            Divider(DividerPosition.Top, text.Length + 4);
+            Margin();
+            Pipe();
+            Margin(2);
+
+            System.Console.Write(text);
+
+            Margin(2);
+            Pipe();
+
+            NewLine();
+            Divider(DividerPosition.Bottom, text.Length + 4);
+        }
+
+        private void Divider(DividerPosition position, int length)
+        {
+            var dividers = new Dictionary<DividerPosition, Action>
+            {
+                { DividerPosition.Top,    () => Divider('╔', '╗', length) },
+                { DividerPosition.Bottom, () => Divider('╚', '╝', length) }
+            };
+
+            dividers[position]();
+        }
+
+        private void Divider(char leftCorner, char rightCorner, int length)
+        {
+            System.Console.Write("   {0}", leftCorner);
+
+            for (var j = 0; j < length; j++)
+            {
+                Dash();
+            }
+
+            System.Console.Write(rightCorner);
+
+            NewLine();
+        }
+
+        public void NewLine()
+        {
+            System.Console.WriteLine("");
+        }
+
+        public virtual void Dash()
+        {
+            System.Console.Write("═");
+        }
+
+        public virtual void Pipe()
+        {
+            System.Console.Write('║');
+        }
+
+        public void Margin(int length = 3)
+        {
+            for (var i = 0; i < length; i++)
+            {
+                System.Console.Write(" ");
             }
         }
     }

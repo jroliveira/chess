@@ -1,14 +1,14 @@
-using System;
+﻿using System;
 using Chess.Extensions;
 
-namespace Chess.UI.Console.Libs
+namespace Chess.UI.Console.Libs.Match
 {
-    public class Screen
+    public class Chessboard
     {
         private readonly Color _color;
         private readonly Text _text;
 
-        public Screen()
+        public Chessboard()
         {
             _color = new Color();
             _text = new Text();
@@ -16,12 +16,8 @@ namespace Chess.UI.Console.Libs
 
         public void Print(ChessGame game)
         {
-            System.Console.Clear();
-
-            _text.Title();
-            
             HeaderOrFooter(game);
-            _text.Dash(-1);
+            _text.Divider(DividerPosition.Top);
 
             var toggle = true;
             foreach (var rank in game.Ranks)
@@ -33,11 +29,11 @@ namespace Chess.UI.Console.Libs
 
                 if (game.Ranks.IsLast(rank))
                 {
-                    _text.Dash(1);
+                    _text.Divider(DividerPosition.Bottom);
                 }
                 else
                 {
-                    _text.Dash();
+                    _text.Divider(DividerPosition.Bottom);
                 }
 
                 toggle = !toggle;
