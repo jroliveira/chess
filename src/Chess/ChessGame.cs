@@ -14,6 +14,8 @@ namespace Chess
         private readonly Server _server;
         private readonly Client _client;
 
+        private Multiplayer _player;
+
         public char[] Files { get { return _chessboard.Files; } }
         public char[] Ranks { get { return _chessboard.Ranks; } }
 
@@ -32,9 +34,10 @@ namespace Chess
 
         public void WaitingForOpponent()
         {
-            _server.Waiting += Waiting;
+            _player = _server;
+
             _server.Connected += Connected;
-            _server.DataReceived += DataReceived;
+            _server.Played += Played;
             _server.Error += Error;
 
             _server.Listening();
@@ -42,6 +45,8 @@ namespace Chess
 
         public void Connect(IPAddress ipAddress, int port)
         {
+            _player = _client;
+
             _client.Connected += Connected;
             _client.Error += Error;
 
@@ -50,6 +55,7 @@ namespace Chess
 
         public void Move(string piecePosition, string newPosition)
         {
+            var position = newPosition.ToPosition();
             var piece = _chessboard.GetPiece(piecePosition.ToPosition());
 
             if (piece == null)
@@ -57,7 +63,8 @@ namespace Chess
                 throw new PieceIsNullException(piecePosition);
             }
 
-            _chessboard.MovePiece(piece, newPosition.ToPosition());
+            _chessboard.MovePiece(piece, position);
+            _player.SendsTheMove(piece, position);
         }
 
         public ChessPiece GetPiece(char file, char rank)
@@ -71,8 +78,11 @@ namespace Chess
         }
 
         public event ErrorEventHandler Error;
-        public event WaitingEventHandler Waiting;
-        public event DataReceivedEventHandler DataReceived;
+        public event PlayedEventHandler Played;
         public event ConnectedEventHandler Connected;
+    }
+
+    public enum Player
+    {
     }
 }

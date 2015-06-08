@@ -13,6 +13,14 @@ namespace Chess.UI.Console.Scenarios
             : base(game)
         {
             _chessboard = new Chessboard();
+
+            game.Played += OnPlayed;
+        }
+
+        private void OnPlayed(string piece, string newPosition)
+        {
+            Game.Move(piece, newPosition);
+            _chessboard.Print(Game);
         }
 
         protected override void Show()

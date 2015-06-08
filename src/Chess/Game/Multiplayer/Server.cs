@@ -6,50 +6,50 @@ using Chess.Game.Multiplayer.EventHandlers;
 
 namespace Chess.Game.Multiplayer
 {
-    public class Server
+    internal class Server : Multiplayer
     {
+        private readonly Socket _listener;
+
+        public Server()
+            : base(null)
+        {
+            _listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        }
+
+        public event ConnectedEventHandler Connected;
+        public event PlayedEventHandler Played;
+
         public void Listening()
         {
             var host = Dns.Resolve(Dns.GetHostName());
             var ip = host.AddressList[0];
             var endPoint = new IPEndPoint(ip, 11000);
 
-            var listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
             try
             {
-                listener.Bind(endPoint);
-                listener.Listen(1);
+                _listener.Bind(endPoint);
+                _listener.Listen(1);
+
+                Socket = _listener.Accept();
+
+                OnConnected();
 
                 while (true)
                 {
-                    OnWaiting();
+                    var bytes = new byte[1024];
+                    var bytesRec = Socket.Receive(bytes);
+                    var move = Encoding.ASCII.GetString(bytes, 0, bytesRec);
 
-                    var handler = listener.Accept();
-
-                    OnConnected();
-
-                    while (true)
+                    if (string.IsNullOrEmpty(move))
                     {
-                        var bytes = new byte[1024];
-                        var bytesRec = handler.Receive(bytes);
-                        var data = Encoding.ASCII.GetString(bytes, 0, bytesRec);
-
-                        if (string.IsNullOrEmpty(data))
-                        {
-                            continue;
-                        }
-
-                        OnDataReceived(data);
-
-                        if (data.Equals("/end"))
-                        {
-                            break;
-                        }
+                        continue;
                     }
 
-                    handler.Shutdown(SocketShutdown.Both);
-                    handler.Close();
+                    var args = move.Split(new[] { "->" }, StringSplitOptions.None);
+                    var piece = args[0];
+                    var newPosition = args[1];
+
+                    OnPlayed(piece, newPosition);
                 }
             }
             catch (Exception exception)
@@ -58,31 +58,7 @@ namespace Chess.Game.Multiplayer
             }
         }
 
-        public event ErrorEventHandler Error;
-
-        protected virtual void OnError(Exception exception)
-        {
-            var handler = Error;
-            if (handler != null)
-            {
-                handler(exception);
-            }
-        }
-
-        public event WaitingEventHandler Waiting;
-
-        protected virtual void OnWaiting()
-        {
-            var handler = Waiting;
-            if (handler != null)
-            {
-                handler();
-            }
-        }
-
-        public event ConnectedEventHandler Connected;
-
-        protected virtual void OnConnected()
+        private void OnConnected()
         {
             var handler = Connected;
             if (handler != null)
@@ -91,14 +67,12 @@ namespace Chess.Game.Multiplayer
             }
         }
 
-        public event DataReceivedEventHandler DataReceived;
-
-        protected virtual void OnDataReceived(string data)
+        private void OnPlayed(string piece, string newPosition)
         {
-            var handler = DataReceived;
+            var handler = Played;
             if (handler != null)
             {
-                handler(data);
+                handler(piece, newPosition);
             }
         }
     }
