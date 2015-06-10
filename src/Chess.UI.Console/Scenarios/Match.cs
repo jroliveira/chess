@@ -19,7 +19,6 @@ namespace Chess.UI.Console.Scenarios
 
         private void OnPlayed(string piece, string newPosition)
         {
-            Game.Move(piece, newPosition);
             _chessboard.Print(Game);
         }
 

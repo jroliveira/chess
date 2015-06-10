@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using Chess.Game.Multiplayer.EventHandlers;
 
 namespace Chess.Game.Multiplayer
@@ -17,7 +16,6 @@ namespace Chess.Game.Multiplayer
         }
 
         public event ConnectedEventHandler Connected;
-        public event PlayedEventHandler Played;
 
         public void Listening()
         {
@@ -33,24 +31,6 @@ namespace Chess.Game.Multiplayer
                 Socket = _listener.Accept();
 
                 OnConnected();
-
-                while (true)
-                {
-                    var bytes = new byte[1024];
-                    var bytesRec = Socket.Receive(bytes);
-                    var move = Encoding.ASCII.GetString(bytes, 0, bytesRec);
-
-                    if (string.IsNullOrEmpty(move))
-                    {
-                        continue;
-                    }
-
-                    var args = move.Split(new[] { "->" }, StringSplitOptions.None);
-                    var piece = args[0];
-                    var newPosition = args[1];
-
-                    OnPlayed(piece, newPosition);
-                }
             }
             catch (Exception exception)
             {
@@ -64,15 +44,6 @@ namespace Chess.Game.Multiplayer
             if (handler != null)
             {
                 handler();
-            }
-        }
-
-        private void OnPlayed(string piece, string newPosition)
-        {
-            var handler = Played;
-            if (handler != null)
-            {
-                handler(piece, newPosition);
             }
         }
     }

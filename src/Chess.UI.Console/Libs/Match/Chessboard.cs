@@ -16,6 +16,7 @@ namespace Chess.UI.Console.Libs.Match
 
         public void Print(ChessGame game)
         {
+            Clear();
             HeaderOrFooter(game);
             _text.Divider(DividerPosition.Top);
 
@@ -33,13 +34,18 @@ namespace Chess.UI.Console.Libs.Match
                 }
                 else
                 {
-                    _text.Divider(DividerPosition.Bottom);
+                    _text.Divider(DividerPosition.Middle);
                 }
 
                 toggle = !toggle;
             }
 
             HeaderOrFooter(game);
+        }
+
+        private static void Clear()
+        {
+            System.Console.SetCursorPosition(0, 11);
         }
 
         private void Rank(char rank, bool toggle, ChessGame game, bool lacuna)

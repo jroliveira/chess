@@ -2,7 +2,6 @@
 using System.Net.Sockets;
 using System.Text;
 using Chess.Game.Multiplayer.EventHandlers;
-using Chess.Game.Pieces;
 
 namespace Chess.Game.Multiplayer
 {
@@ -15,13 +14,14 @@ namespace Chess.Game.Multiplayer
             Socket = socket;
         }
 
+        public event PlayedEventHandler Played;
         public event ErrorEventHandler Error;
 
-        public void SendsTheMove(Piece piece, Position newPosition)
+        public void SendTheMove(string piecePosition, string newPosition)
         {
             try
             {
-                var move = string.Format("{0}->{1}", piece.Position, newPosition);
+                var move = string.Format("{0}->{1}", piecePosition, newPosition);
                 var send = Encoding.ASCII.GetBytes(move);
 
                 Socket.Send(send);
@@ -29,6 +29,27 @@ namespace Chess.Game.Multiplayer
             catch (Exception exception)
             {
                 OnError(exception);
+            }
+        }
+
+        public void WaitingTheMove()
+        {
+            while (true)
+            {
+                var bytes = new byte[1024];
+                var bytesRec = Socket.Receive(bytes);
+                var move = Encoding.ASCII.GetString(bytes, 0, bytesRec);
+
+                if (string.IsNullOrEmpty(move))
+                {
+                    continue;
+                }
+
+                var args = move.Split(new[] { "->" }, StringSplitOptions.None);
+                var piece = args[0];
+                var newPosition = args[1];
+
+                OnPlayed(piece, newPosition);
             }
         }
 
@@ -42,6 +63,15 @@ namespace Chess.Game.Multiplayer
             catch (Exception exception)
             {
                 OnError(exception);
+            }
+        }
+
+        private void OnPlayed(string piecePosition, string newPosition)
+        {
+            var handler = Played;
+            if (handler != null)
+            {
+                handler(piecePosition, newPosition);
             }
         }
 

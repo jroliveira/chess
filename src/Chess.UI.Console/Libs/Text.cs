@@ -11,16 +11,30 @@ namespace Chess.UI.Console.Libs
             var left = Math.Abs(System.Console.CursorLeft - 1);
             var top = System.Console.CursorTop;
 
-            System.Console.SetCursorPosition(left, top);
-            System.Console.Write("");
+            System.Console.SetCursorPosition(0, 0);
+            System.Console.WriteLine("                                                                                   ");
+            System.Console.WriteLine("                                                                                   ");
+
+            var cursorLeft = (42 - (message.Length / 2));
+            cursorLeft = cursorLeft % 2 != 0 ? cursorLeft + 1 : cursorLeft + 0;
 
             System.Console.ForegroundColor = ConsoleColor.Red;
+            System.Console.SetCursorPosition(cursorLeft, 0);
+            Pipe();
 
-            System.Console.SetCursorPosition(15, 38);
-            System.Console.WriteLine("                                                 ");
+            System.Console.BackgroundColor = ConsoleColor.Red;
+            Margin(2);
+            System.Console.ForegroundColor = ConsoleColor.White;
+            System.Console.Write(message);
+            System.Console.ForegroundColor = ConsoleColor.Red;
+            Margin(2);
+            System.Console.BackgroundColor = ConsoleColor.Black;
 
-            System.Console.SetCursorPosition(15, 38);
-            System.Console.WriteLine(message);
+            
+            Pipe();
+            NewLine();
+            System.Console.SetCursorPosition(cursorLeft - 3, 1);
+            Divider(DividerPosition.Bottom, message.Length + 4);
 
             System.Console.ForegroundColor = ConsoleColor.White;
             System.Console.SetCursorPosition(left, top);

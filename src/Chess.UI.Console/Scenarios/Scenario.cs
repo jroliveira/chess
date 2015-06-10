@@ -14,6 +14,7 @@ namespace Chess.UI.Console.Scenarios
             get
             {
                 return @"
+           
            _                        
           | |                       
      ___  | |__     ___   ___   ___ 

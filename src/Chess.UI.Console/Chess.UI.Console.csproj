@@ -64,8 +64,8 @@
     <Compile Include="Libs\Match\Chessboard.cs" />
     <Compile Include="Libs\Match\Text.cs" />
     <Compile Include="Scenarios\Scenario.cs" />
-    <Compile Include="Scenarios\MultiplayerScenarios\Waiting.cs" />
-    <Compile Include="Scenarios\MultiplayerScenarios\Connect.cs" />
+    <Compile Include="Scenarios\MultiplayerScenarios\Server.cs" />
+    <Compile Include="Scenarios\MultiplayerScenarios\Client.cs" />
     <Compile Include="Scenarios\Main.cs" />
     <Compile Include="Scenarios\Match.cs" />
     <Compile Include="Scenarios\Multiplayer.cs" />

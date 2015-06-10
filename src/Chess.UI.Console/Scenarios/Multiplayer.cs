@@ -11,13 +11,13 @@ namespace Chess.UI.Console.Scenarios
         public Multiplayer(ChessGame game)
             : base(game)
         {
-            var connect = new Connect(Game);
-            var waiting = new Waiting(Game);
+            var client = new Client(Game);
+            var server = new Server(Game);
 
             _options = new Dictionary<char, Action>
             {
-                { '1', waiting.Start },
-                { '2', connect.Start }
+                { '1', server.Start },
+                { '2', client.Start }
             };
         }
 

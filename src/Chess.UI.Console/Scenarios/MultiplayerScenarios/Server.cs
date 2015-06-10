@@ -1,8 +1,8 @@
 ﻿namespace Chess.UI.Console.Scenarios.MultiplayerScenarios
 {
-    public class Waiting : Scenario
+    public class Server : Scenario
     {
-        public Waiting(ChessGame game)
+        public Server(ChessGame game)
             : base(game)
         {
             game.Error += exception => Text.Error(exception.Message);

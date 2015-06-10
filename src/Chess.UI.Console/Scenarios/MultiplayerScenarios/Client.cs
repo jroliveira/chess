@@ -3,9 +3,9 @@ using System.Net;
 
 namespace Chess.UI.Console.Scenarios.MultiplayerScenarios
 {
-    public class Connect : Scenario
+    public class Client : Scenario
     {
-        public Connect(ChessGame game)
+        public Client(ChessGame game)
             : base(game)
         {
             game.Error += OnError;
