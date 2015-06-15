@@ -7,15 +7,17 @@ namespace Chess.Game.Multiplayer
 {
     internal class Multiplayer
     {
-        protected Socket Socket;
+        protected Socket Client;
 
         public Multiplayer(Socket socket)
         {
-            Socket = socket;
+            Client = socket;
         }
 
         public event PlayedEventHandler Played;
         public event ErrorEventHandler Error;
+        public event ConnectedEventHandler Connected;
+        public event DisconnectedEventHandler Disconnected;
 
         public void SendTheMove(string piecePosition, string newPosition)
         {
@@ -24,7 +26,7 @@ namespace Chess.Game.Multiplayer
                 var move = string.Format("{0}->{1}", piecePosition, newPosition);
                 var send = Encoding.ASCII.GetBytes(move);
 
-                Socket.Send(send);
+                Client.Send(send);
             }
             catch (Exception exception)
             {
@@ -34,16 +36,12 @@ namespace Chess.Game.Multiplayer
 
         public void WaitingTheMove()
         {
-            while (true)
-            {
-                var bytes = new byte[1024];
-                var bytesRec = Socket.Receive(bytes);
-                var move = Encoding.ASCII.GetString(bytes, 0, bytesRec);
+            var bytes = new byte[1024];
 
-                if (string.IsNullOrEmpty(move))
-                {
-                    continue;
-                }
+            try
+            {
+                var bytesRec = Client.Receive(bytes);
+                var move = Encoding.ASCII.GetString(bytes, 0, bytesRec);
 
                 var args = move.Split(new[] { "->" }, StringSplitOptions.None);
                 var piece = args[0];
@@ -51,14 +49,20 @@ namespace Chess.Game.Multiplayer
 
                 OnPlayed(piece, newPosition);
             }
+            catch (Exception exception)
+            {
+                OnError(exception);
+            }
         }
 
         public void Disconnect()
         {
             try
             {
-                Socket.Shutdown(SocketShutdown.Both);
-                Socket.Close();
+                Client.Shutdown(SocketShutdown.Both);
+                Client.Close();
+
+                OnDisconnected();
             }
             catch (Exception exception)
             {
@@ -81,6 +85,24 @@ namespace Chess.Game.Multiplayer
             if (handler != null)
             {
                 handler(exception);
+            }
+        }
+
+        protected void OnConnected()
+        {
+            var handler = Connected;
+            if (handler != null)
+            {
+                handler();
+            }
+        }
+
+        protected virtual void OnDisconnected()
+        {
+            var handler = Disconnected;
+            if (handler != null)
+            {
+                handler();
             }
         }
     }

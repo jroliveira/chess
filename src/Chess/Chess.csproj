@@ -49,6 +49,7 @@
     <Compile Include="Game\Chessboard.cs" />
     <Compile Include="Game\Multiplayer\Client.cs" />
     <Compile Include="Game\Multiplayer\EventHandlers\ConnectedEventHandler.cs" />
+    <Compile Include="Game\Multiplayer\EventHandlers\DisconnectedEventHandler.cs" />
     <Compile Include="Game\Multiplayer\EventHandlers\PlayedEventHandler.cs" />
     <Compile Include="Game\Multiplayer\EventHandlers\ErrorEventHandler.cs" />
     <Compile Include="Game\Multiplayer\Multiplayer.cs" />

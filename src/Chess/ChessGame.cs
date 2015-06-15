@@ -37,7 +37,7 @@ namespace Chess
             _mountChessboard.Mount();
         }
 
-        public void Connect(IPAddress ipAddress, int port)
+        public virtual void Connect(string ipAddress, string port)
         {
             _player = _client;
 
@@ -45,10 +45,10 @@ namespace Chess
             _client.Played += OnPlayed;
             _client.Error += Error;
 
-            _client.Connect(ipAddress, port);
+            _client.Connect(IPAddress.Parse(ipAddress), int.Parse(port));
         }
 
-        public void WaitingForOpponent()
+        public virtual void WaitingForOpponent()
         {
             _player = _server;
 
@@ -56,7 +56,12 @@ namespace Chess
             _server.Played += OnPlayed;
             _server.Error += Error;
 
-            _server.Listening();
+            _server.Listen();
+        }
+
+        public void WaitingTheMove()
+        {
+            _player.WaitingTheMove();
         }
 
         private void OnConnected()

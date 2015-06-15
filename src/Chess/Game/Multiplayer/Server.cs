@@ -1,23 +1,20 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
-using Chess.Game.Multiplayer.EventHandlers;
 
 namespace Chess.Game.Multiplayer
 {
     internal class Server : Multiplayer
     {
-        private readonly Socket _listener;
+        private readonly Socket _server;
 
         public Server()
             : base(null)
         {
-            _listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            _server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         }
 
-        public event ConnectedEventHandler Connected;
-
-        public void Listening()
+        public void Listen()
         {
             var host = Dns.Resolve(Dns.GetHostName());
             var ip = host.AddressList[0];
@@ -25,25 +22,16 @@ namespace Chess.Game.Multiplayer
 
             try
             {
-                _listener.Bind(endPoint);
-                _listener.Listen(1);
+                _server.Bind(endPoint);
+                _server.Listen(1);
 
-                Socket = _listener.Accept();
+                Client = _server.Accept();
 
                 OnConnected();
             }
             catch (Exception exception)
             {
                 OnError(exception);
-            }
-        }
-
-        private void OnConnected()
-        {
-            var handler = Connected;
-            if (handler != null)
-            {
-                handler();
             }
         }
     }

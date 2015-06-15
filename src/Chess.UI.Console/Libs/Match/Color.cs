@@ -1,6 +1,6 @@
 using System;
 
-namespace Chess.UI.Console.Libs
+namespace Chess.UI.Console.Libs.Match
 {
     public class Color
     {

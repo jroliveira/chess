@@ -6,15 +6,15 @@ namespace Chess.UI.Console.Libs.Match
     public class Chessboard
     {
         private readonly Color _color;
-        private readonly Text _text;
+        private readonly Writer _text;
 
         public Chessboard()
         {
             _color = new Color();
-            _text = new Text();
+            _text = new Writer();
         }
 
-        public void Print(ChessGame game)
+        public virtual void Print(ChessGame game)
         {
             Clear();
             HeaderOrFooter(game);
@@ -45,7 +45,7 @@ namespace Chess.UI.Console.Libs.Match
 
         private static void Clear()
         {
-            System.Console.SetCursorPosition(0, 11);
+            System.Console.SetCursorPosition(0, 13);
         }
 
         private void Rank(char rank, bool toggle, ChessGame game, bool lacuna)

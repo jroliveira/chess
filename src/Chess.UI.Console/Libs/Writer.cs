@@ -4,54 +4,16 @@ using System.Threading;
 
 namespace Chess.UI.Console.Libs
 {
-    public class Text
+    public class Writer : IWriter
     {
-        public void Error(string message)
+        public void NewLine()
         {
-            var left = Math.Abs(System.Console.CursorLeft - 1);
-            var top = System.Console.CursorTop;
-
-            System.Console.SetCursorPosition(0, 0);
-            System.Console.WriteLine("                                                                                   ");
-            System.Console.WriteLine("                                                                                   ");
-
-            var cursorLeft = (42 - (message.Length / 2));
-            cursorLeft = cursorLeft % 2 != 0 ? cursorLeft + 1 : cursorLeft + 0;
-
-            System.Console.ForegroundColor = ConsoleColor.Red;
-            System.Console.SetCursorPosition(cursorLeft, 0);
-            Pipe();
-
-            System.Console.BackgroundColor = ConsoleColor.Red;
-            Margin(2);
-            System.Console.ForegroundColor = ConsoleColor.White;
-            System.Console.Write(message);
-            System.Console.ForegroundColor = ConsoleColor.Red;
-            Margin(2);
-            System.Console.BackgroundColor = ConsoleColor.Black;
-
-            
-            Pipe();
-            NewLine();
-            System.Console.SetCursorPosition(cursorLeft - 3, 1);
-            Divider(DividerPosition.Bottom, message.Length + 4);
-
-            System.Console.ForegroundColor = ConsoleColor.White;
-            System.Console.SetCursorPosition(left, top);
+            System.Console.WriteLine("");
         }
 
-        public void Info(string message)
+        public void Erase()
         {
-            var left = Math.Abs(System.Console.CursorLeft - 1);
-            var top = System.Console.CursorTop;
-
-            System.Console.SetCursorPosition(15, 38);
-            System.Console.WriteLine("                                                 ");
-
-            System.Console.SetCursorPosition(15, 38);
-            System.Console.WriteLine(message);
-
-            System.Console.SetCursorPosition(left, top);
+            System.Console.Write("                                                                                   ");
         }
 
         public void Write(string text)
@@ -59,19 +21,33 @@ namespace Chess.UI.Console.Libs
             System.Console.Write(text);
         }
 
-        public void WriteWithSleep(string format, params object[] args)
+        public void WriteError(string text)
         {
-            var text = string.Format(format, args);
-            WriteWithSleep(text);
-        }
+            var left = Math.Abs(System.Console.CursorLeft - 1);
+            var top = System.Console.CursorTop;
 
-        public void WriteWithSleep(string text)
-        {
-            foreach (var t in text)
-            {
-                Thread.Sleep(60);
-                System.Console.Write(t);
-            }
+            System.Console.SetCursorPosition(0, 10);
+            System.Console.WriteLine("                                                                                   ");
+            System.Console.WriteLine("                                                                                   ");
+
+            var cursorLeft = (42 - (text.Length / 2));
+
+            System.Console.SetCursorPosition(cursorLeft, 10);
+            Pipe();
+            Margin(2);
+
+            System.Console.ForegroundColor = ConsoleColor.Red;
+            System.Console.Write(text);
+            System.Console.ForegroundColor = ConsoleColor.White;
+
+            Margin(2);
+            Pipe();
+            NewLine();
+            System.Console.SetCursorPosition(cursorLeft - 3, 11);
+            Divider(DividerPosition.Bottom, text.Length + 4);
+
+            System.Console.ForegroundColor = ConsoleColor.White;
+            System.Console.SetCursorPosition(left, top);
         }
 
         public void WriteOption(string option, string caption)
@@ -92,6 +68,21 @@ namespace Chess.UI.Console.Libs
 
             NewLine();
             Divider(DividerPosition.Bottom, option.Length + 2);
+        }
+
+        public void WriteWithSleep(string format, params object[] args)
+        {
+            var text = string.Format(format, args);
+            WriteWithSleep(text);
+        }
+
+        public virtual void WriteWithSleep(string text)
+        {
+            foreach (var t in text)
+            {
+                Thread.Sleep(60);
+                System.Console.Write(t);
+            }
         }
 
         public void WriteInsideTheBox(string text)
@@ -135,22 +126,17 @@ namespace Chess.UI.Console.Libs
             NewLine();
         }
 
-        public void NewLine()
-        {
-            System.Console.WriteLine("");
-        }
-
-        public virtual void Dash()
+        private static void Dash()
         {
             System.Console.Write("═");
         }
 
-        public virtual void Pipe()
+        private static void Pipe()
         {
             System.Console.Write('║');
         }
 
-        public void Margin(int length = 3)
+        private static void Margin(int length = 3)
         {
             for (var i = 0; i < length; i++)
             {

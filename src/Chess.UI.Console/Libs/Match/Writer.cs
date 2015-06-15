@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Chess.UI.Console.Libs.Match
 {
-    public class Text : Libs.Text
+    public class Writer : Libs.Writer
     {
         private readonly Color _color;
 
-        public Text()
+        public Writer()
         {
             _color = new Color();
         }
@@ -50,12 +50,12 @@ namespace Chess.UI.Console.Libs.Match
             NewLine();
         }
 
-        public override void Dash()
+        public void Dash()
         {
             System.Console.Write("─");
         }
 
-        public override void Pipe()
+        public void Pipe()
         {
             var current = System.Console.BackgroundColor;
 

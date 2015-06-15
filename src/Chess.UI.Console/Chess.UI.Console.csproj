@@ -27,6 +27,8 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -51,6 +53,9 @@
     <ApplicationIcon>app.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LightInject">
+      <HintPath>..\..\packages\LightInject.3.0.2.7\lib\net45\LightInject.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -60,22 +65,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IoC\Container.cs" />
+    <Compile Include="Libs\Screen.cs" />
     <Compile Include="Libs\DividerPosition.cs" />
+    <Compile Include="Libs\IReader.cs" />
+    <Compile Include="Libs\IScreen.cs" />
+    <Compile Include="Libs\IWriter.cs" />
     <Compile Include="Libs\Match\Chessboard.cs" />
-    <Compile Include="Libs\Match\Text.cs" />
+    <Compile Include="Libs\Match\Writer.cs" />
+    <Compile Include="Libs\Reader.cs" />
+    <Compile Include="Libs\Size.cs" />
+    <Compile Include="Libs\Writer.cs" />
+    <Compile Include="Scenarios\Matches\Match.cs" />
+    <Compile Include="Scenarios\Matches\Offline.cs" />
     <Compile Include="Scenarios\Scenario.cs" />
-    <Compile Include="Scenarios\MultiplayerScenarios\Server.cs" />
-    <Compile Include="Scenarios\MultiplayerScenarios\Client.cs" />
+    <Compile Include="Scenarios\Multiplayer\Server.cs" />
+    <Compile Include="Scenarios\Multiplayer\Client.cs" />
     <Compile Include="Scenarios\Main.cs" />
-    <Compile Include="Scenarios\Match.cs" />
-    <Compile Include="Scenarios\Multiplayer.cs" />
-    <Compile Include="Libs\Color.cs" />
-    <Compile Include="Libs\Text.cs" />
+    <Compile Include="Scenarios\Matches\Online.cs" />
+    <Compile Include="Libs\Match\Color.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Chess\Chess.csproj">
@@ -104,6 +118,13 @@
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
