@@ -66,6 +66,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Chess.Multiplayer\Chess.Multiplayer.csproj">
+      <Project>{C869A64E-FAF1-468F-BE56-73CEEF5B3F58}</Project>
+      <Name>Chess.Multiplayer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Chess.UI.Console\Chess.UI.Console.csproj">
       <Project>{1B4B2677-8C9B-472A-97DD-AAC85E3642B9}</Project>
       <Name>Chess.UI.Console</Name>

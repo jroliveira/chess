@@ -92,6 +92,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Chess.Multiplayer\Chess.Multiplayer.csproj">
+      <Project>{C869A64E-FAF1-468F-BE56-73CEEF5B3F58}</Project>
+      <Name>Chess.Multiplayer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Chess\Chess.csproj">
       <Project>{E5860CAD-4454-4492-831A-D8A45E0DD350}</Project>
       <Name>Chess</Name>

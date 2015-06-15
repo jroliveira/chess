@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Chess.Exceptions;
+using Chess.Multiplayer;
 using Chess.UI.Console.Libs;
 using Chess.UI.Console.Libs.Match;
 
@@ -12,7 +13,7 @@ namespace Chess.UI.Console.Scenarios.Matches
 
         protected Match() { }
 
-        public Match(ChessGame game, Chessboard chessboard, IWriter writer, IReader reader, IScreen screen)
+        public Match(IGameMultiplayer game, Chessboard chessboard, IWriter writer, IReader reader, IScreen screen)
             : base(game, writer, reader, screen)
         {
             Chessboard = chessboard;

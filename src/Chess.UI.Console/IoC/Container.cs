@@ -1,4 +1,5 @@
-﻿using Chess.UI.Console.Libs;
+﻿using Chess.Multiplayer;
+using Chess.UI.Console.Libs;
 using Chess.UI.Console.Libs.Match;
 using Chess.UI.Console.Scenarios;
 using Chess.UI.Console.Scenarios.Matches;
@@ -15,7 +16,7 @@ namespace Chess.UI.Console.IoC
         {
             ServiceContainer = new ServiceContainer();
 
-            ServiceContainer.Register<ChessGame>(new PerContainerLifetime());
+            ServiceContainer.Register<IGameMultiplayer, GameMultiplayer>(new PerContainerLifetime());
 
             ServiceContainer.Register<Main>();
             ServiceContainer.Register<Client>();

@@ -1,4 +1,5 @@
-﻿using Chess.UI.Console.Libs;
+﻿using Chess.Multiplayer;
+using Chess.UI.Console.Libs;
 using Chess.UI.Console.Scenarios.Matches;
 
 namespace Chess.UI.Console.Scenarios.Multiplayer
@@ -9,7 +10,7 @@ namespace Chess.UI.Console.Scenarios.Multiplayer
 
         protected Server() { }
 
-        public Server(ChessGame game, Online match, IWriter writer, IReader reader, IScreen screen)
+        public Server(IGameMultiplayer game, Online match, IWriter writer, IReader reader, IScreen screen)
             : base(game, writer, reader, screen)
         {
             _match = match;

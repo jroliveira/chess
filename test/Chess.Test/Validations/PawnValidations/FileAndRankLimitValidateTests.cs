@@ -1,8 +1,6 @@
 ﻿using Chess.Extensions;
-using Chess.Game;
-using Chess.Game.Extensions;
-using Chess.Game.Pieces;
-using Chess.Game.Validations.PawnValidations;
+using Chess.Pieces;
+using Chess.Validations.PawnValidations;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;

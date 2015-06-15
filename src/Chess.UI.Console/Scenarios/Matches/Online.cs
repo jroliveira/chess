@@ -1,4 +1,5 @@
-﻿using Chess.UI.Console.Libs;
+﻿using Chess.Multiplayer;
+using Chess.UI.Console.Libs;
 using Chess.UI.Console.Libs.Match;
 
 namespace Chess.UI.Console.Scenarios.Matches
@@ -7,7 +8,7 @@ namespace Chess.UI.Console.Scenarios.Matches
     {
         protected Online() { }
 
-        public Online(ChessGame game, Chessboard chessboard, IWriter writer, IReader reader, IScreen screen)
+        public Online(IGameMultiplayer game, Chessboard chessboard, IWriter writer, IReader reader, IScreen screen)
             : base(game, chessboard, writer, reader, screen)
         {
             game.Played += OnPlayed;

@@ -1,4 +1,5 @@
-﻿using Chess.UI.Console.Libs;
+﻿using Chess.Multiplayer;
+using Chess.UI.Console.Libs;
 
 namespace Chess.UI.Console.Scenarios
 {
@@ -6,7 +7,7 @@ namespace Chess.UI.Console.Scenarios
     {
         protected const char ArrowRight = (char)26;
 
-        protected readonly ChessGame Game;
+        protected readonly IGameMultiplayer Game;
         protected readonly IWriter Writer;
         protected readonly IReader Reader;
         protected readonly IScreen Screen;
@@ -30,7 +31,7 @@ namespace Chess.UI.Console.Scenarios
 
         protected Scenario() { }
 
-        protected Scenario(ChessGame game, IWriter writer, IReader reader, IScreen screen)
+        protected Scenario(IGameMultiplayer game, IWriter writer, IReader reader, IScreen screen)
         {
             Game = game;
             Writer = writer;

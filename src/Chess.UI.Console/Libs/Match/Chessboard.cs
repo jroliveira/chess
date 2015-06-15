@@ -1,5 +1,6 @@
 ﻿using System;
 using Chess.Extensions;
+using Chess.Models;
 
 namespace Chess.UI.Console.Libs.Match
 {
@@ -14,7 +15,7 @@ namespace Chess.UI.Console.Libs.Match
             _text = new Writer();
         }
 
-        public virtual void Print(ChessGame game)
+        public virtual void Print(IGame game)
         {
             Clear();
             HeaderOrFooter(game);
@@ -48,7 +49,7 @@ namespace Chess.UI.Console.Libs.Match
             System.Console.SetCursorPosition(0, 13);
         }
 
-        private void Rank(char rank, bool toggle, ChessGame game, bool lacuna)
+        private void Rank(char rank, bool toggle, IGame game, bool lacuna)
         {
             System.Console.Write("   {0} ", lacuna ? ' ' : rank);
 
@@ -75,7 +76,7 @@ namespace Chess.UI.Console.Libs.Match
             _text.NewLine();
         }
 
-        private void File(ChessGame game, char file = 'x', char rank = 'x')
+        private void File(IGame game, char file = 'x', char rank = 'x')
         {
             _text.Pipe();
 
@@ -91,7 +92,7 @@ namespace Chess.UI.Console.Libs.Match
             }
         }
 
-        private static void Piece(ChessPiece piece)
+        private static void Piece(Piece piece)
         {
             System.Console.ForegroundColor = piece.Player == 1 ? ConsoleColor.Red : ConsoleColor.Blue;
 
@@ -105,7 +106,7 @@ namespace Chess.UI.Console.Libs.Match
             System.Console.Write("      ");
         }
 
-        private void HeaderOrFooter(ChessGame game)
+        private void HeaderOrFooter(IGame game)
         {
             System.Console.Write("     ");
 

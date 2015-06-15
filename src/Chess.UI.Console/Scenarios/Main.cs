@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Chess.Multiplayer;
 using Chess.UI.Console.Libs;
 using Chess.UI.Console.Scenarios.Matches;
 using Chess.UI.Console.Scenarios.Multiplayer;
@@ -10,7 +11,7 @@ namespace Chess.UI.Console.Scenarios
     {
         private readonly IDictionary<char, Action> _options;
 
-        public Main(ChessGame game, Offline match, Client client, Server server, IWriter writer, IReader reader, IScreen screen)
+        public Main(IGameMultiplayer game, Offline match, Client client, Server server, IWriter writer, IReader reader, IScreen screen)
             : base(game, writer, reader, screen)
         {
             screen.Title = "Chess";
