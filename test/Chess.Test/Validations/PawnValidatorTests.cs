@@ -1,6 +1,5 @@
-﻿using Chess.Game;
-using Chess.Game.Validations;
-using Chess.Game.Validations.PawnValidations;
+﻿using Chess.Validations;
+using Chess.Validations.PawnValidations;
 using Moq;
 using NUnit.Framework;
 
@@ -9,35 +8,27 @@ namespace Chess.Test.Validations
     [TestFixture]
     public class PawnValidatorTests
     {
-        private Mock<FileAndRankLimitValidate> _fileAndRankLimitValidate;
-        private Mock<HasPieceValidate> _hasPieceValidate;
+        private Mock<FileAndRankLimitValidate> _fileAndRankLimitValidateMock;
 
         [SetUp]
         public void Setup()
         {
-            _fileAndRankLimitValidate = new Mock<FileAndRankLimitValidate>();
-            _hasPieceValidate = new Mock<HasPieceValidate>();
+            _fileAndRankLimitValidateMock = new Mock<FileAndRankLimitValidate>();
 
-            var validator = new PawnValidator(_fileAndRankLimitValidate.Object, _hasPieceValidate.Object);
+            var validator = new PawnValidator(_fileAndRankLimitValidateMock.Object);
             validator.Validate(It.IsAny<Position>());
         }
 
         [Test]
-        public void Validate_DeveChamarFileAndRankLimitValidateSetNextValidate_UmaVez()
+        public void Validate_DeveChamarFileAndRankLimitValidateSetNextValidateUmaVez()
         {
-            _fileAndRankLimitValidate.Verify(v => v.SetNextValidate(It.IsAny<Validate>()), Times.Once);
+            _fileAndRankLimitValidateMock.Verify(v => v.SetNextValidate(It.IsAny<Validate>()), Times.Once);
         }
 
         [Test]
-        public void Validate_DeveChamarHasPieceValidateSetNextValidate_UmaVez()
+        public void Validate_DeveChamarFileAndRankLimitValidateIsValidUmaVez()
         {
-            _hasPieceValidate.Verify(v => v.SetNextValidate(It.IsAny<Validate>()), Times.Once);
-        }
-
-        [Test]
-        public void Validate_DeveChamarFileAndRankLimitValidateIsValid_UmaVez()
-        {
-            _fileAndRankLimitValidate.Verify(v => v.IsValid(It.IsAny<Position>()), Times.Once);
+            _fileAndRankLimitValidateMock.Verify(v => v.IsValid(It.IsAny<Position>()), Times.Once);
         }
     }
 }
