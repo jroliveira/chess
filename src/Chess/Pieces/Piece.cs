@@ -24,12 +24,12 @@ namespace Chess.Pieces
             Chessboard = chessboard;
         }
 
-        public void Move(Position newPosition)
+        public virtual void Move(Position newPosition)
         {
             Position = newPosition;
         }
 
-        public bool CanMove(Position newPosition)
+        public virtual bool CanMove(Position newPosition)
         {
             return Validator.Validate(newPosition);
         }

@@ -56,6 +56,7 @@
     <Compile Include="Pieces\Rook.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
+    <Compile Include="Queries\GetPiecesQuery.cs" />
     <Compile Include="Validations\BishopValidations\FileAndRankLimitValidate.cs" />
     <Compile Include="Validations\BishopValidator.cs" />
     <Compile Include="Validations\IValidator.cs" />

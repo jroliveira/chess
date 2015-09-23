@@ -18,7 +18,7 @@ namespace Chess
             Rank = rank;
         }
 
-        public bool Equals(Position other)
+        public virtual bool Equals(Position other)
         {
             return File == other.File
                    && Rank == other.Rank;

@@ -1,46 +1,50 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Chess.Exceptions;
+using Chess.Pieces;
+using Chess.Queries;
 
 namespace Chess
 {
     internal class Chessboard
     {
-        private readonly ICollection<Pieces.Piece> _pieces;
+        private readonly ICollection<Piece> _pieces;
+        private readonly GetPiecesQuery _getPieces;
 
         public char[] Files { get { return new[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' }; } }
         public char[] Ranks { get { return new[] { '8', '7', '6', '5', '4', '3', '2', '1' }; } }
+        public ICollection<Piece> Pieces { get { return _getPieces.GetResult(_pieces); } }
 
-        public ICollection<Pieces.Piece> Pieces
+        internal Chessboard(ICollection<Piece> pieces, GetPiecesQuery getPieces)
         {
-            get
-            {
-                return _pieces.OrderBy(piece => piece.Position.Rank)
-                              .ThenBy(piece => piece.Position.File)
-                              .ToList();
-            }
+            _pieces = pieces;
+            _getPieces = getPieces;
         }
 
         public Chessboard()
+            : this(new List<Piece>(), new GetPiecesQuery())
         {
-            _pieces = new List<Pieces.Piece>();
+
         }
 
-        public void AddPiece(Pieces.Piece piece)
+        public void AddPiece(Piece piece)
         {
             _pieces.Add(piece);
         }
 
-        public void MovePiece(Pieces.Piece piece, Position position)
+        public void MovePiece(Piece piece, Position position)
         {
             if (!piece.CanMove(position))
             {
-                throw new ChessException("");
+                throw new ChessException("Não é possível mover a peça");
             }
 
             if (HasPiece(position))
             {
-                _pieces.Remove(piece);
+                if (!_pieces.Remove(piece))
+                {
+                    throw new ChessException("Não é possível remover a peça.");
+                }
             }
 
             piece.Move(position);
@@ -51,7 +55,7 @@ namespace Chess
             return GetPiece(position) != null;
         }
 
-        public virtual Pieces.Piece GetPiece(Position position)
+        public virtual Piece GetPiece(Position position)
         {
             return Pieces.FirstOrDefault(piece => piece.Position.Equals(position));
         }
