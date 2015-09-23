@@ -4,8 +4,13 @@ namespace Chess
 {
     internal class Position : IEquatable<Position>
     {
-        public char File { get; private set; }
-        public char Rank { get; private set; }
+        public virtual char File { get; private set; }
+        public virtual char Rank { get; private set; }
+
+        protected Position()
+        {
+
+        }
 
         public Position(char file, char rank)
         {

@@ -4,6 +4,8 @@
     {
         public PieceIsNullException(string piece)
             : base("( {0} is an invalid piece! )", piece)
-        { }
+        {
+            
+        }
     }
 }

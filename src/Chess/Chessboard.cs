@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using Chess.Exceptions;
 
@@ -11,11 +10,20 @@ namespace Chess
 
         public char[] Files { get { return new[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' }; } }
         public char[] Ranks { get { return new[] { '8', '7', '6', '5', '4', '3', '2', '1' }; } }
-        public ICollection<Pieces.Piece> Pieces { get { return _pieces.OrderBy(piece => piece.Position.Rank).ThenBy(piece => piece.Position.File).ToList(); } }
+
+        public ICollection<Pieces.Piece> Pieces
+        {
+            get
+            {
+                return _pieces.OrderBy(piece => piece.Position.Rank)
+                              .ThenBy(piece => piece.Position.File)
+                              .ToList();
+            }
+        }
 
         public Chessboard()
         {
-            _pieces = new Collection<Pieces.Piece>();
+            _pieces = new List<Pieces.Piece>();
         }
 
         public void AddPiece(Pieces.Piece piece)

@@ -47,7 +47,13 @@
     <Compile Include="Commands\MountChessboard.cs" />
     <Compile Include="Exceptions\ChessException.cs" />
     <Compile Include="Chessboard.cs" />
+    <Compile Include="Pieces\Bishop.cs" />
+    <Compile Include="Pieces\King.cs" />
+    <Compile Include="Pieces\Knight.cs" />
+    <Compile Include="Pieces\Pawn.cs" />
     <Compile Include="Pieces\Piece.cs" />
+    <Compile Include="Pieces\Queen.cs" />
+    <Compile Include="Pieces\Rook.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Validations\BishopValidations\FileAndRankLimitValidate.cs" />

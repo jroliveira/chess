@@ -53,6 +53,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChessboardTests.cs" />
+    <Compile Include="Commands\MountChessboardTests.cs" />
+    <Compile Include="Extensions\CharExtensionTests.cs" />
+    <Compile Include="Extensions\StringExtensionTests.cs" />
+    <Compile Include="Pieces\BishopTests.cs" />
+    <Compile Include="Pieces\KingTests.cs" />
+    <Compile Include="Pieces\RookTests.cs" />
+    <Compile Include="Pieces\QueenTests.cs" />
+    <Compile Include="Pieces\PawnTests.cs" />
+    <Compile Include="Pieces\KnightTests.cs" />
     <Compile Include="Validations\PawnValidatorTests.cs" />
     <Compile Include="Validations\PawnValidations\FileAndRankLimitValidateTests.cs" />
     <Compile Include="Validations\PawnValidations\HasPieceValidateTests.cs" />
@@ -67,6 +77,7 @@
       <Name>Chess</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

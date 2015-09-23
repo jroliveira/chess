@@ -14,11 +14,6 @@ namespace Chess.Commands
 
         public void Execute()
         {
-            PutPieces();
-        }
-
-        private void PutPieces()
-        {
             for (var r = 0; r < 8; r++)
             {
                 var rank = _chessboard.Ranks[r];
@@ -68,7 +63,7 @@ namespace Chess.Commands
         }
 
         private void PutPiece<TPiece>(Position position)
-            where TPiece : Pieces.Piece
+            where TPiece : Piece
         {
             var player = 1;
 
@@ -77,7 +72,7 @@ namespace Chess.Commands
                 player = 2;
             }
 
-            var newPiece = Activator.CreateInstance(typeof(TPiece), player, position, _chessboard) as Pieces.Piece;
+            var newPiece = Activator.CreateInstance(typeof(TPiece), player, position, _chessboard) as Piece;
 
             _chessboard.AddPiece(newPiece);
         }
