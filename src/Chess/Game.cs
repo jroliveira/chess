@@ -8,15 +8,21 @@ namespace Chess
     public class Game : IGame
     {
         private readonly Chessboard _chessboard;
-        private readonly MountChessboard _mountChessboard;
+        private readonly MountChessboardCommand _mountChessboard;
 
         public char[] Files { get { return _chessboard.Files; } }
         public char[] Ranks { get { return _chessboard.Ranks; } }
 
+        internal Game(Chessboard chessboard, MountChessboardCommand mountChessboard)
+        {
+            _chessboard = chessboard;
+            _mountChessboard = mountChessboard;
+        }
+
         public Game()
         {
             _chessboard = new Chessboard();
-            _mountChessboard = new MountChessboard(_chessboard);
+            _mountChessboard = new MountChessboardCommand(_chessboard);
         }
 
         public void Start()
@@ -26,17 +32,12 @@ namespace Chess
 
         public virtual void Move(string piecePosition, string newPosition)
         {
-            MovePiece(piecePosition, newPosition);
-        }
-
-        protected void MovePiece(string piecePosition, string newPosition)
-        {
             var position = newPosition.ToPosition();
             var piece = _chessboard.GetPiece(piecePosition.ToPosition());
 
             if (piece == null)
             {
-                throw new PieceIsNullException(piecePosition);
+                throw new ChessException("Peça não existe.");
             }
 
             _chessboard.MovePiece(piece, position);

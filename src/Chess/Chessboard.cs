@@ -27,23 +27,23 @@ namespace Chess
 
         }
 
-        public void AddPiece(Piece piece)
+        public virtual void AddPiece(Piece piece)
         {
             _pieces.Add(piece);
         }
 
-        public void MovePiece(Piece piece, Position position)
+        public virtual void MovePiece(Piece piece, Position position)
         {
             if (!piece.CanMove(position))
             {
-                throw new ChessException("Não é possível mover a peça");
+                throw new ChessException("Não é possível mover a peça.", piece.ToString());
             }
 
             if (HasPiece(position))
             {
                 if (!_pieces.Remove(piece))
                 {
-                    throw new ChessException("Não é possível remover a peça.");
+                    throw new ChessException("Não é possível remover a peça.", piece.ToString());
                 }
             }
 

@@ -42,9 +42,8 @@
   <ItemGroup>
     <Compile Include="Game.cs" />
     <Compile Include="Models\Piece.cs" />
-    <Compile Include="Exceptions\PieceIsNullException.cs" />
     <Compile Include="Extensions\CharExtension.cs" />
-    <Compile Include="Commands\MountChessboard.cs" />
+    <Compile Include="Commands\MountChessboardCommand.cs" />
     <Compile Include="Exceptions\ChessException.cs" />
     <Compile Include="Chessboard.cs" />
     <Compile Include="Pieces\Bishop.cs" />

@@ -3,16 +3,21 @@ using Chess.Pieces;
 
 namespace Chess.Commands
 {
-    internal class MountChessboard
+    internal class MountChessboardCommand
     {
         private readonly Chessboard _chessboard;
 
-        public MountChessboard(Chessboard chessboard)
+        protected MountChessboardCommand()
+        {
+
+        }
+
+        public MountChessboardCommand(Chessboard chessboard)
         {
             _chessboard = chessboard;
         }
 
-        public void Execute()
+        public virtual void Execute()
         {
             for (var r = 0; r < 8; r++)
             {

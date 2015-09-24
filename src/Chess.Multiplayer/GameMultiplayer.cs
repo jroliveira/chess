@@ -73,7 +73,7 @@ namespace Chess.Multiplayer
 
         private void OnPlayed(string piecePosition, string newPosition)
         {
-            MovePiece(piecePosition, newPosition);
+            Move(piecePosition, newPosition);
 
             var handler = Played;
             if (handler != null)

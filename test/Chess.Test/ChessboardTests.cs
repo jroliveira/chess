@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
 using Chess.Exceptions;
 using Chess.Pieces;
 using Chess.Queries;
@@ -63,7 +61,7 @@ namespace Chess.Test
 
             action
                 .ShouldThrow<ChessException>()
-                .WithMessage("Não é possível mover a peça");
+                .WithMessage("Não é possível mover a peça.");
         }
 
         [Test]
