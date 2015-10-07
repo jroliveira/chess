@@ -5,33 +5,55 @@ namespace Chess.Validations.PawnValidations
 {
     internal class FileAndRankLimitValidate : Validate
     {
-        protected FileAndRankLimitValidate() { }
+        protected FileAndRankLimitValidate()
+        {
+
+        }
 
         public FileAndRankLimitValidate(Pawn pawn)
             : base(pawn)
-        { }
+        {
+
+        }
 
         protected override bool IsValidRule(Position newPosition)
         {
             var fileMoved = Math.Abs(Piece.Position.File - newPosition.File);
-            var rankMoved = Math.Abs(Piece.Position.Rank - newPosition.Rank);
+            var rankMoved = Piece.Position.Rank - newPosition.Rank;
 
             if (fileMoved > 1)
             {
                 return false;
             }
 
-            if (rankMoved < 1 || rankMoved > 2)
+            if (fileMoved.Equals(0))
             {
+                if (rankMoved.Equals(Direction(1)) || rankMoved.Equals(Direction(2)))
+                {
+                    return true;
+                }
+
                 return false;
             }
 
-            if (fileMoved.Equals(1) && !rankMoved.Equals(1))
+            if (fileMoved.Equals(1) && rankMoved.Equals(Direction(1)))
             {
-                return false;
+                var hasPiece = Piece.Chessboard.HasPiece(newPosition);
+
+                return hasPiece;
             }
 
-            return true;
+            return false;
+        }
+
+        public int Direction(int value)
+        {
+            if (Piece.Player.Equals(2))
+            {
+                return value;
+            }
+
+            return -1 * value;
         }
     }
 }

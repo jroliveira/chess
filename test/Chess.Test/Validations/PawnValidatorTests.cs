@@ -9,15 +9,13 @@ namespace Chess.Test.Validations
     public class PawnValidatorTests
     {
         private Mock<FileAndRankLimitValidate> _fileAndRankLimitValidate;
-        private Mock<HasPieceValidate> _hasPieceValidate;
 
         [SetUp]
         public void Setup()
         {
             _fileAndRankLimitValidate = new Mock<FileAndRankLimitValidate>();
-            _hasPieceValidate = new Mock<HasPieceValidate>();
 
-            var validator = new PawnValidator(_fileAndRankLimitValidate.Object, _hasPieceValidate.Object);
+            var validator = new PawnValidator(_fileAndRankLimitValidate.Object);
             validator.Validate(It.IsAny<Position>());
         }
 
@@ -25,12 +23,6 @@ namespace Chess.Test.Validations
         public void Validate_DeveChamarFileAndRankLimitValidateSetNextValidate_UmaVez()
         {
             _fileAndRankLimitValidate.Verify(v => v.SetNextValidate(It.IsAny<Validate>()), Times.Once);
-        }
-
-        [Test]
-        public void Validate_DeveChamarHasPieceValidateSetNextValidate_UmaVez()
-        {
-            _hasPieceValidate.Verify(v => v.SetNextValidate(It.IsAny<Validate>()), Times.Once);
         }
 
         [Test]

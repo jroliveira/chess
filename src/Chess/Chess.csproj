@@ -63,7 +63,6 @@
     <Compile Include="Validations\KingValidator.cs" />
     <Compile Include="Validations\KnightValidations\FileAndRankLimitValidate.cs" />
     <Compile Include="Validations\KnightValidator.cs" />
-    <Compile Include="Validations\PawnValidations\HasPieceValidate.cs" />
     <Compile Include="Validations\PawnValidator.cs" />
     <Compile Include="Validations\PawnValidations\FileAndRankLimitValidate.cs" />
     <Compile Include="Validations\QueenValidations\FileAndRankLimitValidate.cs" />

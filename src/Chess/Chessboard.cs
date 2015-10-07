@@ -36,21 +36,21 @@ namespace Chess
         {
             if (!piece.CanMove(position))
             {
-                throw new ChessException("Não é possível mover a peça.", piece.ToString());
+                throw new ChessException("Não é possível mover a peça.");
             }
 
             if (HasPiece(position))
             {
                 if (!_pieces.Remove(piece))
                 {
-                    throw new ChessException("Não é possível remover a peça.", piece.ToString());
+                    throw new ChessException("Não é possível remover a peça.");
                 }
             }
 
             piece.Move(position);
         }
 
-        public bool HasPiece(Position position)
+        public virtual bool HasPiece(Position position)
         {
             return GetPiece(position) != null;
         }

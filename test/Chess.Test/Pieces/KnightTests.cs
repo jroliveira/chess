@@ -57,7 +57,7 @@ namespace Chess.Test.Pieces
             _positionStub.Setup(p => p.Rank).Returns('3');
             _positionStub.Setup(m => m.Equals(It.IsAny<Position>())).Returns(true);
 
-            var knightStub = new Mock<Bishop>();
+            var knightStub = new Mock<Knight>();
             knightStub.Setup(p => p.Position).Returns(_positionStub.Object);
 
             var actual = _knight.Equals(knightStub.Object);
@@ -74,7 +74,7 @@ namespace Chess.Test.Pieces
             positionStub.Setup(p => p.File).Returns('c');
             positionStub.Setup(p => p.Rank).Returns('3');
 
-            var knightStub = new Mock<Bishop>();
+            var knightStub = new Mock<Knight>();
             knightStub.Setup(p => p.Position).Returns(positionStub.Object);
 
             var actual = _knight.Equals(knightStub.Object);

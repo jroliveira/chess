@@ -5,7 +5,10 @@
         protected readonly Pieces.Piece Piece;
         protected Validate NextValidate;
 
-        internal Validate() { }
+        internal Validate()
+        {
+
+        }
 
         protected Validate(Pieces.Piece piece)
         {

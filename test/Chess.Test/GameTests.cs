@@ -30,6 +30,26 @@ namespace Chess.Test
         }
 
         [Test]
+        public void Files_DadoUmNovoJogo_DeveRetornarAsColunasDoTabuleiro()
+        {
+            _game = new Game();
+
+            var expectation = new[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
+
+            _game.Files.ShouldAllBeEquivalentTo(expectation);
+        }
+
+        [Test]
+        public void Ranks_DadoUmNovoJogo_DeveRetornarAsLinhasDoTabuleiro()
+        {
+            _game = new Game();
+
+            var expectation = new[] { '8', '7', '6', '5', '4', '3', '2', '1' };
+
+            _game.Ranks.ShouldAllBeEquivalentTo(expectation);
+        }
+
+        [Test]
         public void Start_DeveChamarChessboardExecuteUmaVez()
         {
             _game.Start();

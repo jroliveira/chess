@@ -5,9 +5,9 @@ namespace Chess.Pieces
 {
     internal abstract class Piece : IEquatable<Piece>
     {
-        public Chessboard Chessboard { get; protected set; }
+        public virtual Chessboard Chessboard { get; protected set; }
         public virtual Position Position { get; private set; }
-        public int Player { get; set; }
+        public virtual int Player { get; set; }
         public string Name { get { return GetType().Name.Substring(0, 4); } }
 
         protected abstract IValidator Validator { get; }

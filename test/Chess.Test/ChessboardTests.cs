@@ -65,6 +65,20 @@ namespace Chess.Test
         }
 
         [Test]
+        public void MovePiece_DadaPecaQueNaoPodeSerRemovida_DeveLancarExcecaoChessException()
+        {
+            _positionStub.Setup(m => m.Equals(It.IsAny<Position>())).Returns(true);
+
+            _piecesMock.Setup(m => m.Remove(It.IsAny<Piece>())).Returns(false);
+
+            Action action = () => _chessboard.MovePiece(_pieceMock.Object, It.IsAny<Position>());
+
+            action
+                .ShouldThrow<ChessException>()
+                .WithMessage("Não é possível remover a peça.");
+        }
+
+        [Test]
         public void MovePiece_DadaPecaQueEstaNaPosicaoPassada_DeveRemoverAPecaDaCollecao()
         {
             _positionStub.Setup(m => m.Equals(It.IsAny<Position>())).Returns(true);

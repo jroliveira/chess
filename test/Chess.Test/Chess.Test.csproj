@@ -54,7 +54,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChessboardTests.cs" />
+    <Compile Include="Exceptions\ChessExceptionTests.cs" />
     <Compile Include="GameTests.cs" />
+    <Compile Include="PositionTests.cs" />
     <Compile Include="Commands\MountChessboardCommandTests.cs" />
     <Compile Include="Extensions\CharExtensionTests.cs" />
     <Compile Include="Extensions\StringExtensionTests.cs" />
@@ -66,7 +68,6 @@
     <Compile Include="Pieces\KnightTests.cs" />
     <Compile Include="Validations\PawnValidatorTests.cs" />
     <Compile Include="Validations\PawnValidations\FileAndRankLimitValidateTests.cs" />
-    <Compile Include="Validations\PawnValidations\HasPieceValidateTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

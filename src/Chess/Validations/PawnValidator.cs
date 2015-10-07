@@ -6,23 +6,21 @@ namespace Chess.Validations
     internal class PawnValidator : IValidator
     {
         private readonly FileAndRankLimitValidate _fileAndRankLimitValidate;
-        private readonly HasPieceValidate _hasPieceValidate;
 
-        internal PawnValidator(FileAndRankLimitValidate fileAndRankLimitValidate,
-                               HasPieceValidate hasPieceValidate)
+        internal PawnValidator(FileAndRankLimitValidate fileAndRankLimitValidate)
         {
             _fileAndRankLimitValidate = fileAndRankLimitValidate;
-            _hasPieceValidate = hasPieceValidate;
         }
 
         public PawnValidator(Pawn pawn)
-            : this(new FileAndRankLimitValidate(pawn), new HasPieceValidate(pawn))
-        { }
+            : this(new FileAndRankLimitValidate(pawn))
+        {
+            
+        }
 
         public bool Validate(Position newPosition)
         {
-            _fileAndRankLimitValidate.SetNextValidate(_hasPieceValidate);
-            _hasPieceValidate.SetNextValidate(null);
+            _fileAndRankLimitValidate.SetNextValidate(null);
 
             return _fileAndRankLimitValidate.IsValid(newPosition);
         }
