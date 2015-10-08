@@ -5,20 +5,33 @@ namespace Chess.Validations.KnightValidations
 {
     internal class FileAndRankLimitValidate : Validate
     {
-        protected FileAndRankLimitValidate() { }
+        protected FileAndRankLimitValidate()
+        {
 
-        public FileAndRankLimitValidate(Knight knight)
+        }
+
+        public FileAndRankLimitValidate(Piece knight)
             : base(knight)
-        { }
+        {
+
+        }
 
         protected override bool IsValidRule(Position newPosition)
         {
             var fileMoved = Math.Abs(Piece.Position.File - newPosition.File);
             var rankMoved = Math.Abs(Piece.Position.Rank - newPosition.Rank);
 
-           //TODO: Role
+            if (fileMoved.Equals(1) && rankMoved.Equals(2))
+            {
+                return true;
+            }
 
-            return true;
+            if (fileMoved.Equals(2) && rankMoved.Equals(1))
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

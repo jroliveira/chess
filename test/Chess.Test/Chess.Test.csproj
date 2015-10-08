@@ -66,6 +66,17 @@
     <Compile Include="Pieces\QueenTests.cs" />
     <Compile Include="Pieces\PawnTests.cs" />
     <Compile Include="Pieces\KnightTests.cs" />
+    <Compile Include="Validations\BishopValidatorTests.cs" />
+    <Compile Include="Validations\BishopValidations\FileAndRankLimitValidateTests.cs" />
+    <Compile Include="Fakes\Validations\FakeValidate.cs" />
+    <Compile Include="Validations\KnightValidations\FileAndRankLimitValidateTests.cs" />
+    <Compile Include="Validations\ValidateTests.cs" />
+    <Compile Include="Validations\KnightValidatorTests.cs" />
+    <Compile Include="Validations\QueenValidatorTests.cs" />
+    <Compile Include="Validations\KingValidations\FileAndRankLimitValidateTests.cs" />
+    <Compile Include="Validations\KingValidatorTests.cs" />
+    <Compile Include="Validations\RookValidations\FileAndRankLimitValidateTests.cs" />
+    <Compile Include="Validations\RookValidatorTests.cs" />
     <Compile Include="Validations\PawnValidatorTests.cs" />
     <Compile Include="Validations\PawnValidations\FileAndRankLimitValidateTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

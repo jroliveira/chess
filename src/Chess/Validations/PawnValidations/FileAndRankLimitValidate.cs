@@ -10,7 +10,7 @@ namespace Chess.Validations.PawnValidations
 
         }
 
-        public FileAndRankLimitValidate(Pawn pawn)
+        public FileAndRankLimitValidate(Piece pawn)
             : base(pawn)
         {
 

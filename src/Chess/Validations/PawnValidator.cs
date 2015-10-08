@@ -12,7 +12,7 @@ namespace Chess.Validations
             _fileAndRankLimitValidate = fileAndRankLimitValidate;
         }
 
-        public PawnValidator(Pawn pawn)
+        public PawnValidator(Piece pawn)
             : this(new FileAndRankLimitValidate(pawn))
         {
             

@@ -1,12 +1,12 @@
 ﻿using Chess.Validations;
-using Chess.Validations.PawnValidations;
+using Chess.Validations.RookValidations;
 using Moq;
 using NUnit.Framework;
 
 namespace Chess.Test.Validations
 {
     [TestFixture]
-    public class PawnValidatorTests
+    public class RookValidatorTests
     {
         private Mock<FileAndRankLimitValidate> _fileAndRankLimitValidateMock;
 
@@ -15,7 +15,7 @@ namespace Chess.Test.Validations
         {
             _fileAndRankLimitValidateMock = new Mock<FileAndRankLimitValidate>();
 
-            var validator = new PawnValidator(_fileAndRankLimitValidateMock.Object);
+            var validator = new RookValidator(_fileAndRankLimitValidateMock.Object);
             validator.Validate(It.IsAny<Position>());
         }
 

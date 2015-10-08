@@ -1,26 +1,33 @@
 using Chess.Pieces;
-using Chess.Validations.QueenValidations;
+using Bishop = Chess.Validations.BishopValidations;
+using Rook = Chess.Validations.RookValidations;
 
 namespace Chess.Validations
 {
     internal class QueenValidator : IValidator
     {
-        private readonly FileAndRankLimitValidate _fileAndRankLimitValidate;
+        private readonly Bishop.FileAndRankLimitValidate _bishopFileAndRankLimitValidate;
+        private readonly Rook.FileAndRankLimitValidate _rookFileAndRankLimitValidate;
 
-        internal QueenValidator(FileAndRankLimitValidate fileAndRankLimitValidate)
+        internal QueenValidator(Bishop.FileAndRankLimitValidate fileAndRankLimitValidate,
+                                Rook.FileAndRankLimitValidate rookFileAndRankLimitValidate)
         {
-            _fileAndRankLimitValidate = fileAndRankLimitValidate;
+            _bishopFileAndRankLimitValidate = fileAndRankLimitValidate;
+            _rookFileAndRankLimitValidate = rookFileAndRankLimitValidate;
         }
 
-        public QueenValidator(Queen queen)
-            : this(new FileAndRankLimitValidate(queen))
-        { }
+        public QueenValidator(Piece queen)
+            : this(new Bishop.FileAndRankLimitValidate(queen), new Rook.FileAndRankLimitValidate(queen))
+        {
+
+        }
 
         public bool Validate(Position newPosition)
         {
-            _fileAndRankLimitValidate.SetNextValidate(null);
+            _bishopFileAndRankLimitValidate.SetNextValidate(_rookFileAndRankLimitValidate);
+            _rookFileAndRankLimitValidate.SetNextValidate(null);
 
-            return _fileAndRankLimitValidate.IsValid(newPosition);
+            return _bishopFileAndRankLimitValidate.IsValid(newPosition);
         }
     }
 }

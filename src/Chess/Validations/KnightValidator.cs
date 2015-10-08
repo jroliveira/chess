@@ -12,9 +12,11 @@ namespace Chess.Validations
             _fileAndRankLimitValidate = fileAndRankLimitValidate;
         }
 
-        public KnightValidator(Knight knight)
+        public KnightValidator(Piece knight)
             : this(new FileAndRankLimitValidate(knight))
-        { }
+        {
+            
+        }
 
         public bool Validate(Position newPosition)
         {

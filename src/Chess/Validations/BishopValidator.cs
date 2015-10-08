@@ -12,9 +12,11 @@ namespace Chess.Validations
             _fileAndRankLimitValidate = fileAndRankLimitValidate;
         }
 
-        public BishopValidator(Bishop bishop)
+        public BishopValidator(Piece bishop)
             : this(new FileAndRankLimitValidate(bishop))
-        { }
+        {
+            
+        }
 
         public bool Validate(Position newPosition)
         {
