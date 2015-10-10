@@ -1,28 +1,27 @@
-using Chess.Validations;
-
 namespace Chess.Pieces
 {
+    using Chess.Validations;
+
     internal class Pawn : Piece
     {
-        private readonly IValidator _validator;
-
-        protected override IValidator Validator { get { return _validator; } }
-
-        protected Pawn()
+        public Pawn(int player, Position position, Chessboard chessboard)
+            : base(player, position, chessboard)
         {
-
+            this.Validator = new PawnValidator(this);
         }
 
         internal Pawn(int player, Position position, Chessboard chessboard, IValidator validator)
             : this(player, position, chessboard)
         {
-            _validator = validator;
+            this.Validator = validator;
         }
 
-        public Pawn(int player, Position position, Chessboard chessboard)
-            : base(player, position, chessboard)
+        protected Pawn()
         {
-            _validator = new PawnValidator(this);
         }
+
+        public override string Name => this.Player == 1 ? "♙" : "♟";
+
+        protected override IValidator Validator { get; }
     }
 }

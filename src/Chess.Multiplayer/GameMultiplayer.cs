@@ -1,80 +1,82 @@
-﻿using System.Net;
-using Chess.Multiplayer.EventHandlers;
-
-namespace Chess.Multiplayer
+﻿namespace Chess.Multiplayer
 {
+    using System.Net;
+
+    using Chess.Multiplayer.EventHandlers;
+
     public class GameMultiplayer : Game, IGameMultiplayer
     {
-        private Multiplayer _player;
+        private readonly Server server;
+        private readonly Client client;
 
-        private readonly Server _server;
-        private readonly Client _client;
+        private Multiplayer player;
 
         public GameMultiplayer()
         {
-            _server = new Server();
-            _client = new Client();
+            this.server = new Server();
+            this.client = new Client();
         }
 
         public event ErrorEventHandler Error;
+
         public event PlayedEventHandler Played;
+
         public event ConnectedEventHandler Connected;
 
         public override void Move(string piecePosition, string newPosition)
         {
             base.Move(piecePosition, newPosition);
 
-            _player.SendTheMove(piecePosition, newPosition);
-            _player.WaitingTheMove();
+            if (this.player == null)
+            {
+                return;
+            }
+
+            this.player.SendTheMove(piecePosition, newPosition);
+            this.player.WaitingTheMove();
         }
 
         public void WaitingTheMove()
         {
-            _player.WaitingTheMove();
+            this.player.WaitingTheMove();
         }
 
         public void WaitingForOpponent()
         {
-            _player = _server;
+            this.player = this.server;
 
-            _server.Connected += OnConnected;
-            _server.Played += OnPlayed;
-            _server.Error += Error;
+            this.server.Connected += this.OnConnected;
+            this.server.Played += this.OnPlayed;
+            this.server.Error += this.Error;
 
-            _server.Listen();
+            this.server.Listen();
         }
 
         public void Connect(string ipAddress, string port)
         {
-            _player = _client;
+            this.player = this.client;
 
-            _client.Connected += OnConnected;
-            _client.Played += OnPlayed;
-            _client.Error += Error;
+            this.client.Connected += this.OnConnected;
+            this.client.Played += this.OnPlayed;
+            this.client.Error += this.Error;
 
-            _client.Connect(IPAddress.Parse(ipAddress), int.Parse(port));
+            this.client.Connect(IPAddress.Parse(ipAddress), int.Parse(port));
         }
 
         private void OnConnected()
         {
-            _player.Played += OnPlayed;
+            this.player.Played += this.OnPlayed;
 
-            var handler = Connected;
-            if (handler != null)
-            {
-                handler();
-            }
+            var handler = this.Connected;
+            handler?.Invoke();
         }
 
         private void OnPlayed(string piecePosition, string newPosition)
         {
             base.Move(piecePosition, newPosition);
 
-            var handler = Played;
-            if (handler != null)
-            {
-                handler(piecePosition, newPosition);
-            }
+            var handler = this.Played;
+            handler?.Invoke(piecePosition, newPosition);
         }
     }
 }

@@ -1,28 +1,27 @@
-using Chess.Validations;
-
 namespace Chess.Pieces
 {
+    using Chess.Validations;
+
     internal class Bishop : Piece
     {
-        private readonly IValidator _validator;
-
-        protected override IValidator Validator { get { return _validator; } }
-
-        protected Bishop()
+        public Bishop(int player, Position position, Chessboard chessboard)
+            : base(player, position, chessboard)
         {
-
+            this.Validator = new BishopValidator(this);
         }
 
         internal Bishop(int player, Position position, Chessboard chessboard, IValidator validator)
             : this(player, position, chessboard)
         {
-            _validator = validator;
+            this.Validator = validator;
         }
 
-        public Bishop(int player, Position position, Chessboard chessboard)
-            : base(player, position, chessboard)
+        protected Bishop()
         {
-            _validator = new BishopValidator(this);
         }
+
+        public override string Name => this.Player == 1 ? "♗" : "♝";
+
+        protected override IValidator Validator { get; }
     }
 }

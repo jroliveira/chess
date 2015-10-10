@@ -1,13 +1,14 @@
-﻿using Chess.Multiplayer;
-using Chess.UI.Console.Libs;
-using Chess.UI.Console.Libs.Match;
-using Chess.UI.Console.Scenarios;
-using Chess.UI.Console.Scenarios.Matches;
-using Chess.UI.Console.Scenarios.Multiplayer;
-using LightInject;
-
-namespace Chess.UI.Console.IoC
+﻿namespace Chess.UI.Console.IoC
 {
+    using Chess.Multiplayer;
+    using Chess.UI.Console.Libs;
+    using Chess.UI.Console.Libs.Match;
+    using Chess.UI.Console.Scenarios;
+    using Chess.UI.Console.Scenarios.Matches;
+    using Chess.UI.Console.Scenarios.Multiplayer;
+
+    using LightInject;
+
     public class Container
     {
         private static readonly IServiceContainer ServiceContainer;

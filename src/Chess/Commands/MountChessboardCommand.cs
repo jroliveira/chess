@@ -1,55 +1,55 @@
-﻿using System;
-using Chess.Pieces;
-
-namespace Chess.Commands
+﻿namespace Chess.Commands
 {
+    using System;
+
+    using Chess.Pieces;
+
     internal class MountChessboardCommand
     {
-        private readonly Chessboard _chessboard;
-
-        protected MountChessboardCommand()
-        {
-
-        }
+        private readonly Chessboard chessboard;
 
         public MountChessboardCommand(Chessboard chessboard)
         {
-            _chessboard = chessboard;
+            this.chessboard = chessboard;
+        }
+
+        protected MountChessboardCommand()
+        {
         }
 
         public virtual void Execute()
         {
             for (var r = 0; r < 8; r++)
             {
-                var rank = _chessboard.Ranks[r];
+                var rank = this.chessboard.Ranks[r];
 
                 if (r.Equals(0) || r.Equals(7))
                 {
                     for (var f = 0; f < 8; f++)
                     {
-                        var file = _chessboard.Files[f];
+                        var file = this.chessboard.Files[f];
 
                         var position = new Position(file, rank);
 
                         if (f.Equals(0) || f.Equals(7))
                         {
-                            PutPiece<Rook>(position);
+                            this.PutPiece<Rook>(position);
                         }
                         else if (f.Equals(1) || f.Equals(6))
                         {
-                            PutPiece<Knight>(position);
+                            this.PutPiece<Knight>(position);
                         }
                         else if (f.Equals(2) || f.Equals(5))
                         {
-                            PutPiece<Bishop>(position);
+                            this.PutPiece<Bishop>(position);
                         }
                         else if (f.Equals(3))
                         {
-                            PutPiece<King>(position);
+                            this.PutPiece<King>(position);
                         }
                         else if (f.Equals(4))
                         {
-                            PutPiece<Queen>(position);
+                            this.PutPiece<Queen>(position);
                         }
                     }
                 }
@@ -57,11 +57,11 @@ namespace Chess.Commands
                 {
                     for (var f = 0; f < 8; f++)
                     {
-                        var file = _chessboard.Files[f];
+                        var file = this.chessboard.Files[f];
 
                         var position = new Position(file, rank);
 
-                        PutPiece<Pawn>(position);
+                        this.PutPiece<Pawn>(position);
                     }
                 }
             }
@@ -77,9 +77,9 @@ namespace Chess.Commands
                 player = 2;
             }
 
-            var newPiece = Activator.CreateInstance(typeof(TPiece), player, position, _chessboard) as Piece;
+            var newPiece = Activator.CreateInstance(typeof(TPiece), player, position, this.chessboard) as Piece;
 
-            _chessboard.AddPiece(newPiece);
+            this.chessboard.AddPiece(newPiece);
         }
     }
 }

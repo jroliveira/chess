@@ -1,33 +1,34 @@
-using Chess.Pieces;
-using Bishop = Chess.Validations.BishopValidations;
-using Rook = Chess.Validations.RookValidations;
-
 namespace Chess.Validations
 {
+    using Chess.Pieces;
+
+    using Bishop = Chess.Validations.BishopValidations;
+    using Rook = Chess.Validations.RookValidations;
+
     internal class QueenValidator : IValidator
     {
-        private readonly Bishop.FileAndRankLimitValidate _bishopFileAndRankLimitValidate;
-        private readonly Rook.FileAndRankLimitValidate _rookFileAndRankLimitValidate;
-
-        internal QueenValidator(Bishop.FileAndRankLimitValidate fileAndRankLimitValidate,
-                                Rook.FileAndRankLimitValidate rookFileAndRankLimitValidate)
-        {
-            _bishopFileAndRankLimitValidate = fileAndRankLimitValidate;
-            _rookFileAndRankLimitValidate = rookFileAndRankLimitValidate;
-        }
+        private readonly Bishop.FileAndRankLimitValidate bishopFileAndRankLimitValidate;
+        private readonly Rook.FileAndRankLimitValidate rookFileAndRankLimitValidate;
 
         public QueenValidator(Piece queen)
             : this(new Bishop.FileAndRankLimitValidate(queen), new Rook.FileAndRankLimitValidate(queen))
         {
+        }
 
+        internal QueenValidator(
+            Bishop.FileAndRankLimitValidate fileAndRankLimitValidate,
+            Rook.FileAndRankLimitValidate rookFileAndRankLimitValidate)
+        {
+            this.bishopFileAndRankLimitValidate = fileAndRankLimitValidate;
+            this.rookFileAndRankLimitValidate = rookFileAndRankLimitValidate;
         }
 
         public bool Validate(Position newPosition)
         {
-            _bishopFileAndRankLimitValidate.SetNextValidate(_rookFileAndRankLimitValidate);
-            _rookFileAndRankLimitValidate.SetNextValidate(null);
+            this.bishopFileAndRankLimitValidate.SetNextValidate(this.rookFileAndRankLimitValidate);
+            this.rookFileAndRankLimitValidate.SetNextValidate(null);
 
-            return _bishopFileAndRankLimitValidate.IsValid(newPosition);
+            return this.bishopFileAndRankLimitValidate.IsValid(newPosition);
         }
     }
 }

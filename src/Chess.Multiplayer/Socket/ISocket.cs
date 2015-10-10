@@ -1,16 +1,21 @@
-﻿using System.Net;
-
-namespace Chess.Multiplayer.Socket
+﻿namespace Chess.Multiplayer.Socket
 {
+    using System.Net;
+
     internal interface ISocket
     {
         void Connect(IPAddress ipAddress, int port);
+
         int Send(string message);
+
         string Receive();
+
         void Shutdown();
-        void Close();
+
         ISocket Accept();
+
         void Listen();
+
         void Bind(IPAddress ipAddress, int port);
     }
 }

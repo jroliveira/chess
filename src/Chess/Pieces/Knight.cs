@@ -1,28 +1,27 @@
-using Chess.Validations;
-
 namespace Chess.Pieces
 {
+    using Chess.Validations;
+
     internal class Knight : Piece
     {
-        private readonly IValidator _validator;
-
-        protected override IValidator Validator { get { return _validator; } }
-
-        protected Knight()
+        public Knight(int player, Position position, Chessboard chessboard)
+            : base(player, position, chessboard)
         {
-
+            this.Validator = new KnightValidator(this);
         }
 
         internal Knight(int player, Position position, Chessboard chessboard, IValidator validator)
             : this(player, position, chessboard)
         {
-            _validator = validator;
+            this.Validator = validator;
         }
 
-        public Knight(int player, Position position, Chessboard chessboard)
-            : base(player, position, chessboard)
+        protected Knight()
         {
-            _validator = new KnightValidator(this);
         }
+
+        public override string Name => this.Player == 1 ? "♘" : "♞";
+
+        protected override IValidator Validator { get; }
     }
 }
