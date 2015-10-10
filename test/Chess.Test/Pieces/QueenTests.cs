@@ -24,10 +24,13 @@ namespace Chess.Test.Pieces
             _queen = new Queen(1, _positionStub.Object, _chessboardStub.Object, _validatorMock.Object);
         }
 
-        [Test]
-        public void Name_DeveRetornarNomeFormatado()
+        [TestCase(1, "♕")]
+        [TestCase(2, "♛")]
+        public void Name_DadoJogador_DeveRetornarPeca(int player, string piece)
         {
-            _queen.Name.Should().Be("Quee");
+            _queen = new Queen(player, _positionStub.Object, _chessboardStub.Object, _validatorMock.Object);
+
+            _queen.Name.Should().Be(piece);
         }
 
         [Test]

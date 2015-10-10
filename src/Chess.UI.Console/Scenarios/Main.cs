@@ -15,7 +15,7 @@ namespace Chess.UI.Console.Scenarios
             : base(game, writer, reader, screen)
         {
             screen.Title = "Chess";
-            screen.Size = new Size { Height = 57, Width = 84 };
+            screen.Size = new Size { Height = 25, Width = 48 };
 
             _options = new Dictionary<char, Action>
             {
@@ -39,7 +39,7 @@ namespace Chess.UI.Console.Scenarios
             Writer.NewLine();
             Writer.WriteOption("3", "connect an one opponent");
             Writer.NewLine();
-            Writer.WriteWithSleep("   {0} option: ", ArrowRight);
+            Writer.WriteWithSleep("   option: ");
 
             var option = ReadOption();
             _options[option]();

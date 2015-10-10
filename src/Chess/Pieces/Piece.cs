@@ -8,7 +8,7 @@ namespace Chess.Pieces
         public virtual Chessboard Chessboard { get; protected set; }
         public virtual Position Position { get; private set; }
         public virtual int Player { get; set; }
-        public string Name { get { return GetType().Name.Substring(0, 4); } }
+        public abstract string Name { get; }
 
         protected abstract IValidator Validator { get; }
 

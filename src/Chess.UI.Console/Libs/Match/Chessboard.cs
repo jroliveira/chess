@@ -24,9 +24,9 @@ namespace Chess.UI.Console.Libs.Match
             var toggle = true;
             foreach (var rank in game.Ranks)
             {
-                for (var i = 0; i < 3; i++)
+                for (var i = 0; i < 1; i++)
                 {
-                    Rank(rank, toggle, game, !i.Equals(1));
+                    Rank(rank, toggle, game);
                 }
 
                 if (game.Ranks.IsLast(rank))
@@ -46,25 +46,18 @@ namespace Chess.UI.Console.Libs.Match
 
         private static void Clear()
         {
-            System.Console.SetCursorPosition(0, 13);
+            System.Console.SetCursorPosition(0, 1);
         }
 
-        private void Rank(char rank, bool toggle, IGame game, bool lacuna)
+        private void Rank(char rank, bool toggle, IGame game)
         {
-            System.Console.Write("   {0} ", lacuna ? ' ' : rank);
+            System.Console.Write("   {0} ", rank);
 
             foreach (var file in game.Files)
             {
                 _color.Toggle(toggle);
 
-                if (lacuna)
-                {
-                    File(game);
-                }
-                else
-                {
-                    File(game, file, rank);
-                }
+                File(game, file, rank);
 
                 toggle = !toggle;
 
@@ -72,7 +65,7 @@ namespace Chess.UI.Console.Libs.Match
             }
 
             _text.Pipe();
-            System.Console.Write(" {0} ", lacuna ? ' ' : rank);
+            System.Console.Write(" {0} ", rank);
             _text.NewLine();
         }
 
@@ -94,8 +87,6 @@ namespace Chess.UI.Console.Libs.Match
 
         private static void Piece(Piece piece)
         {
-            System.Console.ForegroundColor = piece.Player == 1 ? ConsoleColor.Red : ConsoleColor.Blue;
-
             System.Console.Write(" {0} ", piece.Name);
 
             System.Console.ForegroundColor = ConsoleColor.White;
@@ -103,7 +94,7 @@ namespace Chess.UI.Console.Libs.Match
 
         private static void Lacuna()
         {
-            System.Console.Write("      ");
+            System.Console.Write("   ");
         }
 
         private void HeaderOrFooter(IGame game)
@@ -112,7 +103,7 @@ namespace Chess.UI.Console.Libs.Match
 
             foreach (var file in game.Files)
             {
-                System.Console.Write("   {0}   ", file);
+                System.Console.Write("  {0} ", file);
             }
 
             _text.NewLine();

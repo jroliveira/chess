@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Sockets;
 
 namespace Chess.UI.Console.Libs.Match
 {
@@ -30,11 +31,14 @@ namespace Chess.UI.Console.Libs.Match
 
         private void Divider(char leftCorner, char rightCorner, char separator)
         {
+            const int space = 3;
+            const int block = 8;
+
             System.Console.Write("     {0}", leftCorner);
 
-            for (var i = 0; i < 8; i++)
+            for (var i = 0; i < block; i++)
             {
-                for (var j = 0; j < 6; j++)
+                for (var j = 0; j < space; j++)
                 {
                     Dash();
                 }

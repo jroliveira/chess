@@ -31,10 +31,10 @@ namespace Chess.UI.Console.Scenarios.Multiplayer
 
         private void TryConnect()
         {
-            Writer.WriteWithSleep("   {0} ip address: ", ArrowRight);
+            Writer.WriteWithSleep("   ip address: ");
             var ipAddress = Reader.ReadValue();
 
-            Writer.WriteWithSleep("   {0} port: ", ArrowRight);
+            Writer.WriteWithSleep("   port: ");
             var port = Reader.ReadValue();
 
             Game.Connected += OnConnected;

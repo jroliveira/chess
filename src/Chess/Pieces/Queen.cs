@@ -6,6 +6,11 @@ namespace Chess.Pieces
     {
         private readonly IValidator _validator;
 
+        public override string Name
+        {
+            get { return Player == 1 ? "♕" : "♛"; }
+        }
+
         protected override IValidator Validator { get { return _validator; } }
 
         protected Queen()

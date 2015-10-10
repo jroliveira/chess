@@ -24,10 +24,13 @@ namespace Chess.Test.Pieces
             _bishop = new Bishop(1, _positionStub.Object, _chessboardStub.Object, _validatorMock.Object);
         }
 
-        [Test]
-        public void Name_DeveRetornarNomeFormatado()
+        [TestCase(1, "♗")]
+        [TestCase(2, "♝")]
+        public void Name_DadoJogador_DeveRetornarPeca(int player, string piece)
         {
-            _bishop.Name.Should().Be("Bish");
+            _bishop = new Bishop(player, _positionStub.Object, _chessboardStub.Object, _validatorMock.Object);
+
+            _bishop.Name.Should().Be(piece);
         }
 
         [Test]

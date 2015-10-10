@@ -6,11 +6,16 @@ namespace Chess.UI.Console.Scenarios.Matches
 {
     public class Offline : Match
     {
-        protected Offline() { }
+        protected Offline()
+        {
+            
+        }
 
         public Offline(IGameMultiplayer game, Chessboard chessboard, IWriter writer, IReader reader, IScreen screen)
             : base(game, chessboard, writer, reader, screen)
-        { }
+        {
+            
+        }
 
         public virtual void Start()
         {

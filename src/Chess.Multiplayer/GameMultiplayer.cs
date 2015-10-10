@@ -24,6 +24,11 @@ namespace Chess.Multiplayer
         {
             base.Move(piecePosition, newPosition);
 
+            if (_player == null)
+            {
+                return;
+            }
+
             _player.SendTheMove(piecePosition, newPosition);
             _player.WaitingTheMove();
         }

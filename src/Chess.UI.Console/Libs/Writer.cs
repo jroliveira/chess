@@ -13,7 +13,10 @@ namespace Chess.UI.Console.Libs
 
         public void Erase()
         {
-            System.Console.Write("                                                                                   ");
+            for (var i = 0; i < 40; i++)
+            {
+                System.Console.Write(" ");
+            }
         }
 
         public void Write(string text)

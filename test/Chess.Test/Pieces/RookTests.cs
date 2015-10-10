@@ -24,10 +24,13 @@ namespace Chess.Test.Pieces
             _rook = new Rook(1, _positionStub.Object, _chessboardStub.Object, _validatorMock.Object);
         }
 
-        [Test]
-        public void Name_DeveRetornarNomeFormatado()
+        [TestCase(1, "♖")]
+        [TestCase(2, "♜")]
+        public void Name_DadoJogador_DeveRetornarPeca(int player, string piece)
         {
-            _rook.Name.Should().Be("Rook");
+            _rook = new Rook(player, _positionStub.Object, _chessboardStub.Object, _validatorMock.Object);
+
+            _rook.Name.Should().Be(piece);
         }
 
         [Test]

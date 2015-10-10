@@ -11,7 +11,10 @@ namespace Chess.UI.Console.Scenarios.Matches
     {
         protected readonly Chessboard Chessboard;
 
-        protected Match() { }
+        protected Match()
+        {
+
+        }
 
         public Match(IGameMultiplayer game, Chessboard chessboard, IWriter writer, IReader reader, IScreen screen)
             : base(game, writer, reader, screen)
@@ -23,13 +26,9 @@ namespace Chess.UI.Console.Scenarios.Matches
         {
             ClearNextMove();
 
-            Screen.SetCursorPosition(0, 49);
-            Writer.NewLine();
-            Writer.WriteInsideTheBox("next move");
-            Writer.NewLine();
-            Writer.NewLine();
+            Screen.SetCursorPosition(0, 22);
 
-            Writer.WriteWithSleep("   {0} piece ", ArrowRight);
+            Writer.WriteWithSleep("   NEXT MOVE -> piece ");
             var file = GetFile();
             var rank = GetRank();
             var piecePosition = new string(new[] { file, rank });
@@ -53,12 +52,8 @@ namespace Chess.UI.Console.Scenarios.Matches
 
         private void ClearNextMove()
         {
-            Screen.SetCursorPosition(0, 49);
-            for (var i = 0; i < 7; i++)
-            {
-                Writer.Erase();
-                Writer.NewLine();
-            }
+            Screen.SetCursorPosition(0, 22);
+            Writer.Erase();
         }
 
         private char GetFile()
