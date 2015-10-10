@@ -1,31 +1,35 @@
 ﻿using System;
 using System.Net;
-using System.Net.Sockets;
+using Chess.Multiplayer.Socket;
 
 namespace Chess.Multiplayer
 {
     internal class Server : Multiplayer
     {
-        private readonly Socket _server;
+        private readonly ISocket _server;
+
+        internal Server(ISocket server)
+        {
+            _server = server;
+        }
 
         public Server()
-            : base(null)
+            : this(new TcpSocket())
         {
-            _server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
         }
 
         public void Listen()
         {
-            var host = Dns.Resolve(Dns.GetHostName());
-            var ip = host.AddressList[0];
-            var endPoint = new IPEndPoint(ip, 11000);
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            var ip = host.AddressList[2];
 
             try
             {
-                _server.Bind(endPoint);
-                _server.Listen(1);
+                _server.Bind(ip, 11000);
+                _server.Listen();
 
-                Client = _server.Accept();
+                Socket = _server.Accept();
 
                 OnConnected();
             }

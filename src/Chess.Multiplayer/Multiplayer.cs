@@ -1,17 +1,21 @@
 ﻿using System;
-using System.Net.Sockets;
-using System.Text;
 using Chess.Multiplayer.EventHandlers;
+using Chess.Multiplayer.Socket;
 
 namespace Chess.Multiplayer
 {
     internal class Multiplayer
     {
-        protected Socket Client;
+        protected ISocket Socket;
 
-        public Multiplayer(Socket socket)
+        protected Multiplayer()
         {
-            Client = socket;
+
+        }
+
+        public Multiplayer(ISocket socket)
+        {
+            Socket = socket;
         }
 
         public event PlayedEventHandler Played;
@@ -24,9 +28,8 @@ namespace Chess.Multiplayer
             try
             {
                 var move = string.Format("{0}->{1}", piecePosition, newPosition);
-                var send = Encoding.ASCII.GetBytes(move);
 
-                Client.Send(send);
+                Socket.Send(move);
             }
             catch (Exception exception)
             {
@@ -36,12 +39,9 @@ namespace Chess.Multiplayer
 
         public void WaitingTheMove()
         {
-            var bytes = new byte[1024];
-
             try
             {
-                var bytesRec = Client.Receive(bytes);
-                var move = Encoding.ASCII.GetString(bytes, 0, bytesRec);
+                var move = Socket.Receive();
 
                 var args = move.Split(new[] { "->" }, StringSplitOptions.None);
                 var piece = args[0];
@@ -59,8 +59,8 @@ namespace Chess.Multiplayer
         {
             try
             {
-                Client.Shutdown(SocketShutdown.Both);
-                Client.Close();
+                Socket.Shutdown();
+                Socket.Close();
 
                 OnDisconnected();
             }

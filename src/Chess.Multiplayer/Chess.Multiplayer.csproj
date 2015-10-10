@@ -49,6 +49,8 @@
     <Compile Include="Multiplayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server.cs" />
+    <Compile Include="Socket\TcpSocket.cs" />
+    <Compile Include="Socket\ISocket.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Chess\Chess.csproj">

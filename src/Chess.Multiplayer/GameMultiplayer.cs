@@ -24,11 +24,6 @@ namespace Chess.Multiplayer
         {
             base.Move(piecePosition, newPosition);
 
-            if (_player == null)
-            {
-                return;
-            }
-
             _player.SendTheMove(piecePosition, newPosition);
             _player.WaitingTheMove();
         }
@@ -73,7 +68,7 @@ namespace Chess.Multiplayer
 
         private void OnPlayed(string piecePosition, string newPosition)
         {
-            Move(piecePosition, newPosition);
+            base.Move(piecePosition, newPosition);
 
             var handler = Played;
             if (handler != null)

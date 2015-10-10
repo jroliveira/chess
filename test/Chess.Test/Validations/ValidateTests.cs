@@ -10,7 +10,7 @@ namespace Chess.Test.Validations
     public class ValidateTests
     {
         private Mock<Validate> _validateMock;
-        private Validate _validateFake;
+        private Validate _fakeValidate;
 
         [SetUp]
         public void Setup()
@@ -18,16 +18,16 @@ namespace Chess.Test.Validations
             _validateMock = new Mock<Validate>();
             _validateMock.Setup(m => m.IsValid(It.IsAny<Position>())).Returns(true);
 
-            _validateFake = new FakeValidate(true);
-            _validateFake.SetNextValidate(_validateMock.Object);
+            _fakeValidate = new FakeValidate(true);
+            _fakeValidate.SetNextValidate(_validateMock.Object);
         }
 
         [Test]
         public void IsValid_DadaUmaPosicaoInvalidaSemNextValidate_DeveRetornarFalse()
         {
-            _validateFake = new FakeValidate(false);
+            _fakeValidate = new FakeValidate(false);
 
-            var actual = _validateFake.IsValid(It.IsAny<Position>());
+            var actual = _fakeValidate.IsValid(It.IsAny<Position>());
 
             actual.Should().BeFalse();
         }
@@ -35,10 +35,10 @@ namespace Chess.Test.Validations
         [Test]
         public void IsValid_DadaUmaPosicaoInvalidaComNextValidate_DeveChamarNextValidateIsValidUmaVez()
         {
-            _validateFake = new FakeValidate(false);
-            _validateFake.SetNextValidate(_validateMock.Object);
+            _fakeValidate = new FakeValidate(false);
+            _fakeValidate.SetNextValidate(_validateMock.Object);
 
-            _validateFake.IsValid(It.IsAny<Position>());
+            _fakeValidate.IsValid(It.IsAny<Position>());
 
             _validateMock.Verify(m => m.IsValid(It.IsAny<Position>()), Times.Once);
         }
@@ -46,7 +46,7 @@ namespace Chess.Test.Validations
         [Test]
         public void IsValid_DadaUmaPosicaoValida_DeveRetornarTrue()
         {
-            var actual = _validateFake.IsValid(It.IsAny<Position>());
+            var actual = _fakeValidate.IsValid(It.IsAny<Position>());
 
             actual.Should().BeTrue();
         }
@@ -54,7 +54,7 @@ namespace Chess.Test.Validations
         [Test]
         public void IsValid_DadaUmaPosicaoValidaComNextValidate_NaoDeveChamarNextValidateIsValid()
         {
-            _validateFake.IsValid(It.IsAny<Position>());
+            _fakeValidate.IsValid(It.IsAny<Position>());
 
             _validateMock.Verify(m => m.IsValid(It.IsAny<Position>()), Times.Never);
         }

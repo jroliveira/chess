@@ -21,13 +21,16 @@ namespace Chess.UI.Console.Scenarios.Matches
             Game.Start();
             Chessboard.Print(Game);
 
-            if (isServer)
+            while (true)
             {
-                NextMove();
-            }
-            else
-            {
-                Game.WaitingTheMove();
+                if (isServer)
+                {
+                    NextMove();
+                }
+                else
+                {
+                    Game.WaitingTheMove();
+                }
             }
         }
 

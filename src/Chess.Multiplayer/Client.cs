@@ -1,22 +1,28 @@
 ﻿using System;
 using System.Net;
-using System.Net.Sockets;
+using Chess.Multiplayer.Socket;
 
 namespace Chess.Multiplayer
 {
     internal class Client : Multiplayer
     {
+        internal Client(ISocket socket)
+            : base(socket)
+        {
+
+        }
+
         public Client()
-            : base(new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
-        { }
+            : base(new TcpSocket())
+        {
+
+        }
 
         public void Connect(IPAddress ipAddress, int port)
         {
-            var endPoint = new IPEndPoint(ipAddress, port);
-
             try
             {
-                Client.Connect(endPoint);
+                Socket.Connect(ipAddress, port);
 
                 OnConnected();
             }
