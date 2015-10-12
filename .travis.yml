@@ -1,0 +1,7 @@
+language: csharp
+solution: chess.sln
+env:
+ matrix:
+  - MONO_VERSION="3.8.0"
+script:
+ - xbuild /verbosity:minimal /p:Configuration=Release chess.sln
