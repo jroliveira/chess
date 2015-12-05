@@ -45,6 +45,14 @@ namespace Chess.Test
         }
 
         [Test]
+        public void AddPiece_DadoUmaNovaPeca_DeveTerUmItemNaListaDePeca()
+        {
+            _chessboard.AddPiece(It.IsAny<Piece>());
+
+            _piecesMock.Verify(m => m.Add(It.IsAny<Piece>()), Times.Once);
+        }
+
+        [Test]
         public void MovePiece_DadaPecaEPosicaoQuePodeSerMovida_DeveChamarPieceMove()
         {
             _chessboard.MovePiece(_pieceMock.Object, It.IsAny<Position>());

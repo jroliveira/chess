@@ -62,7 +62,6 @@
   <ItemGroup>
     <Compile Include="ClientTests.cs" />
     <Compile Include="ServerTests.cs" />
-    <Compile Include="Fakes\FakeMultiplayer.cs" />
     <Compile Include="MultiplayerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

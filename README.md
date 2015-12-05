@@ -8,11 +8,6 @@
 
 É um jogo de Xadrez feito em C#.  
 A aplicação roda em Mono e .NET Framework.  
-Para os testes unitários foram usadas as bibliotecas.
-
- - NUnit
- - Moq
- - Fluent Assertions 
 
 ![Image of Game](https://github.com/jroliveira/chess/blob/master/docs/game.png)
 

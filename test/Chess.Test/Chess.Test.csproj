@@ -56,6 +56,9 @@
   <ItemGroup>
     <Compile Include="ChessboardTests.cs" />
     <Compile Include="Exceptions\ChessExceptionTests.cs" />
+    <Compile Include="Fakes\Validations\FakeValidate.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GameTests.cs" />
     <Compile Include="PositionTests.cs" />
     <Compile Include="Commands\MountChessboardCommandTests.cs" />
@@ -69,7 +72,6 @@
     <Compile Include="Pieces\KnightTests.cs" />
     <Compile Include="Validations\BishopValidatorTests.cs" />
     <Compile Include="Validations\BishopValidations\FileAndRankLimitValidateTests.cs" />
-    <Compile Include="Fakes\Validations\FakeValidate.cs" />
     <Compile Include="Validations\KnightValidations\FileAndRankLimitValidateTests.cs" />
     <Compile Include="Validations\ValidateTests.cs" />
     <Compile Include="Validations\KnightValidatorTests.cs" />

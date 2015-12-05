@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 using Chess.Multiplayer;
 using Chess.UI.Console.Libs;
 using Chess.UI.Console.Scenarios.Matches;

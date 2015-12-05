@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Sockets;
 
 namespace Chess.UI.Console.Libs.Match
 {
@@ -20,10 +19,6 @@ namespace Chess.UI.Console.Libs.Match
                 { DividerPosition.Top,    () => Divider('┌', '┐', '┬') },
                 { DividerPosition.Middle, () => Divider('├', '┤', '┼') },
                 { DividerPosition.Bottom, () => Divider('└', '┘', '┴') },
-
-                //{ Position.Top,    () => Divider('╔', '╗', '╦') },
-                //{ Position.Middle, () => Divider('╠', '╣', '╬') },
-                //{ Position.Bottom, () => Divider('╚', '╝', '╩') }
             };
 
             dividers[position]();

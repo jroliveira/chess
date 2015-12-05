@@ -22,7 +22,7 @@ namespace Chess.Multiplayer
         public void Listen()
         {
             var host = Dns.GetHostEntry(Dns.GetHostName());
-            var ip = host.AddressList[2];
+            var ip = host.AddressList[1];
 
             try
             {

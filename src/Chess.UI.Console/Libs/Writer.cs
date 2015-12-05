@@ -15,13 +15,8 @@ namespace Chess.UI.Console.Libs
         {
             for (var i = 0; i < 40; i++)
             {
-                System.Console.Write(" ");
+                Write(' ');
             }
-        }
-
-        public void Write(string text)
-        {
-            System.Console.Write(text);
         }
 
         public void WriteError(string text)
@@ -29,27 +24,12 @@ namespace Chess.UI.Console.Libs
             var left = Math.Abs(System.Console.CursorLeft - 1);
             var top = System.Console.CursorTop;
 
-            System.Console.SetCursorPosition(0, 10);
-            System.Console.WriteLine("                                                                                   ");
-            System.Console.WriteLine("                                                                                   ");
-
-            var cursorLeft = (42 - (text.Length / 2));
-
-            System.Console.SetCursorPosition(cursorLeft, 10);
-            Pipe();
-            Margin(2);
+            System.Console.SetCursorPosition(0, 23);
 
             System.Console.ForegroundColor = ConsoleColor.Red;
-            System.Console.Write(text);
+            Write("   {0}", text);
             System.Console.ForegroundColor = ConsoleColor.White;
 
-            Margin(2);
-            Pipe();
-            NewLine();
-            System.Console.SetCursorPosition(cursorLeft - 3, 11);
-            Divider(DividerPosition.Bottom, text.Length + 4);
-
-            System.Console.ForegroundColor = ConsoleColor.White;
             System.Console.SetCursorPosition(left, top);
         }
 
@@ -60,23 +40,17 @@ namespace Chess.UI.Console.Libs
             Pipe();
             Margin(1);
 
-            System.Console.Write(option);
+            Write(option);
 
             Margin(1);
             Pipe();
 
             Margin(1);
 
-            System.Console.Write(caption);
+            Write(caption);
 
             NewLine();
             Divider(DividerPosition.Bottom, option.Length + 2);
-        }
-
-        public void WriteWithSleep(string format, params object[] args)
-        {
-            var text = string.Format(format, args);
-            WriteWithSleep(text);
         }
 
         public virtual void WriteWithSleep(string text)
@@ -84,7 +58,7 @@ namespace Chess.UI.Console.Libs
             foreach (var t in text)
             {
                 Thread.Sleep(60);
-                System.Console.Write(t);
+                Write(t);
             }
         }
 
@@ -95,7 +69,7 @@ namespace Chess.UI.Console.Libs
             Pipe();
             Margin(2);
 
-            System.Console.Write(text);
+            Write(text);
 
             Margin(2);
             Pipe();
@@ -117,34 +91,44 @@ namespace Chess.UI.Console.Libs
 
         private void Divider(char leftCorner, char rightCorner, int length)
         {
-            System.Console.Write("   {0}", leftCorner);
+            Write("   {0}", leftCorner);
 
             for (var j = 0; j < length; j++)
             {
                 Dash();
             }
 
-            System.Console.Write(rightCorner);
+            Write(rightCorner);
 
             NewLine();
         }
 
         private static void Dash()
         {
-            System.Console.Write("═");
+            Write('═');
         }
 
         private static void Pipe()
         {
-            System.Console.Write('║');
+            Write('║');
         }
 
         private static void Margin(int length = 3)
         {
             for (var i = 0; i < length; i++)
             {
-                System.Console.Write(" ");
+                Write(' ');
             }
+        }
+
+        private static void Write(char @char, params object[] args)
+        {
+            Write(new string(@char, 1), args);
+        }
+
+        private static void Write(string text, params object[] args)
+        {
+            System.Console.Write(text, args);
         }
     }
 }

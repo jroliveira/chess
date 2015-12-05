@@ -1,5 +1,4 @@
 ﻿using Chess.Multiplayer.Socket;
-using Chess.Multiplayer.Test.Fakes;
 using Moq;
 using NUnit.Framework;
 
@@ -8,7 +7,7 @@ namespace Chess.Multiplayer.Test
     [TestFixture]
     public class MultiplayerTests
     {
-        private Multiplayer _fakeMultiplayer;
+        private Multiplayer _multiplayer;
         private Mock<ISocket> _socketMock;
 
         [SetUp]
@@ -16,13 +15,14 @@ namespace Chess.Multiplayer.Test
         {
             _socketMock = new Mock<ISocket>();
 
-            _fakeMultiplayer = new FakeMultiplayer(_socketMock.Object);
+
+            _multiplayer = new Multiplayer(_socketMock.Object);
         }
 
         [Test]
         public void SendTheMove_DadaPosicaoENovaPosicao_DeveChamarClientSendUmaVez()
         {
-            _fakeMultiplayer.SendTheMove("d6", "d7");
+            _multiplayer.SendTheMove("d6", "d7");
 
             _socketMock.Verify(m => m.Send("d6->d7"), Times.Once());
         }
@@ -30,7 +30,7 @@ namespace Chess.Multiplayer.Test
         [Test]
         public void WaitingTheMove_DeveChamarClientReceiveUmaVez()
         {
-            _fakeMultiplayer.WaitingTheMove();
+            _multiplayer.WaitingTheMove();
 
             _socketMock.Verify(m => m.Receive(), Times.Once());
         }
@@ -38,7 +38,7 @@ namespace Chess.Multiplayer.Test
         [Test]
         public void Disconnect_DeveChamarClientShutdownUmaVez()
         {
-            _fakeMultiplayer.Disconnect();
+            _multiplayer.Disconnect();
 
             _socketMock.Verify(m => m.Shutdown(), Times.Once());
         }
@@ -46,7 +46,7 @@ namespace Chess.Multiplayer.Test
         [Test]
         public void Disconnect_DeveChamarClientCloseUmaVez()
         {
-            _fakeMultiplayer.Disconnect();
+            _multiplayer.Disconnect();
 
             _socketMock.Verify(m => m.Close(), Times.Once());
         }

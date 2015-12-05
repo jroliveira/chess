@@ -60,14 +60,14 @@ namespace Chess.UI.Console.Scenarios.Matches
         {
             var files = new[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
 
-            return ReadKey(files.Contains, "( invalid file! please insert between a and h )");
+            return ReadKey(files.Contains, "Insert between a and h");
         }
 
         private char GetRank()
         {
             var ranks = new[] { '8', '7', '6', '5', '4', '3', '2', '1' };
 
-            return ReadKey(ranks.Contains, "( invalid rank! please insert between 8 and 1 )");
+            return ReadKey(ranks.Contains, "Insert between 8 and 1");
         }
 
         private char ReadKey(Func<char, bool> condition, string invalidMessage)
