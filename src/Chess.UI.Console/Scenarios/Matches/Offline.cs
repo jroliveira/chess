@@ -1,32 +1,30 @@
-using Chess.Multiplayer;
-using Chess.UI.Console.Libs;
-using Chess.UI.Console.Libs.Match;
-
 namespace Chess.UI.Console.Scenarios.Matches
 {
+    using Chess.Multiplayer;
+    using Chess.UI.Console.Libs;
+    using Chess.UI.Console.Libs.Match;
+
     public class Offline : Match
     {
-        protected Offline()
-        {
-            
-        }
-
         public Offline(IGameMultiplayer game, Chessboard chessboard, IWriter writer, IReader reader, IScreen screen)
             : base(game, chessboard, writer, reader, screen)
         {
-            
+        }
+
+        protected Offline()
+        {
         }
 
         public virtual void Start()
         {
-            Setup();
+            this.Setup();
 
-            Game.Start();
-            Chessboard.Print(Game);
+            this.Game.Start();
+            this.Chessboard.Print(this.Game);
 
             while (true)
             {
-                NextMove();
+                this.NextMove();
             }
         }
     }

@@ -1,32 +1,32 @@
-﻿using System;
-
-namespace Chess
+﻿namespace Chess
 {
+    using System;
+
     internal class Position : IEquatable<Position>
     {
-        public virtual char File { get; private set; }
-        public virtual char Rank { get; private set; }
+        public Position(char file, char rank)
+        {
+            this.File = file;
+            this.Rank = rank;
+        }
 
         protected Position()
         {
-
         }
 
-        public Position(char file, char rank)
-        {
-            File = file;
-            Rank = rank;
-        }
+        public virtual char File { get; }
+
+        public virtual char Rank { get; }
 
         public virtual bool Equals(Position other)
         {
-            return File == other.File
-                   && Rank == other.Rank;
+            return this.File == other.File
+                && this.Rank == other.Rank;
         }
 
         public override string ToString()
         {
-            return string.Format("{0}{1}", File, Rank);
+            return $"{this.File}{this.Rank}";
         }
     }
 }

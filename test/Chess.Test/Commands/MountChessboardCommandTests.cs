@@ -1,23 +1,26 @@
-﻿using System;
-using Chess.Commands;
-using Chess.Pieces;
-using Moq;
-using NUnit.Framework;
-
-namespace Chess.Test.Commands
+﻿namespace Chess.Test.Commands
 {
+    using System;
+
+    using Chess.Commands;
+    using Chess.Pieces;
+
+    using Moq;
+
+    using NUnit.Framework;
+
     [TestFixture]
     public class MountChessboardCommandTests
     {
-        private MountChessboardCommand _mountChessboard;
-        private Mock<Chessboard> _chessboardMock;
+        private MountChessboardCommand mountChessboard;
+        private Mock<Chessboard> chessboardMock;
 
         [SetUp]
         public void SetUp()
         {
-            _chessboardMock = new Mock<Chessboard>();
+            this.chessboardMock = new Mock<Chessboard>();
 
-            _mountChessboard = new MountChessboardCommand(_chessboardMock.Object);
+            this.mountChessboard = new MountChessboardCommand(this.chessboardMock.Object);
         }
 
         [TestCase(typeof(King), 2)]
@@ -28,9 +31,9 @@ namespace Chess.Test.Commands
         [TestCase(typeof(Pawn), 16)]
         public void Execute_DadoTabuleiroVazio_DeveChamarChessboardAddPieceParaOTipoEAQuantidade(Type type, int times)
         {
-            _mountChessboard.Execute();
+            this.mountChessboard.Execute();
 
-            _chessboardMock.Verify(m => m.AddPiece(It.Is<Piece>(p => p.GetType() == type)), Times.Exactly(times));
+            this.chessboardMock.Verify(m => m.AddPiece(It.Is<Piece>(p => p.GetType() == type)), Times.Exactly(times));
         }
 
         [TestCase('a', '1', typeof(Rook))]
@@ -67,17 +70,17 @@ namespace Chess.Test.Commands
         [TestCase('h', '8', typeof(Rook))]
         public void Execute_DadoTabuleiroVazio_DeveChamarChessboardAddPieceParaAPosicaoEOTipoUmaVez(char file, char rank, Type type)
         {
-            _mountChessboard.Execute();
+            this.mountChessboard.Execute();
 
-            _chessboardMock.Verify(m => m.AddPiece(It.Is<Piece>(p => p.Position.File == file && p.Position.Rank == rank && p.GetType() == type)), Times.Once);
+            this.chessboardMock.Verify(m => m.AddPiece(It.Is<Piece>(p => p.Position.File == file && p.Position.Rank == rank && p.GetType() == type)), Times.Once);
         }
 
         [Test]
         public void Execute_DadoTabuleiroVazio_DeveChamarChessboardAddPiece32Vezes()
         {
-            _mountChessboard.Execute();
+            this.mountChessboard.Execute();
 
-            _chessboardMock.Verify(m => m.AddPiece(It.IsAny<Piece>()), Times.Exactly(32));
+            this.chessboardMock.Verify(m => m.AddPiece(It.IsAny<Piece>()), Times.Exactly(32));
         }
     }
 }

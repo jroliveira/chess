@@ -3,6 +3,7 @@
     public interface IReader
     {
         char ReadKey();
+
         string ReadValue();
     }
 }

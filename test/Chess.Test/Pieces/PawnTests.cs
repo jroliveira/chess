@@ -1,36 +1,39 @@
-using Chess.Pieces;
-using Chess.Validations;
-using FluentAssertions;
-using Moq;
-using NUnit.Framework;
-
 namespace Chess.Test.Pieces
 {
+    using Chess.Pieces;
+    using Chess.Validations;
+
+    using FluentAssertions;
+
+    using Moq;
+
+    using NUnit.Framework;
+
     [TestFixture]
     public class PawnTests
     {
-        private Pawn _pawn;
-        private Mock<Position> _positionStub;
-        private Mock<Chessboard> _chessboardStub;
-        private Mock<IValidator> _validatorMock;
+        private Pawn pawn;
+        private Mock<Position> positionStub;
+        private Mock<Chessboard> chessboardStub;
+        private Mock<IValidator> validatorMock;
 
         [SetUp]
         public void SetUp()
         {
-            _positionStub = new Mock<Position>();
-            _chessboardStub = new Mock<Chessboard>();
-            _validatorMock = new Mock<IValidator>();
+            this.positionStub = new Mock<Position>();
+            this.chessboardStub = new Mock<Chessboard>();
+            this.validatorMock = new Mock<IValidator>();
 
-            _pawn = new Pawn(1, _positionStub.Object, _chessboardStub.Object, _validatorMock.Object);
+            this.pawn = new Pawn(1, this.positionStub.Object, this.chessboardStub.Object, this.validatorMock.Object);
         }
 
         [TestCase(1, "♙")]
         [TestCase(2, "♟")]
         public void Name_DadoJogador_DeveRetornarPeca(int player, string piece)
         {
-            _pawn = new Pawn(player, _positionStub.Object, _chessboardStub.Object, _validatorMock.Object);
+            this.pawn = new Pawn(player, this.positionStub.Object, this.chessboardStub.Object, this.validatorMock.Object);
 
-            _pawn.Name.Should().Be(piece);
+            this.pawn.Name.Should().Be(piece);
         }
 
         [Test]
@@ -40,47 +43,47 @@ namespace Chess.Test.Pieces
             newPositionStub.Setup(p => p.File).Returns('d');
             newPositionStub.Setup(p => p.Rank).Returns('7');
 
-            _pawn.Move(newPositionStub.Object);
+            this.pawn.Move(newPositionStub.Object);
 
-            _pawn.Position.ShouldBeEquivalentTo(newPositionStub.Object);
+            this.pawn.Position.ShouldBeEquivalentTo(newPositionStub.Object);
         }
 
         [Test]
         public void CanMove_DeveChamarValidatorUmaVez()
         {
-            _pawn.CanMove(It.IsAny<Position>());
+            this.pawn.CanMove(It.IsAny<Position>());
 
-            _validatorMock.Verify(t => t.Validate(It.IsAny<Position>()), Times.Once);
+            this.validatorMock.Verify(t => t.Validate(It.IsAny<Position>()), Times.Once);
         }
 
         [Test]
         public void Equals_DadaPecaNaPosicaoC3ENovaPecaNaPosicaoC3_DeveRetornarTrue()
         {
-            _positionStub.Setup(p => p.File).Returns('c');
-            _positionStub.Setup(p => p.Rank).Returns('3');
-            _positionStub.Setup(m => m.Equals(It.IsAny<Position>())).Returns(true);
+            this.positionStub.Setup(p => p.File).Returns('c');
+            this.positionStub.Setup(p => p.Rank).Returns('3');
+            this.positionStub.Setup(m => m.Equals(It.IsAny<Position>())).Returns(true);
 
             var pawnStub = new Mock<Pawn>();
-            pawnStub.Setup(p => p.Position).Returns(_positionStub.Object);
+            pawnStub.Setup(p => p.Position).Returns(this.positionStub.Object);
 
-            var actual = _pawn.Equals(pawnStub.Object);
+            var actual = this.pawn.Equals(pawnStub.Object);
             actual.Should().BeTrue();
         }
 
         [Test]
         public void Equals_DadaPecaNaPosicaoC2ENovaPecaNaPosicaoC3_DeveRetornarFalse()
         {
-            _positionStub.Setup(p => p.File).Returns('c');
-            _positionStub.Setup(p => p.Rank).Returns('2');
+            this.positionStub.Setup(p => p.File).Returns('c');
+            this.positionStub.Setup(p => p.Rank).Returns('2');
 
-            var positionStub = new Mock<Position>();
-            positionStub.Setup(p => p.File).Returns('c');
-            positionStub.Setup(p => p.Rank).Returns('3');
+            var position = new Mock<Position>();
+            position.Setup(p => p.File).Returns('c');
+            position.Setup(p => p.Rank).Returns('3');
 
             var pawnStub = new Mock<Pawn>();
-            pawnStub.Setup(p => p.Position).Returns(positionStub.Object);
+            pawnStub.Setup(p => p.Position).Returns(position.Object);
 
-            var actual = _pawn.Equals(pawnStub.Object);
+            var actual = this.pawn.Equals(pawnStub.Object);
             actual.Should().BeFalse();
         }
     }

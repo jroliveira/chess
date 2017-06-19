@@ -1,7 +1,7 @@
-﻿using System.Linq;
-
-namespace Chess.Extensions
+﻿namespace Chess.Extensions
 {
+    using System.Linq;
+
     public static class CharExtension
     {
         public static bool IsFirst(this char[] collection, char element)

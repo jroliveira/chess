@@ -1,37 +1,39 @@
-﻿using Chess.Multiplayer;
-using Chess.UI.Console.Libs;
-using Chess.UI.Console.Scenarios.Matches;
-
-namespace Chess.UI.Console.Scenarios.Multiplayer
+﻿namespace Chess.UI.Console.Scenarios.Multiplayer
 {
+    using Chess.Multiplayer;
+    using Chess.UI.Console.Libs;
+    using Chess.UI.Console.Scenarios.Matches;
+
     public class Server : Scenario
     {
-        private readonly Online _match;
-
-        protected Server() { }
+        private readonly Online match;
 
         public Server(IGameMultiplayer game, Online match, IWriter writer, IReader reader, IScreen screen)
             : base(game, writer, reader, screen)
         {
-            _match = match;
+            this.match = match;
+        }
+
+        protected Server()
+        {
         }
 
         public virtual void Start()
         {
-            Setup();
+            this.Setup();
 
-            Writer.WriteInsideTheBox("waiting for oppoenent");
-            Writer.NewLine();
-            Writer.NewLine();
+            this.Writer.WriteInsideTheBox("waiting for oppoenent");
+            this.Writer.NewLine();
+            this.Writer.NewLine();
 
-            Game.Connected += OnConnected;
-            Game.Error += exception => Writer.WriteError(exception.Message);
-            Game.WaitingForOpponent();
+            this.Game.Connected += this.OnConnected;
+            this.Game.Error += exception => this.Writer.WriteError(exception.Message);
+            this.Game.WaitingForOpponent();
         }
 
         private void OnConnected()
         {
-            _match.Start(true);
+            this.match.Start(true);
         }
     }
 }

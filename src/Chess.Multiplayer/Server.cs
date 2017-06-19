@@ -1,22 +1,22 @@
-﻿using System;
-using System.Net;
-using Chess.Multiplayer.Socket;
-
-namespace Chess.Multiplayer
+﻿namespace Chess.Multiplayer
 {
+    using System;
+    using System.Net;
+
+    using Chess.Multiplayer.Socket;
+
     internal class Server : Multiplayer
     {
-        private readonly ISocket _server;
-
-        internal Server(ISocket server)
-        {
-            _server = server;
-        }
+        private readonly ISocket server;
 
         public Server()
             : this(new TcpSocket())
         {
+        }
 
+        internal Server(ISocket server)
+        {
+            this.server = server;
         }
 
         public void Listen()
@@ -26,16 +26,16 @@ namespace Chess.Multiplayer
 
             try
             {
-                _server.Bind(ip, 11000);
-                _server.Listen();
+                this.server.Bind(ip, 11000);
+                this.server.Listen();
 
-                Socket = _server.Accept();
+                this.Socket = this.server.Accept();
 
-                OnConnected();
+                this.OnConnected();
             }
             catch (Exception exception)
             {
-                OnError(exception);
+                this.OnError(exception);
             }
         }
     }

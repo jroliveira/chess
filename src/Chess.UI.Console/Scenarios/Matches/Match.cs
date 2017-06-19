@@ -1,73 +1,73 @@
-﻿using System;
-using System.Linq;
-using Chess.Exceptions;
-using Chess.Multiplayer;
-using Chess.UI.Console.Libs;
-using Chess.UI.Console.Libs.Match;
-
-namespace Chess.UI.Console.Scenarios.Matches
+﻿namespace Chess.UI.Console.Scenarios.Matches
 {
+    using System;
+    using System.Linq;
+
+    using Chess.Exceptions;
+    using Chess.Multiplayer;
+    using Chess.UI.Console.Libs;
+    using Chess.UI.Console.Libs.Match;
+
     public class Match : Scenario
     {
         protected readonly Chessboard Chessboard;
 
-        protected Match()
-        {
-
-        }
-
         public Match(IGameMultiplayer game, Chessboard chessboard, IWriter writer, IReader reader, IScreen screen)
             : base(game, writer, reader, screen)
         {
-            Chessboard = chessboard;
+            this.Chessboard = chessboard;
+        }
+
+        protected Match()
+        {
         }
 
         protected void NextMove()
         {
-            ClearNextMove();
+            this.ClearNextMove();
 
-            Screen.SetCursorPosition(0, 22);
+            this.Screen.SetCursorPosition(0, 22);
 
-            Writer.WriteWithSleep("   NEXT MOVE -> piece ");
-            var file = GetFile();
-            var rank = GetRank();
+            this.Writer.WriteWithSleep("   NEXT MOVE -> piece ");
+            var file = this.GetFile();
+            var rank = this.GetRank();
             var piecePosition = new string(new[] { file, rank });
 
-            Writer.WriteWithSleep(" move for ");
-            file = GetFile();
-            rank = GetRank();
+            this.Writer.WriteWithSleep(" move for ");
+            file = this.GetFile();
+            rank = this.GetRank();
             var newPosition = new string(new[] { file, rank });
 
             try
             {
-                Game.Move(piecePosition, newPosition);
-                Chessboard.Print(Game);
-                ClearNextMove();
+                this.Game.Move(piecePosition, newPosition);
+                this.Chessboard.Print(this.Game);
+                this.ClearNextMove();
             }
             catch (ChessException exception)
             {
-                Writer.WriteError(exception.Message);
+                this.Writer.WriteError(exception.Message);
             }
         }
 
         private void ClearNextMove()
         {
-            Screen.SetCursorPosition(0, 22);
-            Writer.Erase();
+            this.Screen.SetCursorPosition(0, 22);
+            this.Writer.Erase();
         }
 
         private char GetFile()
         {
             var files = new[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
 
-            return ReadKey(files.Contains, "Insert between a and h");
+            return this.ReadKey(files.Contains, "Insert between a and h");
         }
 
         private char GetRank()
         {
             var ranks = new[] { '8', '7', '6', '5', '4', '3', '2', '1' };
 
-            return ReadKey(ranks.Contains, "Insert between 8 and 1");
+            return this.ReadKey(ranks.Contains, "Insert between 8 and 1");
         }
 
         private char ReadKey(Func<char, bool> condition, string invalidMessage)
@@ -77,14 +77,15 @@ namespace Chess.UI.Console.Scenarios.Matches
 
             do
             {
-                key = Reader.ReadKey();
+                key = this.Reader.ReadKey();
                 keyValid = condition(key);
 
                 if (!keyValid)
                 {
-                    Writer.WriteError(invalidMessage);
+                    this.Writer.WriteError(invalidMessage);
                 }
-            } while (!keyValid);
+            }
+            while (!keyValid);
 
             return key;
         }

@@ -1,12 +1,13 @@
-using System.Text;
-using Chess.UI.Console.IoC;
-using Chess.UI.Console.Scenarios;
-
 namespace Chess.UI.Console
 {
-    class Program
+    using System.Text;
+
+    using Chess.UI.Console.IoC;
+    using Chess.UI.Console.Scenarios;
+
+    public class Program
     {
-        static void Main()
+        public static void Main()
         {
             System.Console.OutputEncoding = Encoding.GetEncoding(65001);
 

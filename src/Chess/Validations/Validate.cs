@@ -1,41 +1,39 @@
-﻿using Chess.Pieces;
-
-namespace Chess.Validations
+﻿namespace Chess.Validations
 {
+    using Chess.Pieces;
+
     internal abstract class Validate
     {
-        private Validate _nextValidate;
-
         protected readonly Piece Piece;
+        private Validate nextValidate;
 
         internal Validate()
         {
-
         }
 
         protected Validate(Piece piece)
         {
-            Piece = piece;
+            this.Piece = piece;
         }
 
         public virtual void SetNextValidate(Validate nexValidate)
         {
-            _nextValidate = nexValidate;
+            this.nextValidate = nexValidate;
         }
 
         public virtual bool IsValid(Position newPosition)
         {
-            if (IsValidRule(newPosition))
+            if (this.IsValidRule(newPosition))
             {
                 return true;
             }
 
-            if (_nextValidate == null)
+            if (this.nextValidate == null)
             {
                 return false;
             }
 
-            return _nextValidate.IsValid(newPosition);
+            return this.nextValidate.IsValid(newPosition);
         }
 
         protected abstract bool IsValidRule(Position newPosition);

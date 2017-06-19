@@ -1,71 +1,71 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Chess.UI.Console.Libs.Match
+﻿namespace Chess.UI.Console.Libs.Match
 {
+    using System;
+    using System.Collections.Generic;
+
     public class Writer : Libs.Writer
     {
-        private readonly Color _color;
+        private readonly Color color;
 
         public Writer()
         {
-            _color = new Color();
+            this.color = new Color();
         }
 
         public void Divider(DividerPosition position)
         {
             var dividers = new Dictionary<DividerPosition, Action>
             {
-                { DividerPosition.Top,    () => Divider('┌', '┐', '┬') },
-                { DividerPosition.Middle, () => Divider('├', '┤', '┼') },
-                { DividerPosition.Bottom, () => Divider('└', '┘', '┴') },
+                { DividerPosition.Top,    () => this.Divider('┌', '┐', '┬') },
+                { DividerPosition.Middle, () => this.Divider('├', '┤', '┼') },
+                { DividerPosition.Bottom, () => this.Divider('└', '┘', '┴') },
             };
 
             dividers[position]();
         }
 
-        private void Divider(char leftCorner, char rightCorner, char separator)
-        {
-            const int space = 3;
-            const int block = 8;
-
-            System.Console.Write("     {0}", leftCorner);
-
-            for (var i = 0; i < block; i++)
-            {
-                for (var j = 0; j < space; j++)
-                {
-                    Dash();
-                }
-
-                if (!i.Equals(7))
-                {
-                    System.Console.Write(separator);
-                }
-            }
-
-            System.Console.Write(rightCorner);
-
-            NewLine();
-        }
-
         public void Dash()
         {
-            System.Console.Write("─");
+            Console.Write("─");
         }
 
         public void Pipe()
         {
-            var current = System.Console.BackgroundColor;
+            var current = Console.BackgroundColor;
 
-            _color.Restore();
+            this.color.Restore();
 
-            System.Console.Write("│");
+            Console.Write("│");
 
             if (current == ConsoleColor.White)
             {
-                _color.White();
+                this.color.White();
             }
+        }
+
+        private void Divider(char leftCorner, char rightCorner, char separator)
+        {
+            const int Space = 3;
+            const int Block = 8;
+
+            Console.Write("     {0}", leftCorner);
+
+            for (var i = 0; i < Block; i++)
+            {
+                for (var j = 0; j < Space; j++)
+                {
+                    this.Dash();
+                }
+
+                if (!i.Equals(7))
+                {
+                    Console.Write(separator);
+                }
+            }
+
+            Console.Write(rightCorner);
+
+            this.NewLine();
         }
     }
 }

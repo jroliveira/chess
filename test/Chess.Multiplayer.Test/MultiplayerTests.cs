@@ -1,54 +1,56 @@
-﻿using Chess.Multiplayer.Socket;
-using Moq;
-using NUnit.Framework;
-
-namespace Chess.Multiplayer.Test
+﻿namespace Chess.Multiplayer.Test
 {
+    using Chess.Multiplayer.Socket;
+
+    using Moq;
+
+    using NUnit.Framework;
+
     [TestFixture]
     public class MultiplayerTests
     {
-        private Multiplayer _multiplayer;
-        private Mock<ISocket> _socketMock;
+        private Multiplayer multiplayer;
+        private Mock<ISocket> socketMock;
 
         [SetUp]
         public void SetUp()
         {
-            _socketMock = new Mock<ISocket>();
+            this.socketMock = new Mock<ISocket>();
 
 
-            _multiplayer = new Multiplayer(_socketMock.Object);
+            this.multiplayer = new Multiplayer(this.socketMock.Object);
         }
 
         [Test]
         public void SendTheMove_DadaPosicaoENovaPosicao_DeveChamarClientSendUmaVez()
         {
-            _multiplayer.SendTheMove("d6", "d7");
+            this.multiplayer.SendTheMove("d6", "d7");
 
-            _socketMock.Verify(m => m.Send("d6->d7"), Times.Once());
+            this.socketMock.Verify(m => m.Send("d6->d7"), Times.Once());
         }
 
         [Test]
         public void WaitingTheMove_DeveChamarClientReceiveUmaVez()
         {
-            _multiplayer.WaitingTheMove();
+            this.multiplayer.WaitingTheMove();
 
-            _socketMock.Verify(m => m.Receive(), Times.Once());
+            this.socketMock.Verify(m => m.Receive(), Times.Once());
         }
 
         [Test]
         public void Disconnect_DeveChamarClientShutdownUmaVez()
         {
-            _multiplayer.Disconnect();
+            this.multiplayer.Disconnect();
 
-            _socketMock.Verify(m => m.Shutdown(), Times.Once());
+            this.socketMock.Verify(m => m.Shutdown(), Times.Once());
         }
 
         [Test]
         public void Disconnect_DeveChamarClientCloseUmaVez()
         {
-            _multiplayer.Disconnect();
+            this.multiplayer.Disconnect();
 
-            _socketMock.Verify(m => m.Close(), Times.Once());
+            this.socketMock.Verify(m => m.Close(), Times.Once());
         }
     }
 }

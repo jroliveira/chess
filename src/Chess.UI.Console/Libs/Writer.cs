@@ -1,14 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-
-namespace Chess.UI.Console.Libs
+﻿namespace Chess.UI.Console.Libs
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading;
+
+    using static System.Console;
+
     public class Writer : IWriter
     {
         public void NewLine()
         {
-            System.Console.WriteLine("");
+            WriteLine(string.Empty);
         }
 
         public void Erase()
@@ -21,21 +23,21 @@ namespace Chess.UI.Console.Libs
 
         public void WriteError(string text)
         {
-            var left = Math.Abs(System.Console.CursorLeft - 1);
-            var top = System.Console.CursorTop;
+            var left = Math.Abs(CursorLeft - 1);
+            var top = CursorTop;
 
-            System.Console.SetCursorPosition(0, 23);
+            SetCursorPosition(0, 23);
 
-            System.Console.ForegroundColor = ConsoleColor.Red;
+            ForegroundColor = ConsoleColor.Red;
             Write("   {0}", text);
-            System.Console.ForegroundColor = ConsoleColor.White;
+            ForegroundColor = ConsoleColor.White;
 
-            System.Console.SetCursorPosition(left, top);
+            SetCursorPosition(left, top);
         }
 
         public void WriteOption(string option, string caption)
         {
-            Divider(DividerPosition.Top, option.Length + 2);
+            this.Divider(DividerPosition.Top, option.Length + 2);
             Margin();
             Pipe();
             Margin(1);
@@ -49,8 +51,8 @@ namespace Chess.UI.Console.Libs
 
             Write(caption);
 
-            NewLine();
-            Divider(DividerPosition.Bottom, option.Length + 2);
+            this.NewLine();
+            this.Divider(DividerPosition.Bottom, option.Length + 2);
         }
 
         public virtual void WriteWithSleep(string text)
@@ -64,7 +66,7 @@ namespace Chess.UI.Console.Libs
 
         public void WriteInsideTheBox(string text)
         {
-            Divider(DividerPosition.Top, text.Length + 4);
+            this.Divider(DividerPosition.Top, text.Length + 4);
             Margin();
             Pipe();
             Margin(2);
@@ -74,33 +76,8 @@ namespace Chess.UI.Console.Libs
             Margin(2);
             Pipe();
 
-            NewLine();
-            Divider(DividerPosition.Bottom, text.Length + 4);
-        }
-
-        private void Divider(DividerPosition position, int length)
-        {
-            var dividers = new Dictionary<DividerPosition, Action>
-            {
-                { DividerPosition.Top,    () => Divider('╔', '╗', length) },
-                { DividerPosition.Bottom, () => Divider('╚', '╝', length) }
-            };
-
-            dividers[position]();
-        }
-
-        private void Divider(char leftCorner, char rightCorner, int length)
-        {
-            Write("   {0}", leftCorner);
-
-            for (var j = 0; j < length; j++)
-            {
-                Dash();
-            }
-
-            Write(rightCorner);
-
-            NewLine();
+            this.NewLine();
+            this.Divider(DividerPosition.Bottom, text.Length + 4);
         }
 
         private static void Dash()
@@ -128,7 +105,32 @@ namespace Chess.UI.Console.Libs
 
         private static void Write(string text, params object[] args)
         {
-            System.Console.Write(text, args);
+            Console.Write(text, args);
+        }
+
+        private void Divider(DividerPosition position, int length)
+        {
+            var dividers = new Dictionary<DividerPosition, Action>
+            {
+                { DividerPosition.Top,    () => this.Divider('╔', '╗', length) },
+                { DividerPosition.Bottom, () => this.Divider('╚', '╝', length) }
+            };
+
+            dividers[position]();
+        }
+
+        private void Divider(char leftCorner, char rightCorner, int length)
+        {
+            Write("   {0}", leftCorner);
+
+            for (var j = 0; j < length; j++)
+            {
+                Dash();
+            }
+
+            Write(rightCorner);
+
+            this.NewLine();
         }
     }
 }

@@ -1,31 +1,36 @@
-using Chess.Multiplayer;
-using Chess.UI.Console.Libs;
-using Moq;
-using NUnit.Framework;
-
 namespace Chess.UI.Console.Test.Scenarios
 {
+    using Chess.Multiplayer;
+    using Chess.UI.Console.Libs;
+
+    using Moq;
+
+    using NUnit.Framework;
+
     public abstract class ScenarioTests
     {
-        protected Mock<IGameMultiplayer> GameMock;
-        protected Mock<IScreen> ScreenMock;
-        protected Mock<IWriter> WriterMock;
-        protected Mock<IReader> ReaderMock;
+        protected Mock<IGameMultiplayer> GameMock { get; set; }
+
+        protected Mock<IScreen> ScreenMock { get; set; }
+
+        protected Mock<IWriter> WriterMock { get; set; }
+
+        protected Mock<IReader> ReaderMock { get; set; }
 
         public void Setup()
         {
-            GameMock = new Mock<IGameMultiplayer>();
-            ScreenMock = new Mock<IScreen>();
-            WriterMock = new Mock<IWriter>();
-            ReaderMock = new Mock<IReader>();
+            this.GameMock = new Mock<IGameMultiplayer>();
+            this.ScreenMock = new Mock<IScreen>();
+            this.WriterMock = new Mock<IWriter>();
+            this.ReaderMock = new Mock<IReader>();
         }
 
         [Test]
         public void Start_DeveChamarCleanUmaVez()
         {
-            Start();
+            this.Start();
 
-            ScreenMock.Verify(screen => screen.Clean(), Times.Once);
+            this.ScreenMock.Verify(screen => screen.Clean(), Times.Once);
         }
 
         protected abstract void Start();

@@ -1,24 +1,26 @@
-﻿using Chess.Extensions;
-using FluentAssertions;
-using NUnit.Framework;
-
-namespace Chess.Test.Extensions
+﻿namespace Chess.Test.Extensions
 {
+    using Chess.Extensions;
+
+    using FluentAssertions;
+
+    using NUnit.Framework;
+
     [TestFixture]
     public class CharExtensionTests
     {
-        private char[] _collection;
+        private char[] collection;
 
         [SetUp]
         public void SetUp()
         {
-            _collection = new[] { 'a', 'b', 'c' };
+            this.collection = new[] { 'a', 'b', 'c' };
         }
 
         [Test]
         public void IsFirst_DadoCharA_DeveRetornarTrue()
         {
-            var actual = _collection.IsFirst('a');
+            var actual = this.collection.IsFirst('a');
 
             actual.Should().BeTrue();
         }
@@ -26,7 +28,7 @@ namespace Chess.Test.Extensions
         [Test]
         public void IsFirst_DadoCharB_DeveRetornarFalse()
         {
-            var actual = _collection.IsFirst('b');
+            var actual = this.collection.IsFirst('b');
 
             actual.Should().BeFalse();
         }
@@ -34,7 +36,7 @@ namespace Chess.Test.Extensions
         [Test]
         public void IsLast_DadoCharC_DeveRetornarTrue()
         {
-            var actual = _collection.IsLast('c');
+            var actual = this.collection.IsLast('c');
 
             actual.Should().BeTrue();
         }
@@ -42,7 +44,7 @@ namespace Chess.Test.Extensions
         [Test]
         public void IsLast_DadoCharB_DeveRetornarFalse()
         {
-            var actual = _collection.IsLast('b');
+            var actual = this.collection.IsLast('b');
 
             actual.Should().BeFalse();
         }

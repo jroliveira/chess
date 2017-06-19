@@ -1,36 +1,39 @@
-using Chess.Pieces;
-using Chess.Validations;
-using FluentAssertions;
-using Moq;
-using NUnit.Framework;
-
 namespace Chess.Test.Pieces
 {
+    using Chess.Pieces;
+    using Chess.Validations;
+
+    using FluentAssertions;
+
+    using Moq;
+
+    using NUnit.Framework;
+
     [TestFixture]
     public class KnightTests
     {
-        private Knight _knight;
-        private Mock<Position> _positionStub;
-        private Mock<Chessboard> _chessboardStub;
-        private Mock<IValidator> _validatorMock;
+        private Knight knight;
+        private Mock<Position> positionStub;
+        private Mock<Chessboard> chessboardStub;
+        private Mock<IValidator> validatorMock;
 
         [SetUp]
         public void SetUp()
         {
-            _positionStub = new Mock<Position>();
-            _chessboardStub = new Mock<Chessboard>();
-            _validatorMock = new Mock<IValidator>();
+            this.positionStub = new Mock<Position>();
+            this.chessboardStub = new Mock<Chessboard>();
+            this.validatorMock = new Mock<IValidator>();
 
-            _knight = new Knight(1, _positionStub.Object, _chessboardStub.Object, _validatorMock.Object);
+            this.knight = new Knight(1, this.positionStub.Object, this.chessboardStub.Object, this.validatorMock.Object);
         }
 
         [TestCase(1, "♘")]
         [TestCase(2, "♞")]
         public void Name_DadoJogador_DeveRetornarPeca(int player, string piece)
         {
-            _knight = new Knight(player, _positionStub.Object, _chessboardStub.Object, _validatorMock.Object);
+            this.knight = new Knight(player, this.positionStub.Object, this.chessboardStub.Object, this.validatorMock.Object);
 
-            _knight.Name.Should().Be(piece);
+            this.knight.Name.Should().Be(piece);
         }
 
         [Test]
@@ -40,47 +43,47 @@ namespace Chess.Test.Pieces
             newPositionStub.Setup(p => p.File).Returns('d');
             newPositionStub.Setup(p => p.Rank).Returns('7');
 
-            _knight.Move(newPositionStub.Object);
+            this.knight.Move(newPositionStub.Object);
 
-            _knight.Position.ShouldBeEquivalentTo(newPositionStub.Object);
+            this.knight.Position.ShouldBeEquivalentTo(newPositionStub.Object);
         }
 
         [Test]
         public void CanMove_DeveChamarValidatorUmaVez()
         {
-            _knight.CanMove(It.IsAny<Position>());
+            this.knight.CanMove(It.IsAny<Position>());
 
-            _validatorMock.Verify(t => t.Validate(It.IsAny<Position>()), Times.Once);
+            this.validatorMock.Verify(t => t.Validate(It.IsAny<Position>()), Times.Once);
         }
 
         [Test]
         public void Equals_DadaPecaNaPosicaoC3ENovaPecaNaPosicaoC3_DeveRetornarTrue()
         {
-            _positionStub.Setup(p => p.File).Returns('c');
-            _positionStub.Setup(p => p.Rank).Returns('3');
-            _positionStub.Setup(m => m.Equals(It.IsAny<Position>())).Returns(true);
+            this.positionStub.Setup(p => p.File).Returns('c');
+            this.positionStub.Setup(p => p.Rank).Returns('3');
+            this.positionStub.Setup(m => m.Equals(It.IsAny<Position>())).Returns(true);
 
             var knightStub = new Mock<Knight>();
-            knightStub.Setup(p => p.Position).Returns(_positionStub.Object);
+            knightStub.Setup(p => p.Position).Returns(this.positionStub.Object);
 
-            var actual = _knight.Equals(knightStub.Object);
+            var actual = this.knight.Equals(knightStub.Object);
             actual.Should().BeTrue();
         }
 
         [Test]
         public void Equals_DadaPecaNaPosicaoC2ENovaPecaNaPosicaoC3_DeveRetornarFalse()
         {
-            _positionStub.Setup(p => p.File).Returns('c');
-            _positionStub.Setup(p => p.Rank).Returns('2');
+            this.positionStub.Setup(p => p.File).Returns('c');
+            this.positionStub.Setup(p => p.Rank).Returns('2');
 
-            var positionStub = new Mock<Position>();
-            positionStub.Setup(p => p.File).Returns('c');
-            positionStub.Setup(p => p.Rank).Returns('3');
+            var position = new Mock<Position>();
+            position.Setup(p => p.File).Returns('c');
+            position.Setup(p => p.Rank).Returns('3');
 
             var knightStub = new Mock<Knight>();
-            knightStub.Setup(p => p.Position).Returns(positionStub.Object);
+            knightStub.Setup(p => p.Position).Returns(position.Object);
 
-            var actual = _knight.Equals(knightStub.Object);
+            var actual = this.knight.Equals(knightStub.Object);
             actual.Should().BeFalse();
         }
     }
