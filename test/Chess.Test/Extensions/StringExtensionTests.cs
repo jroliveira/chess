@@ -1,9 +1,11 @@
-﻿using Chess.Extensions;
-using FluentAssertions;
-using NUnit.Framework;
-
-namespace Chess.Test.Extensions
+﻿namespace Chess.Test.Extensions
 {
+    using Chess.Extensions;
+
+    using FluentAssertions;
+
+    using NUnit.Framework;
+
     [TestFixture]
     public class StringExtensionTests
     {

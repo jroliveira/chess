@@ -1,60 +1,62 @@
-using Chess.UI.Console.Scenarios.Matches;
-using Chess.UI.Console.Scenarios.Multiplayer;
-using Moq;
-using NUnit.Framework;
-
 namespace Chess.UI.Console.Test.Scenarios.Multiplayer
 {
+    using Chess.UI.Console.Scenarios.Matches;
+    using Chess.UI.Console.Scenarios.Multiplayer;
+
+    using Moq;
+
+    using NUnit.Framework;
+
     [TestFixture]
     public class ClientTests : ScenarioTests
     {
-        private Mock<Online> _matchMock;
+        private Mock<Online> matchMock;
 
         [SetUp]
         public new void Setup()
         {
             base.Setup();
 
-            ReaderMock
+            this.ReaderMock
                 .SetupSequence(text => text.ReadValue())
                 .Returns("127.0.0.1")
                 .Returns("11000");
 
-            _matchMock = new Mock<Online>();
+            this.matchMock = new Mock<Online>();
         }
 
         [Test]
         public void Start_DeveChamarWriteInsideTheBoxUmaVez()
         {
-            Start();
+            this.Start();
 
-            WriterMock.Verify(writer => writer.WriteInsideTheBox("connection data"), Times.Once);
+            this.WriterMock.Verify(writer => writer.WriteInsideTheBox("connection data"), Times.Once);
         }
 
         [Test]
         public void Start_DeveChamarReadValueDuasVez()
         {
-            Start();
+            this.Start();
 
-            ReaderMock.Verify(reader => reader.ReadValue(), Times.Exactly(2));
+            this.ReaderMock.Verify(reader => reader.ReadValue(), Times.Exactly(2));
         }
 
         [Test]
         public void Start_DadoUmaIpAddressEUmaPorta_DeveChamarGameConnectUmaVez()
         {
-            ReaderMock
+            this.ReaderMock
                 .SetupSequence(text => text.ReadValue())
                 .Returns("127.0.0.1")
                 .Returns("11000");
 
-            Start();
+            this.Start();
 
-            GameMock.Verify(game => game.Connect("127.0.0.1", "11000"), Times.Once);
+            this.GameMock.Verify(game => game.Connect("127.0.0.1", "11000"), Times.Once);
         }
 
         protected override void Start()
         {
-            var client = new Client(GameMock.Object, _matchMock.Object, WriterMock.Object, ReaderMock.Object, ScreenMock.Object);
+            var client = new Client(this.GameMock.Object, this.matchMock.Object, this.WriterMock.Object, this.ReaderMock.Object, this.ScreenMock.Object);
             client.Start();
         }
     }

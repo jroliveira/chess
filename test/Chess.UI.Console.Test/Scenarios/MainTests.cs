@@ -1,87 +1,89 @@
-﻿using Chess.UI.Console.Scenarios;
-using Chess.UI.Console.Scenarios.Matches;
-using Chess.UI.Console.Scenarios.Multiplayer;
-using Moq;
-using NUnit.Framework;
-
-namespace Chess.UI.Console.Test.Scenarios
+﻿namespace Chess.UI.Console.Test.Scenarios
 {
+    using Chess.UI.Console.Scenarios;
+    using Chess.UI.Console.Scenarios.Matches;
+    using Chess.UI.Console.Scenarios.Multiplayer;
+
+    using Moq;
+
+    using NUnit.Framework;
+
     [TestFixture]
     public class MainTests : ScenarioTests
     {
-        private Mock<Offline> _matchMock;
-        private Mock<Client> _clientMock;
-        private Mock<Server> _serverMock;
+        private Mock<Offline> matchMock;
+        private Mock<Client> clientMock;
+        private Mock<Server> serverMock;
 
         [SetUp]
         public new void Setup()
         {
             base.Setup();
 
-            ReaderMock.Setup(text => text.ReadKey()).Returns('1');
+            this.ReaderMock.Setup(text => text.ReadKey()).Returns('1');
 
-            _matchMock = new Mock<Offline>();
-            _clientMock = new Mock<Client>();
-            _serverMock = new Mock<Server>();
+            this.matchMock = new Mock<Offline>();
+            this.clientMock = new Mock<Client>();
+            this.serverMock = new Mock<Server>();
         }
 
         [Test]
         public void Start_DeveChamarWriteInsideTheBoxUmaVez()
         {
-            Start();
+            this.Start();
 
-            WriterMock.Verify(writer => writer.WriteInsideTheBox("choose an option"), Times.Once);
+            this.WriterMock.Verify(writer => writer.WriteInsideTheBox("choose an option"), Times.Once);
         }
 
         [Test]
         public void Start_DeveChamarWriteOptionTresVez()
         {
-            Start();
+            this.Start();
 
-            WriterMock.Verify(writer => writer.WriteOption(It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(3));
+            this.WriterMock.Verify(writer => writer.WriteOption(It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(3));
         }
 
         [Test]
         public void Start_DeveChamarReadKeyUmaVez()
         {
-            Start();
+            this.Start();
 
-            ReaderMock.Verify(reader => reader.ReadKey(), Times.Once);
+            this.ReaderMock.Verify(reader => reader.ReadKey(), Times.Once);
         }
 
         [Test]
         public void Start_DadoUmaOpcaoUm_DeveChamarMatchStartUmaVez()
         {
-            ReaderMock.Setup(text => text.ReadKey()).Returns('1');
+            this.ReaderMock.Setup(text => text.ReadKey()).Returns('1');
 
-            Start();
+            this.Start();
 
-            _matchMock.Verify(match => match.Start(), Times.Once);
+            this.matchMock.Verify(match => match.Start(), Times.Once);
         }
 
         [Test]
         public void Start_DadoUmaOpcaoDois_DeveChamarServerStartUmaVez()
         {
-            ReaderMock.Setup(text => text.ReadKey()).Returns('2');
+            this.ReaderMock.Setup(text => text.ReadKey()).Returns('2');
 
-            Start();
+            this.Start();
 
-            _serverMock.Verify(server => server.Start(), Times.Once);
+            this.serverMock.Verify(server => server.Start(), Times.Once);
         }
 
         [Test]
         public void Start_DadoUmaOpcaoDois_DeveChamarClientStartUmaVez()
         {
-            ReaderMock.Setup(text => text.ReadKey()).Returns('3');
+            this.ReaderMock.Setup(text => text.ReadKey()).Returns('3');
 
-            Start();
+            this.Start();
 
-            _clientMock.Verify(client => client.Start(), Times.Once);
+            this.clientMock.Verify(client => client.Start(), Times.Once);
         }
 
         protected override void Start()
         {
-            var main = new Main(GameMock.Object, _matchMock.Object, _clientMock.Object, _serverMock.Object, WriterMock.Object, ReaderMock.Object, ScreenMock.Object);
+            var main = new Main(this.GameMock.Object, this.matchMock.Object, this.clientMock.Object, this.serverMock.Object, this.WriterMock.Object, this.ReaderMock.Object, this.ScreenMock.Object);
             main.Start();
         }
     }

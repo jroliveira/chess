@@ -1,84 +1,88 @@
-﻿using System;
-using Chess.Commands;
-using Chess.Exceptions;
-using Chess.Pieces;
-using FluentAssertions;
-using Moq;
-using NUnit.Framework;
-
-namespace Chess.Test
+﻿namespace Chess.Test
 {
+    using System;
+
+    using Chess.Commands;
+    using Chess.Exceptions;
+    using Chess.Pieces;
+
+    using FluentAssertions;
+
+    using Moq;
+
+    using NUnit.Framework;
+
     [TestFixture]
     public class GameTests
     {
-        private Game _game;
-        private Mock<Piece> _pieceMock;
-        private Mock<Chessboard> _chessboardMock;
-        private Mock<MountChessboardCommand> _mountChessboardMock;
+        private Game game;
+        private Mock<Piece> pieceMock;
+        private Mock<Chessboard> chessboardMock;
+        private Mock<MountChessboardCommand> mountChessboardMock;
 
         [SetUp]
         public void SetUp()
         {
-            _pieceMock = new Mock<Piece>();
+            this.pieceMock = new Mock<Piece>();
 
-            _chessboardMock = new Mock<Chessboard>();
-            _chessboardMock.Setup(m => m.GetPiece(It.IsAny<Position>())).Returns(_pieceMock.Object);
+            this.chessboardMock = new Mock<Chessboard>();
+            this.chessboardMock.Setup(m => m.GetPiece(It.IsAny<Position>())).Returns(this.pieceMock.Object);
 
-            _mountChessboardMock = new Mock<MountChessboardCommand>();
+            this.mountChessboardMock = new Mock<MountChessboardCommand>();
 
-            _game = new Game(_chessboardMock.Object, _mountChessboardMock.Object);
+            this.game = new Game(this.chessboardMock.Object, this.mountChessboardMock.Object);
         }
 
         [Test]
         public void Files_DadoUmNovoJogo_DeveRetornarAsColunasDoTabuleiro()
         {
-            _game = new Game();
+            this.game = new Game();
 
             var expectation = new[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
 
-            _game.Files.ShouldAllBeEquivalentTo(expectation);
+            this.game.Files.ShouldAllBeEquivalentTo(expectation);
         }
 
         [Test]
         public void Ranks_DadoUmNovoJogo_DeveRetornarAsLinhasDoTabuleiro()
         {
-            _game = new Game();
+            this.game = new Game();
 
             var expectation = new[] { '8', '7', '6', '5', '4', '3', '2', '1' };
 
-            _game.Ranks.ShouldAllBeEquivalentTo(expectation);
+            this.game.Ranks.ShouldAllBeEquivalentTo(expectation);
         }
 
         [Test]
         public void Start_DeveChamarChessboardExecuteUmaVez()
         {
-            _game.Start();
+            this.game.Start();
 
-            _mountChessboardMock.Verify(m => m.Execute(), Times.Once);
+            this.mountChessboardMock.Verify(m => m.Execute(), Times.Once);
         }
 
         [Test]
         public void Move_DadaPosicaoEPeca_DeveChamarChessboardGetPieceUmaVez()
         {
-            _game.Move("a5", "a6");
+            this.game.Move("a5", "a6");
 
-            _chessboardMock.Verify(m => m.GetPiece(It.IsAny<Position>()), Times.Once);
+            this.chessboardMock.Verify(m => m.GetPiece(It.IsAny<Position>()), Times.Once);
         }
 
         [Test]
         public void Move_DadaPosicaoEPeca_DeveChamarChessboardMovePieceUmaVez()
         {
-            _game.Move("a5", "a6");
+            this.game.Move("a5", "a6");
 
-            _chessboardMock.Verify(m => m.MovePiece(It.IsAny<Piece>(), It.IsAny<Position>()), Times.Once);
+            this.chessboardMock.Verify(m => m.MovePiece(It.IsAny<Piece>(), It.IsAny<Position>()), Times.Once);
         }
 
         [Test]
         public void Move_DadaPosicaoEPecaQueNaoExiste_DeveLancarAExcecaoChessException()
         {
-            _chessboardMock.Setup(m => m.GetPiece(It.IsAny<Position>())).Returns(default(Piece));
+            this.chessboardMock.Setup(m => m.GetPiece(It.IsAny<Position>())).Returns(default(Piece));
 
-            Action action = () => _game.Move("a5", "a6");
+            Action action = () => this.game.Move("a5", "a6");
 
             action
                 .ShouldThrow<ChessException>()
@@ -88,15 +92,15 @@ namespace Chess.Test
         [Test]
         public void GetPiece_DadaLinhaEColuna_DeveChamarChessboardGetPieceUmaVez()
         {
-            _game.GetPiece('a', '6');
+            this.game.GetPiece('a', '6');
 
-            _chessboardMock.Verify(m => m.GetPiece(It.IsAny<Position>()), Times.Once);
+            this.chessboardMock.Verify(m => m.GetPiece(It.IsAny<Position>()), Times.Once);
         }
 
         [Test]
         public void GetPiece_DadaLinhaEColuna_DeveRetornarUmModeloDePeca()
         {
-            var actual = _game.GetPiece('a', '6');
+            var actual = this.game.GetPiece('a', '6');
 
             actual.Should().BeOfType<Models.Piece>().And.NotBeNull();
         }
@@ -104,9 +108,9 @@ namespace Chess.Test
         [Test]
         public void GetPiece_DadaLinhaEColunaQueNaoExiste_DeveRetornarNull()
         {
-            _chessboardMock.Setup(m => m.GetPiece(It.IsAny<Position>())).Returns(default(Piece));
+            this.chessboardMock.Setup(m => m.GetPiece(It.IsAny<Position>())).Returns(default(Piece));
 
-            var actual = _game.GetPiece('a', '6');
+            var actual = this.game.GetPiece('a', '6');
 
             actual.Should().BeNull();
         }

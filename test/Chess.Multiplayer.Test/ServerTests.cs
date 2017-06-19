@@ -1,38 +1,41 @@
-﻿using System.Net;
-using Chess.Multiplayer.Socket;
-using Moq;
-using NUnit.Framework;
-
-namespace Chess.Multiplayer.Test
+﻿namespace Chess.Multiplayer.Test
 {
+    using System.Net;
+
+    using Chess.Multiplayer.Socket;
+
+    using Moq;
+
+    using NUnit.Framework;
+
     [TestFixture]
     public class ServerTests
     {
-        private Server _server;
-        private Mock<ISocket> _socketMock;
+        private Server server;
+        private Mock<ISocket> socketMock;
 
         [SetUp]
         public void SetUp()
         {
-            _socketMock = new Mock<ISocket>();
+            this.socketMock = new Mock<ISocket>();
 
-            _server = new Server(_socketMock.Object);
+            this.server = new Server(this.socketMock.Object);
         }
 
         [Test]
         public void Listen_DeveChamarServerBindUmaVez()
         {
-            _server.Listen();
+            this.server.Listen();
 
-            _socketMock.Verify(m => m.Bind(It.IsAny<IPAddress>(), It.IsAny<int>()), Times.Once);
+            this.socketMock.Verify(m => m.Bind(It.IsAny<IPAddress>(), It.IsAny<int>()), Times.Once);
         }
 
         [Test]
         public void Listen_DeveChamarServerListenUmaVez()
         {
-            _server.Listen();
+            this.server.Listen();
 
-            _socketMock.Verify(m => m.Listen(), Times.Once);
+            this.socketMock.Verify(m => m.Listen(), Times.Once);
         }
     }
 }

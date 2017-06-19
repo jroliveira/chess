@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using Chess.Multiplayer;
-using Chess.UI.Console.Libs;
-using Chess.UI.Console.Scenarios.Matches;
-using Chess.UI.Console.Scenarios.Multiplayer;
-
-namespace Chess.UI.Console.Scenarios
+﻿namespace Chess.UI.Console.Scenarios
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Chess.Multiplayer;
+    using Chess.UI.Console.Libs;
+    using Chess.UI.Console.Scenarios.Matches;
+    using Chess.UI.Console.Scenarios.Multiplayer;
+
     public class Main : Scenario
     {
-        private readonly IDictionary<char, Action> _options;
+        private readonly IDictionary<char, Action> options;
 
         public Main(IGameMultiplayer game, Offline match, Client client, Server server, IWriter writer, IReader reader, IScreen screen)
             : base(game, writer, reader, screen)
@@ -17,7 +18,7 @@ namespace Chess.UI.Console.Scenarios
             screen.Title = "Chess";
             screen.Size = new Size { Height = 25, Width = 48 };
 
-            _options = new Dictionary<char, Action>
+            this.options = new Dictionary<char, Action>
             {
                 { '1', match.Start },
                 { '2', server.Start },
@@ -27,22 +28,22 @@ namespace Chess.UI.Console.Scenarios
 
         public void Start()
         {
-            Setup();
+            this.Setup();
 
-            Writer.WriteInsideTheBox("choose an option");
-            Writer.NewLine();
-            Writer.NewLine();
+            this.Writer.WriteInsideTheBox("choose an option");
+            this.Writer.NewLine();
+            this.Writer.NewLine();
 
-            Writer.WriteOption("1", "solo");
-            Writer.NewLine();
-            Writer.WriteOption("2", "waiting for opponent");
-            Writer.NewLine();
-            Writer.WriteOption("3", "connect an one opponent");
-            Writer.NewLine();
-            Writer.WriteWithSleep("   option: ");
+            this.Writer.WriteOption("1", "solo");
+            this.Writer.NewLine();
+            this.Writer.WriteOption("2", "waiting for opponent");
+            this.Writer.NewLine();
+            this.Writer.WriteOption("3", "connect an one opponent");
+            this.Writer.NewLine();
+            this.Writer.WriteWithSleep("   option: ");
 
-            var option = ReadOption();
-            _options[option]();
+            var option = this.ReadOption();
+            this.options[option]();
         }
 
         private char ReadOption()
@@ -52,14 +53,15 @@ namespace Chess.UI.Console.Scenarios
 
             do
             {
-                option = Reader.ReadKey();
-                isValid = _options.ContainsKey(option);
+                option = this.Reader.ReadKey();
+                isValid = this.options.ContainsKey(option);
 
                 if (!isValid)
                 {
-                    Writer.WriteError("invalid option! please insert [1], [2] or [3]");
+                    this.Writer.WriteError("invalid option! please insert [1], [2] or [3]");
                 }
-            } while (!isValid);
+            }
+            while (!isValid);
 
             return option;
         }

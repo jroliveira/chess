@@ -1,29 +1,32 @@
-﻿using Chess.Pieces;
-using Chess.Validations.BishopValidations;
-using FluentAssertions;
-using Moq;
-using NUnit.Framework;
-
-namespace Chess.Test.Validations.BishopValidations
+﻿namespace Chess.Test.Validations.BishopValidations
 {
+    using Chess.Pieces;
+    using Chess.Validations.BishopValidations;
+
+    using FluentAssertions;
+
+    using Moq;
+
+    using NUnit.Framework;
+
     [TestFixture]
     public class FileAndRankLimitValidateTests
     {
-        private FileAndRankLimitValidate _validate;
-        private Mock<Chessboard> _chessboardStub;
-        private Mock<Bishop> _bishopStub;
+        private FileAndRankLimitValidate validate;
+        private Mock<Chessboard> chessboardStub;
+        private Mock<Bishop> bishopStub;
 
         [SetUp]
         public void Setup()
         {
-            _chessboardStub = new Mock<Chessboard>();
-            _chessboardStub.Setup(m => m.HasPiece(It.IsAny<Position>())).Returns(true);
+            this.chessboardStub = new Mock<Chessboard>();
+            this.chessboardStub.Setup(m => m.HasPiece(It.IsAny<Position>())).Returns(true);
 
-            _bishopStub = new Mock<Bishop>();
-            _bishopStub.Setup(p => p.Position).Returns(new Position('d', '5'));
-            _bishopStub.Setup(p => p.Chessboard).Returns(_chessboardStub.Object);
+            this.bishopStub = new Mock<Bishop>();
+            this.bishopStub.Setup(p => p.Position).Returns(new Position('d', '5'));
+            this.bishopStub.Setup(p => p.Chessboard).Returns(this.chessboardStub.Object);
 
-            _validate = new FileAndRankLimitValidate(_bishopStub.Object);
+            this.validate = new FileAndRankLimitValidate(this.bishopStub.Object);
         }
 
         [TestCase('d', '7')]
@@ -40,7 +43,7 @@ namespace Chess.Test.Validations.BishopValidations
         {
             var newPosition = new Position(file, rank);
 
-            var actual = _validate.IsValid(newPosition);
+            var actual = this.validate.IsValid(newPosition);
 
             actual.Should().BeFalse();
         }
@@ -57,7 +60,7 @@ namespace Chess.Test.Validations.BishopValidations
         {
             var newPosition = new Position(file, rank);
 
-            var actual = _validate.IsValid(newPosition);
+            var actual = this.validate.IsValid(newPosition);
 
             actual.Should().BeTrue();
         }

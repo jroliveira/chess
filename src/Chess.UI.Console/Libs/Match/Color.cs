@@ -1,31 +1,33 @@
-using System;
-
 namespace Chess.UI.Console.Libs.Match
 {
+    using System;
+
+    using static System.Console;
+
     public class Color
     {
         public void Toggle(bool toggle)
         {
             if (toggle)
             {
-                White();
+                this.White();
             }
             else
             {
-                Restore();
+                this.Restore();
             }
         }
 
         public void Restore()
         {
-            System.Console.BackgroundColor = ConsoleColor.Black;
-            System.Console.ForegroundColor = ConsoleColor.White;
+            BackgroundColor = ConsoleColor.Black;
+            ForegroundColor = ConsoleColor.White;
         }
 
         public void White()
         {
-            System.Console.BackgroundColor = ConsoleColor.White;
-            System.Console.ForegroundColor = ConsoleColor.Black;
+            BackgroundColor = ConsoleColor.White;
+            ForegroundColor = ConsoleColor.Black;
         }
     }
 }

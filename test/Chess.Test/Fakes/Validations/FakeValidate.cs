@@ -1,19 +1,19 @@
-using Chess.Validations;
-
 namespace Chess.Test.Fakes.Validations
 {
+    using Chess.Validations;
+
     internal class FakeValidate : Validate
     {
-        private readonly bool _isValid;
+        private readonly bool isValid;
 
         public FakeValidate(bool isValid)
         {
-            _isValid = isValid;
+            this.isValid = isValid;
         }
 
         protected override bool IsValidRule(Position newPosition)
         {
-            return _isValid;
+            return this.isValid;
         }
     }
 }

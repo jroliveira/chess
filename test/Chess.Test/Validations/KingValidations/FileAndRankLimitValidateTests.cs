@@ -1,29 +1,32 @@
-﻿using Chess.Pieces;
-using Chess.Validations.KingValidations;
-using FluentAssertions;
-using Moq;
-using NUnit.Framework;
-
-namespace Chess.Test.Validations.KingValidations
+﻿namespace Chess.Test.Validations.KingValidations
 {
+    using Chess.Pieces;
+    using Chess.Validations.KingValidations;
+
+    using FluentAssertions;
+
+    using Moq;
+
+    using NUnit.Framework;
+
     [TestFixture]
     public class FileAndRankLimitValidateTests
     {
-        private FileAndRankLimitValidate _validate;
-        private Mock<Chessboard> _chessboardStub;
-        private Mock<King> _kingStub;
+        private FileAndRankLimitValidate validate;
+        private Mock<Chessboard> chessboardStub;
+        private Mock<King> kingStub;
 
         [SetUp]
         public void Setup()
         {
-            _chessboardStub = new Mock<Chessboard>();
-            _chessboardStub.Setup(m => m.HasPiece(It.IsAny<Position>())).Returns(true);
+            this.chessboardStub = new Mock<Chessboard>();
+            this.chessboardStub.Setup(m => m.HasPiece(It.IsAny<Position>())).Returns(true);
 
-            _kingStub = new Mock<King>();
-            _kingStub.Setup(p => p.Position).Returns(new Position('d', '5'));
-            _kingStub.Setup(p => p.Chessboard).Returns(_chessboardStub.Object);
+            this.kingStub = new Mock<King>();
+            this.kingStub.Setup(p => p.Position).Returns(new Position('d', '5'));
+            this.kingStub.Setup(p => p.Chessboard).Returns(this.chessboardStub.Object);
 
-            _validate = new FileAndRankLimitValidate(_kingStub.Object);
+            this.validate = new FileAndRankLimitValidate(this.kingStub.Object);
         }
 
         [TestCase('c', '7')]
@@ -39,7 +42,7 @@ namespace Chess.Test.Validations.KingValidations
         {
             var newPosition = new Position(file, rank);
 
-            var actual = _validate.IsValid(newPosition);
+            var actual = this.validate.IsValid(newPosition);
 
             actual.Should().BeFalse();
         }
@@ -56,7 +59,7 @@ namespace Chess.Test.Validations.KingValidations
         {
             var newPosition = new Position(file, rank);
 
-            var actual = _validate.IsValid(newPosition);
+            var actual = this.validate.IsValid(newPosition);
 
             actual.Should().BeTrue();
         }

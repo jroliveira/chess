@@ -1,43 +1,46 @@
-﻿using Chess.Validations;
-using Moq;
-using NUnit.Framework;
-using Bishop = Chess.Validations.BishopValidations;
-using Rook = Chess.Validations.RookValidations;
-
-namespace Chess.Test.Validations
+﻿namespace Chess.Test.Validations
 {
+    using Chess.Validations;
+
+    using Moq;
+
+    using NUnit.Framework;
+
+    using Bishop = Chess.Validations.BishopValidations;
+    using Rook = Chess.Validations.RookValidations;
+
     [TestFixture]
     public class QueenValidatorTests
     {
-        private Mock<Bishop.FileAndRankLimitValidate> _bishopFileAndRankLimitValidateMock;
-        private Mock<Rook.FileAndRankLimitValidate> _rookFileAndRankLimitValidateMock;
+        private Mock<Bishop.FileAndRankLimitValidate> bishopFileAndRankLimitValidateMock;
+        private Mock<Rook.FileAndRankLimitValidate> rookFileAndRankLimitValidateMock;
 
         [SetUp]
         public void Setup()
         {
-            _bishopFileAndRankLimitValidateMock = new Mock<Bishop.FileAndRankLimitValidate>();
-            _rookFileAndRankLimitValidateMock = new Mock<Rook.FileAndRankLimitValidate>();
+            this.bishopFileAndRankLimitValidateMock = new Mock<Bishop.FileAndRankLimitValidate>();
+            this.rookFileAndRankLimitValidateMock = new Mock<Rook.FileAndRankLimitValidate>();
 
-            var validator = new QueenValidator(_bishopFileAndRankLimitValidateMock.Object, _rookFileAndRankLimitValidateMock.Object);
+            var validator = new QueenValidator(this.bishopFileAndRankLimitValidateMock.Object, this.rookFileAndRankLimitValidateMock.Object);
             validator.Validate(It.IsAny<Position>());
         }
 
         [Test]
         public void Validate_DeveChamarBishopFileAndRankLimitValidateSetNextValidateUmaVez()
         {
-            _bishopFileAndRankLimitValidateMock.Verify(v => v.SetNextValidate(It.IsAny<Validate>()), Times.Once);
+            this.bishopFileAndRankLimitValidateMock.Verify(v => v.SetNextValidate(It.IsAny<Validate>()), Times.Once);
         }
 
         [Test]
         public void Validate_DeveChamarBishopFileAndRankLimitValidateIsValidUmaVez()
         {
-            _bishopFileAndRankLimitValidateMock.Verify(v => v.IsValid(It.IsAny<Position>()), Times.Once);
+            this.bishopFileAndRankLimitValidateMock.Verify(v => v.IsValid(It.IsAny<Position>()), Times.Once);
         }
 
         [Test]
         public void Validate_DeveChamarRookFileAndRankLimitValidateSetNextValidateUmaVez()
         {
-            _rookFileAndRankLimitValidateMock.Verify(v => v.SetNextValidate(It.IsAny<Validate>()), Times.Once);
+            this.rookFileAndRankLimitValidateMock.Verify(v => v.SetNextValidate(It.IsAny<Validate>()), Times.Once);
         }
     }
 }

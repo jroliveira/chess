@@ -1,23 +1,24 @@
-﻿using FluentAssertions;
-using NUnit.Framework;
-
-namespace Chess.Test
+﻿namespace Chess.Test
 {
+    using FluentAssertions;
+
+    using NUnit.Framework;
+
     [TestFixture]
     public class PositionTests
     {
-        private Position _position;
+        private Position position;
 
         [SetUp]
         public void SetUp()
         {
-            _position = new Position('a', '1');
+            this.position = new Position('a', '1');
         }
 
         [Test]
         public void ToString_DadaPosicaoA1_DeveRetornarStringA1()
         {
-            var actual = _position.ToString();
+            var actual = this.position.ToString();
 
             actual.Should().Be("a1");
         }
@@ -29,7 +30,7 @@ namespace Chess.Test
         {
             var other = new Position(file, rank);
 
-            var actual = _position.Equals(other);
+            var actual = this.position.Equals(other);
 
             actual.Should().Be(expected);
         }

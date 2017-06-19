@@ -1,39 +1,42 @@
-﻿using System;
-using Chess.Multiplayer.EventHandlers;
-using Chess.Multiplayer.Socket;
-
-namespace Chess.Multiplayer
+﻿namespace Chess.Multiplayer
 {
+    using System;
+
+    using Chess.Multiplayer.EventHandlers;
+    using Chess.Multiplayer.Socket;
+
     internal class Multiplayer
     {
-        protected ISocket Socket;
+        public Multiplayer(ISocket socket)
+        {
+            this.Socket = socket;
+        }
 
         protected Multiplayer()
         {
-
-        }
-
-        public Multiplayer(ISocket socket)
-        {
-            Socket = socket;
         }
 
         public event PlayedEventHandler Played;
+
         public event ErrorEventHandler Error;
+
         public event ConnectedEventHandler Connected;
+
         public event DisconnectedEventHandler Disconnected;
+
+        protected ISocket Socket { get; set; }
 
         public void SendTheMove(string piecePosition, string newPosition)
         {
             try
             {
-                var move = string.Format("{0}->{1}", piecePosition, newPosition);
+                var move = $"{piecePosition}->{newPosition}";
 
-                Socket.Send(move);
+                this.Socket.Send(move);
             }
             catch (Exception exception)
             {
-                OnError(exception);
+                this.OnError(exception);
             }
         }
 
@@ -41,17 +44,17 @@ namespace Chess.Multiplayer
         {
             try
             {
-                var move = Socket.Receive();
+                var move = this.Socket.Receive();
 
                 var args = move.Split(new[] { "->" }, StringSplitOptions.None);
                 var piece = args[0];
                 var newPosition = args[1];
 
-                OnPlayed(piece, newPosition);
+                this.OnPlayed(piece, newPosition);
             }
             catch (Exception exception)
             {
-                OnError(exception);
+                this.OnError(exception);
             }
         }
 
@@ -59,51 +62,39 @@ namespace Chess.Multiplayer
         {
             try
             {
-                Socket.Shutdown();
-                Socket.Close();
+                this.Socket.Shutdown();
+                this.Socket.Close();
 
-                OnDisconnected();
+                this.OnDisconnected();
             }
             catch (Exception exception)
             {
-                OnError(exception);
-            }
-        }
-
-        private void OnPlayed(string piecePosition, string newPosition)
-        {
-            var handler = Played;
-            if (handler != null)
-            {
-                handler(piecePosition, newPosition);
+                this.OnError(exception);
             }
         }
 
         protected void OnError(Exception exception)
         {
-            var handler = Error;
-            if (handler != null)
-            {
-                handler(exception);
-            }
+            var handler = this.Error;
+            handler?.Invoke(exception);
         }
 
         protected void OnConnected()
         {
-            var handler = Connected;
-            if (handler != null)
-            {
-                handler();
-            }
+            var handler = this.Connected;
+            handler?.Invoke();
         }
 
         protected virtual void OnDisconnected()
         {
-            var handler = Disconnected;
-            if (handler != null)
-            {
-                handler();
-            }
+            var handler = this.Disconnected;
+            handler?.Invoke();
+        }
+
+        private void OnPlayed(string piecePosition, string newPosition)
+        {
+            var handler = this.Played;
+            handler?.Invoke(piecePosition, newPosition);
         }
     }
 }

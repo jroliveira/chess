@@ -1,43 +1,45 @@
-﻿using Chess.Multiplayer;
-using Chess.UI.Console.Libs;
-using Chess.UI.Console.Libs.Match;
-
-namespace Chess.UI.Console.Scenarios.Matches
+﻿namespace Chess.UI.Console.Scenarios.Matches
 {
+    using Chess.Multiplayer;
+    using Chess.UI.Console.Libs;
+    using Chess.UI.Console.Libs.Match;
+
     public class Online : Match
     {
-        protected Online() { }
-
         public Online(IGameMultiplayer game, Chessboard chessboard, IWriter writer, IReader reader, IScreen screen)
             : base(game, chessboard, writer, reader, screen)
         {
-            game.Played += OnPlayed;
+            game.Played += this.OnPlayed;
+        }
+
+        protected Online()
+        {
         }
 
         public void Start(bool isServer)
         {
-            Setup();
+            this.Setup();
 
-            Game.Start();
-            Chessboard.Print(Game);
+            this.Game.Start();
+            this.Chessboard.Print(this.Game);
 
             while (true)
             {
                 if (isServer)
                 {
-                    NextMove();
+                    this.NextMove();
                 }
                 else
                 {
-                    Game.WaitingTheMove();
+                    this.Game.WaitingTheMove();
                 }
             }
         }
 
         private void OnPlayed(string piecePosition, string newPosition)
         {
-            Chessboard.Print(Game);
-            NextMove();
+            this.Chessboard.Print(this.Game);
+            this.NextMove();
         }
     }
 }

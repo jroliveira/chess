@@ -1,8 +1,8 @@
-﻿using Chess.Multiplayer;
-using Chess.UI.Console.Libs;
-
-namespace Chess.UI.Console.Scenarios
+﻿namespace Chess.UI.Console.Scenarios
 {
+    using Chess.Multiplayer;
+    using Chess.UI.Console.Libs;
+
     public class Scenario
     {
         protected readonly IGameMultiplayer Game;
@@ -10,19 +10,21 @@ namespace Chess.UI.Console.Scenarios
         protected readonly IReader Reader;
         protected readonly IScreen Screen;
 
-        protected Scenario() { }
+        protected Scenario()
+        {
+        }
 
         protected Scenario(IGameMultiplayer game, IWriter writer, IReader reader, IScreen screen)
         {
-            Game = game;
-            Writer = writer;
-            Reader = reader;
-            Screen = screen;
+            this.Game = game;
+            this.Writer = writer;
+            this.Reader = reader;
+            this.Screen = screen;
         }
 
         protected void Setup()
         {
-            Screen.Clean();
+            this.Screen.Clean();
         }
     }
 }
