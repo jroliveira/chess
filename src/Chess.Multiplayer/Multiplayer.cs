@@ -63,7 +63,6 @@
             try
             {
                 this.Socket.Shutdown();
-                this.Socket.Close();
 
                 this.OnDisconnected();
             }

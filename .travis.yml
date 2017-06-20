@@ -1,7 +1,14 @@
 language: csharp
-solution: chess.sln
-env:
- matrix:
-  - MONO_VERSION="3.8.0"
+mono: none
+dotnet: 1.0.4
+dist: trusty
+branches:
+  only:
+   - master
+install:
+ - dotnet restore
 script:
- - xbuild /verbosity:minimal /p:Configuration=Release chess.sln
+ - dotnet build -c Release
+ - dotnet test -c Release test/unit/Chess.Test/Chess.Test.csproj
+ - dotnet test -c Release test/unit/Chess.Multiplayer.Test/Chess.Multiplayer.Test.csproj
+ - dotnet test -c Release test/unit/Chess.UI.Console.Test/Chess.UI.Console.Test.csproj
