@@ -48,11 +48,6 @@
             this.socket.Shutdown(SocketShutdown.Both);
         }
 
-        public void Close()
-        {
-            this.socket.Close();
-        }
-
         public ISocket Accept()
         {
             var client = this.socket.Accept();

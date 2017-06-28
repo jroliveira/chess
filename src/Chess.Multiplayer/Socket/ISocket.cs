@@ -12,8 +12,6 @@
 
         void Shutdown();
 
-        void Close();
-
         ISocket Accept();
 
         void Listen();

@@ -1,22 +1,50 @@
-version: 1.0.{build}
-skip_tags: true
-configuration: Release
-assembly_info:
-  patch: true
-  file: '**\AssemblyInfo.*'
-  assembly_version: '{version}'
-  assembly_file_version: '{version}'
-  assembly_informational_version: '{version}'
-environment:
-  COVERALLS_REPO_TOKEN:
-    secure: gNxd6wdxz392+mBi6z8Tjk/RKSWhiMCRH7VCD+dmd0RDFUbtgjRuL9uQTRGTPjkR
-before_build:
-  - nuget restore ".\chess.sln"
-build:
-  project: .\chess.sln
-  verbosity: minimal
-test_script:
-- ps: >-
-    .\packages\OpenCover.4.5.3723\OpenCover.Console.exe -register:user -target:nunit-console.exe -register:user "-targetargs:""test\Chess.Test\bin\$env:CONFIGURATION\Chess.Test.dll"" /noshadow" -filter:"+[Chess*]*" -output:opencoverCoverage.xml
+# Reference: https://www.appveyor.com/docs/appveyor-yml/
+#---------------------------------#
+#      general configuration      #
+#---------------------------------#
 
-    .\packages\coveralls.net.0.5.0\csmacnz.Coveralls.exe --opencover -i opencoverCoverage.xml --repoToken $env:COVERALLS_REPO_TOKEN --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_JOB_ID
+version: 1.0.{build}
+
+branches:
+  only:
+    - master
+
+skip_tags: true
+
+
+#---------------------------------#
+#    environment configuration    #
+#---------------------------------#
+
+image: Visual Studio 2017
+
+environment:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+pull_requests:
+  do_not_increment_build_number: true
+
+
+#---------------------------------#
+#       build configuration       #
+#---------------------------------#
+
+configuration:
+  - Release
+
+before_build:
+  - dotnet restore
+
+build_script:
+  - dotnet build -c %CONFIGURATION%
+
+
+#---------------------------------#
+#       tests configuration       #
+#---------------------------------#
+
+test_script:
+  - dotnet test -c %CONFIGURATION% test\unit\Chess.Test\Chess.Test.csproj
+  - dotnet test -c %CONFIGURATION% test\unit\Chess.Multiplayer.Test\Chess.Multiplayer.Test.csproj
+  - dotnet test -c %CONFIGURATION% test\unit\Chess.UI.Console.Test\Chess.UI.Console.Test.csproj

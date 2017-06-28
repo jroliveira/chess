@@ -1,9 +1,11 @@
-namespace Chess.UI.Console
+﻿namespace Chess.UI.Console
 {
     using System.Text;
 
     using Chess.UI.Console.IoC;
     using Chess.UI.Console.Scenarios;
+
+    using LightInject;
 
     public class Program
     {

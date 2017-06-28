@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class ChessException : ApplicationException
+    public class ChessException : Exception
     {
         public ChessException(string message)
             : base(message)

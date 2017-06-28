@@ -21,8 +21,7 @@
 
         public void Listen()
         {
-            var host = Dns.GetHostEntry(Dns.GetHostName());
-            var ip = host.AddressList[1];
+            var ip = new IPAddress(0); // TODO: Get ip address
 
             try
             {
