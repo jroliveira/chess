@@ -14,13 +14,11 @@
         public MultiplayerTests()
         {
             this.socketMock = new Mock<ISocket>();
-
-
             this.multiplayer = new Multiplayer(this.socketMock.Object);
         }
 
         [Fact]
-        public void SendTheMove_DadaPosicaoENovaPosicao_DeveChamarClientSendUmaVez()
+        public void SendTheMoveDadaPosicaoENovaPosicaoDeveChamarClientSendUmaVez()
         {
             this.multiplayer.SendTheMove("d6", "d7");
 
@@ -28,7 +26,7 @@
         }
 
         [Fact]
-        public void WaitingTheMove_DeveChamarClientReceiveUmaVez()
+        public void WaitingTheMoveDeveChamarClientReceiveUmaVez()
         {
             this.multiplayer.WaitingTheMove();
 
@@ -36,7 +34,7 @@
         }
 
         [Fact]
-        public void Disconnect_DeveChamarClientShutdownUmaVez()
+        public void DisconnectDeveChamarClientShutdownUmaVez()
         {
             this.multiplayer.Disconnect();
 

@@ -1,12 +1,15 @@
 ﻿namespace Chess
 {
+    using System;
+    using System.Collections.Generic;
+
     using Chess.Models;
 
-    public interface IGame
+    public interface IGame : IObservable<IGame>
     {
-        char[] Files { get; }
+        IReadOnlyCollection<char> Files { get; }
 
-        char[] Ranks { get; }
+        IReadOnlyCollection<char> Ranks { get; }
 
         void Start();
 

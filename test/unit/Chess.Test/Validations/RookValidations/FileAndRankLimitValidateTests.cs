@@ -1,7 +1,8 @@
 ﻿namespace Chess.Test.Validations.RookValidations
 {
-    using Chess.Pieces;
-    using Chess.Validations.RookValidations;
+    using Chess.Entities;
+    using Chess.Entities.Pieces;
+    using Chess.Lib.Validations.RookValidations;
 
     using FluentAssertions;
 
@@ -33,7 +34,7 @@
         [InlineData('d', '5')]
         [InlineData('c', '4')]
         [InlineData('e', '4')]
-        public void IsValid_DadaUmaPosicaoInvalida_DeveRetornarFalse(char file, char rank)
+        public void IsValidDadaUmaPosicaoInvalidaDeveRetornarFalse(char file, char rank)
         {
             var newPosition = new Position(file, rank);
 
@@ -51,7 +52,7 @@
         [InlineData('f', '5')]
         [InlineData('d', '4')]
         [InlineData('d', '3')]
-        public void IsValid_DadaUmaPosicaoValida_DeveRetornarTrue(char file, char rank)
+        public void IsValidDadaUmaPosicaoValidaDeveRetornarTrue(char file, char rank)
         {
             var newPosition = new Position(file, rank);
 

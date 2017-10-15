@@ -21,7 +21,7 @@
         }
 
         [Fact]
-        public void Connect_DeveChamarClientConnectUmaVez()
+        public void ConnectDeveChamarClientConnectUmaVez()
         {
             this.client.Connect(It.IsAny<IPAddress>(), It.IsAny<int>());
 

@@ -2,7 +2,6 @@
 {
     using System;
 
-    using Chess.Multiplayer.EventHandlers;
     using Chess.Multiplayer.Socket;
 
     internal class Multiplayer
@@ -16,13 +15,11 @@
         {
         }
 
-        public event PlayedEventHandler Played;
+        public event Action<Exception> Error;
 
-        public event ErrorEventHandler Error;
+        public event Action Connected;
 
-        public event ConnectedEventHandler Connected;
-
-        public event DisconnectedEventHandler Disconnected;
+        public event Action<string, string> Played;
 
         protected ISocket Socket { get; set; }
 
@@ -63,8 +60,6 @@
             try
             {
                 this.Socket.Shutdown();
-
-                this.OnDisconnected();
             }
             catch (Exception exception)
             {
@@ -81,12 +76,6 @@
         protected void OnConnected()
         {
             var handler = this.Connected;
-            handler?.Invoke();
-        }
-
-        protected virtual void OnDisconnected()
-        {
-            var handler = this.Disconnected;
             handler?.Invoke();
         }
 

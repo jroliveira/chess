@@ -1,6 +1,6 @@
 ﻿namespace Chess.Test.Exceptions
 {
-    using Chess.Exceptions;
+    using Chess.Lib.Exceptions;
 
     using FluentAssertions;
 
@@ -11,19 +11,19 @@
         private ChessException exception;
 
         [Fact]
-        public void Message_DadaMensagemSemParametro_DeveRetornarMensagem()
+        public void MessageDadaMensagemSemParametroDeveRetornarMensagem()
         {
-            this.exception = new ChessException("Não é possível mover a peça.");
+            this.exception = new ChessException("Cannot move the piece.");
 
-            this.exception.Message.Should().Be("Não é possível mover a peça.");
+            this.exception.Message.Should().Be("Cannot move the piece.");
         }
 
         [Fact]
-        public void Message_DadaMensagemComParametro_DeveRetornarMensagem()
+        public void MessageDadaMensagemComParametroDeveRetornarMensagem()
         {
-            this.exception = new ChessException("Não é possível mover a peça '{0}'.", "a1");
+            this.exception = new ChessException("Cannot move the piece '{0}'.", "a1");
 
-            this.exception.Message.Should().Be("Não é possível mover a peça 'a1'.");
+            this.exception.Message.Should().Be("Cannot move the piece 'a1'.");
         }
     }
 }

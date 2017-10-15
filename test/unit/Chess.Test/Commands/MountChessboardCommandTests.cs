@@ -2,8 +2,9 @@
 {
     using System;
 
-    using Chess.Commands;
-    using Chess.Pieces;
+    using Chess.Entities;
+    using Chess.Entities.Pieces;
+    using Chess.Lib.Data.Commands;
 
     using Moq;
 
@@ -18,7 +19,7 @@
         {
             this.chessboardMock = new Mock<Chessboard>();
 
-            this.mountChessboard = new MountChessboardCommand(this.chessboardMock.Object);
+            this.mountChessboard = new MountChessboardCommand();
         }
 
         [Theory]
@@ -28,9 +29,9 @@
         [InlineData(typeof(Knight), 4)]
         [InlineData(typeof(Rook), 4)]
         [InlineData(typeof(Pawn), 16)]
-        public void Execute_DadoTabuleiroVazio_DeveChamarChessboardAddPieceParaOTipoEAQuantidade(Type type, int times)
+        public void ExecuteDadoTabuleiroVazioDeveChamarChessboardAddPieceParaOTipoEaQuantidade(Type type, int times)
         {
-            this.mountChessboard.Execute();
+            this.mountChessboard.Execute(this.chessboardMock.Object);
 
             this.chessboardMock.Verify(m => m.AddPiece(It.Is<Piece>(p => p.GetType() == type)), Times.Exactly(times));
         }
@@ -68,17 +69,17 @@
         [InlineData('f', '8', typeof(Bishop))]
         [InlineData('g', '8', typeof(Knight))]
         [InlineData('h', '8', typeof(Rook))]
-        public void Execute_DadoTabuleiroVazio_DeveChamarChessboardAddPieceParaAPosicaoEOTipoUmaVez(char file, char rank, Type type)
+        public void ExecuteDadoTabuleiroVazioDeveChamarChessboardAddPieceParaAPosicaoEoTipoUmaVez(char file, char rank, Type type)
         {
-            this.mountChessboard.Execute();
+            this.mountChessboard.Execute(this.chessboardMock.Object);
 
             this.chessboardMock.Verify(m => m.AddPiece(It.Is<Piece>(p => p.Position.File == file && p.Position.Rank == rank && p.GetType() == type)), Times.Once);
         }
 
         [Fact]
-        public void Execute_DadoTabuleiroVazio_DeveChamarChessboardAddPiece32Vezes()
+        public void ExecuteDadoTabuleiroVazioDeveChamarChessboardAddPiece32Vezes()
         {
-            this.mountChessboard.Execute();
+            this.mountChessboard.Execute(this.chessboardMock.Object);
 
             this.chessboardMock.Verify(m => m.AddPiece(It.IsAny<Piece>()), Times.Exactly(32));
         }

@@ -2,9 +2,10 @@
 {
     using System;
 
-    using Chess.Commands;
-    using Chess.Exceptions;
-    using Chess.Pieces;
+    using Chess.Entities;
+    using Chess.Entities.Pieces;
+    using Chess.Lib.Data.Commands;
+    using Chess.Lib.Exceptions;
 
     using FluentAssertions;
 
@@ -31,7 +32,7 @@
         }
 
         [Fact]
-        public void Files_DadoUmNovoJogo_DeveRetornarAsColunasDoTabuleiro()
+        public void FilesDadoUmNovoJogoDeveRetornarAsColunasDoTabuleiro()
         {
             this.game = new Game();
 
@@ -41,7 +42,7 @@
         }
 
         [Fact]
-        public void Ranks_DadoUmNovoJogo_DeveRetornarAsLinhasDoTabuleiro()
+        public void RanksDadoUmNovoJogoDeveRetornarAsLinhasDoTabuleiro()
         {
             this.game = new Game();
 
@@ -51,15 +52,15 @@
         }
 
         [Fact]
-        public void Start_DeveChamarChessboardExecuteUmaVez()
+        public void StartDeveChamarChessboardExecuteUmaVez()
         {
             this.game.Start();
 
-            this.mountChessboardMock.Verify(m => m.Execute(), Times.Once);
+            this.mountChessboardMock.Verify(m => m.Execute(this.chessboardMock.Object), Times.Once);
         }
 
         [Fact]
-        public void Move_DadaPosicaoEPeca_DeveChamarChessboardGetPieceUmaVez()
+        public void MoveDadaPosicaoEPecaDeveChamarChessboardGetPieceUmaVez()
         {
             this.game.Move("a5", "a6");
 
@@ -67,7 +68,7 @@
         }
 
         [Fact]
-        public void Move_DadaPosicaoEPeca_DeveChamarChessboardMovePieceUmaVez()
+        public void MoveDadaPosicaoEPecaDeveChamarChessboardMovePieceUmaVez()
         {
             this.game.Move("a5", "a6");
 
@@ -75,7 +76,7 @@
         }
 
         [Fact]
-        public void Move_DadaPosicaoEPecaQueNaoExiste_DeveLancarAExcecaoChessException()
+        public void MoveDadaPosicaoEPecaQueNaoExisteDeveLancarAExcecaoChessException()
         {
             this.chessboardMock.Setup(m => m.GetPiece(It.IsAny<Position>())).Returns(default(Piece));
 
@@ -83,11 +84,11 @@
 
             action
                 .ShouldThrow<ChessException>()
-                .WithMessage("Peça não existe.");
+                .WithMessage("Piece 'a5' don't exist.");
         }
 
         [Fact]
-        public void GetPiece_DadaLinhaEColuna_DeveChamarChessboardGetPieceUmaVez()
+        public void GetPieceDadaLinhaEColunaDeveChamarChessboardGetPieceUmaVez()
         {
             this.game.GetPiece('a', '6');
 
@@ -95,7 +96,7 @@
         }
 
         [Fact]
-        public void GetPiece_DadaLinhaEColuna_DeveRetornarUmModeloDePeca()
+        public void GetPieceDadaLinhaEColunaDeveRetornarUmModeloDePeca()
         {
             var actual = this.game.GetPiece('a', '6');
 
@@ -103,7 +104,7 @@
         }
 
         [Fact]
-        public void GetPiece_DadaLinhaEColunaQueNaoExiste_DeveRetornarNull()
+        public void GetPieceDadaLinhaEColunaQueNaoExisteDeveRetornarNull()
         {
             this.chessboardMock.Setup(m => m.GetPiece(It.IsAny<Position>())).Returns(default(Piece));
 
