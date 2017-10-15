@@ -36,7 +36,7 @@ A classe `GameMultiplayer` implementa o contrato `IGameMultiplayer` e herda da c
 
 Esta fonte permite mostrar as peças do Xadrez no console do Windows, para instalar vamos seguir os passos abaixo.
 
- - Baixe o arquivo **dejavu-fonts-ttf-2.35.zip** do site [dejavu-fonts.org](http://dejavu-fonts.org/wiki/Download).
+ - Baixe o arquivo **dejavu-fonts-ttf-2.37.zip** do site [dejavu-fonts.org](https://dejavu-fonts.github.io/Download.html).
  - Extraia o arquivo .zip baixado e instale a fonte **DejaVuSansMono.ttf** que está na pasta **ttf**.
  - Abra o **regedit** vá até `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Console\TrueTypeFont`.
  - Adicione um novo **Valor da Cadeia de Caracteres** `000` com o valor `DejaVu Sans Mono`.

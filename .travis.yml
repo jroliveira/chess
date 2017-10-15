@@ -1,6 +1,6 @@
 language: csharp
 mono: none
-dotnet: 1.0.4
+dotnet: 2.0.0
 dist: trusty
 branches:
   only:
@@ -11,4 +11,4 @@ script:
  - dotnet build -c Release
  - dotnet test -c Release test/unit/Chess.Test/Chess.Test.csproj
  - dotnet test -c Release test/unit/Chess.Multiplayer.Test/Chess.Multiplayer.Test.csproj
- - dotnet test -c Release test/unit/Chess.UI.Console.Test/Chess.UI.Console.Test.csproj
+ - dotnet test -c Release test/unit/Chess.Terminal.Test/Chess.Terminal.Test.csproj
