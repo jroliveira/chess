@@ -1,7 +1,8 @@
 ﻿namespace Chess.Test.Validations.KnightValidations
 {
-    using Chess.Pieces;
-    using Chess.Validations.KnightValidations;
+    using Chess.Entities;
+    using Chess.Entities.Pieces;
+    using Chess.Lib.Validations.KnightValidations;
 
     using FluentAssertions;
 
@@ -42,7 +43,7 @@
         [InlineData('b', '3')]
         [InlineData('d', '3')]
         [InlineData('f', '3')]
-        public void IsValid_DadaUmaPosicaoInvalida_DeveRetornarFalse(char file, char rank)
+        public void IsValidDadaUmaPosicaoInvalidaDeveRetornarFalse(char file, char rank)
         {
             var newPosition = new Position(file, rank);
 
@@ -60,7 +61,7 @@
         [InlineData('f', '4')]
         [InlineData('c', '3')]
         [InlineData('e', '3')]
-        public void IsValid_DadaUmaPosicaoValida_DeveRetornarTrue(char file, char rank)
+        public void IsValidDadaUmaPosicaoValidaDeveRetornarTrue(char file, char rank)
         {
             var newPosition = new Position(file, rank);
 

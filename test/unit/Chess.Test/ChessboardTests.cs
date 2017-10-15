@@ -1,11 +1,11 @@
 ﻿namespace Chess.Test
 {
     using System;
-    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
 
-    using Chess.Exceptions;
-    using Chess.Pieces;
-    using Chess.Queries;
+    using Chess.Entities;
+    using Chess.Entities.Pieces;
+    using Chess.Lib.Exceptions;
 
     using FluentAssertions;
 
@@ -18,51 +18,23 @@
         private readonly Chessboard chessboard;
         private readonly Mock<Piece> pieceMock;
         private readonly Mock<Position> positionStub;
-        private readonly Mock<ICollection<Piece>> piecesMock;
 
         public ChessboardTests()
         {
             this.positionStub = new Mock<Position>();
-            this.positionStub.Setup(m => m.Equals(It.IsAny<Position>())).Returns(false);
 
             this.pieceMock = new Mock<Piece>();
             this.pieceMock.Setup(p => p.Position).Returns(this.positionStub.Object);
             this.pieceMock.Setup(m => m.CanMove(It.IsAny<Position>())).Returns(true);
+            this.pieceMock.Setup(m => m.Equals(It.IsAny<Position>())).Returns(false);
 
-            this.piecesMock = new Mock<ICollection<Piece>>();
+            var piecesFake = new ObservableCollection<Piece> { this.pieceMock.Object };
 
-            var getPiecesMock = new Mock<GetPiecesQuery>();
-            getPiecesMock.Setup(m => m.GetResult(It.IsAny<ICollection<Piece>>())).Returns(new[] { this.pieceMock.Object });
-
-            this.chessboard = new Chessboard(this.piecesMock.Object, getPiecesMock.Object);
+            this.chessboard = new Chessboard(piecesFake);
         }
 
         [Fact]
-        public void AddPiece_DadoUmaNovaPeca_DeveTerUmItemNaListaDePecas()
-        {
-            this.chessboard.AddPiece(It.IsAny<Piece>());
-
-            this.piecesMock.Verify(m => m.Add(It.IsAny<Piece>()), Times.Once);
-        }
-
-        [Fact]
-        public void AddPiece_DadoUmaNovaPeca_DeveTerUmItemNaListaDePeca()
-        {
-            this.chessboard.AddPiece(It.IsAny<Piece>());
-
-            this.piecesMock.Verify(m => m.Add(It.IsAny<Piece>()), Times.Once);
-        }
-
-        [Fact]
-        public void MovePiece_DadaPecaEPosicaoQuePodeSerMovida_DeveChamarPieceMove()
-        {
-            this.chessboard.MovePiece(this.pieceMock.Object, It.IsAny<Position>());
-
-            this.pieceMock.Verify(m => m.Move(It.IsAny<Position>()), Times.Once);
-        }
-
-        [Fact]
-        public void MovePiece_DadaPecaEPosicaoQueNaoPodeSerMovida_DeveLancarExcecaoChessException()
+        public void MovePieceDadaPecaEPosicaoQueNaoPodeSerMovidaDeveLancarExcecaoChessException()
         {
             this.pieceMock.Setup(m => m.CanMove(It.IsAny<Position>())).Returns(false);
 
@@ -70,39 +42,25 @@
 
             action
                 .ShouldThrow<ChessException>()
-                .WithMessage("Não é possível mover a peça.");
+                .WithMessage("Cannot move the piece ''.");
         }
 
         [Fact]
-        public void MovePiece_DadaPecaQueNaoPodeSerRemovida_DeveLancarExcecaoChessException()
+        public void MovePieceDadaPecaQueNaoPodeSerRemovidaDeveLancarExcecaoChessException()
         {
-            this.positionStub.Setup(m => m.Equals(It.IsAny<Position>())).Returns(true);
-
-            this.piecesMock.Setup(m => m.Remove(It.IsAny<Piece>())).Returns(false);
+            this.pieceMock.Setup(m => m.Equals(It.IsAny<Position>())).Returns(true);
 
             Action action = () => this.chessboard.MovePiece(this.pieceMock.Object, It.IsAny<Position>());
 
             action
                 .ShouldThrow<ChessException>()
-                .WithMessage("Não é possível remover a peça.");
+                .WithMessage("Cannot move the piece ''.");
         }
 
         [Fact]
-        public void MovePiece_DadaPecaQueEstaNaPosicaoPassada_DeveRemoverAPecaDaCollecao()
+        public void HasPieceDadaPosicaoQueEstaNasPecasDeveRetornarTrue()
         {
-            this.positionStub.Setup(m => m.Equals(It.IsAny<Position>())).Returns(true);
-
-            this.piecesMock.Setup(m => m.Remove(It.IsAny<Piece>())).Returns(true);
-
-            this.chessboard.MovePiece(this.pieceMock.Object, It.IsAny<Position>());
-
-            this.piecesMock.Verify(m => m.Remove(It.IsAny<Piece>()), Times.Once);
-        }
-
-        [Fact]
-        public void HasPiece_DadaPosicaoQueEstaNasPecas_DeveRetornarTrue()
-        {
-            this.positionStub.Setup(m => m.Equals(It.IsAny<Position>())).Returns(true);
+            this.pieceMock.Setup(m => m.Equals(It.IsAny<Position>())).Returns(true);
 
             var actual = this.chessboard.HasPiece(this.positionStub.Object);
 
@@ -110,7 +68,7 @@
         }
 
         [Fact]
-        public void HasPiece_DadaPosicaoQueNaoEstaNasPecas_DeveRetornarFalse()
+        public void HasPieceDadaPosicaoQueNaoEstaNasPecasDeveRetornarFalse()
         {
             var actual = this.chessboard.HasPiece(this.positionStub.Object);
 
@@ -118,9 +76,9 @@
         }
 
         [Fact]
-        public void GetPiece_DadaPosicaoQueEstaNasPecas_DeveRetornarPiece()
+        public void GetPieceDadaPosicaoQueEstaNasPecasDeveRetornarPiece()
         {
-            this.positionStub.Setup(m => m.Equals(It.IsAny<Position>())).Returns(true);
+            this.pieceMock.Setup(m => m.Equals(It.IsAny<Position>())).Returns(true);
 
             var actual = this.chessboard.GetPiece(this.positionStub.Object);
 
@@ -128,7 +86,7 @@
         }
 
         [Fact]
-        public void GetPiece_DadaPosicaoQueNaoEstaNasPecas_DeveRetornarNull()
+        public void GetPieceDadaPosicaoQueNaoEstaNasPecasDeveRetornarNull()
         {
             var actual = this.chessboard.GetPiece(this.positionStub.Object);
 

@@ -1,7 +1,8 @@
 ﻿namespace Chess.Test.Validations
 {
-    using Chess.Validations;
-    using Chess.Validations.KnightValidations;
+    using Chess.Entities;
+    using Chess.Lib.Validations;
+    using Chess.Lib.Validations.KnightValidations;
 
     using Moq;
 
@@ -20,13 +21,13 @@
         }
 
         [Fact]
-        public void Validate_DeveChamarFileAndRankLimitValidateSetNextValidateUmaVez()
+        public void ValidateDeveChamarFileAndRankLimitValidateSetNextValidateUmaVez()
         {
             this.fileAndRankLimitValidateMock.Verify(v => v.SetNextValidate(It.IsAny<Validate>()), Times.Once);
         }
 
         [Fact]
-        public void Validate_DeveChamarFileAndRankLimitValidateIsValidUmaVez()
+        public void ValidateDeveChamarFileAndRankLimitValidateIsValidUmaVez()
         {
             this.fileAndRankLimitValidateMock.Verify(v => v.IsValid(It.IsAny<Position>()), Times.Once);
         }

@@ -21,7 +21,7 @@
         }
 
         [Fact]
-        public void Listen_DeveChamarServerBindUmaVez()
+        public void ListenDeveChamarServerBindUmaVez()
         {
             this.server.Listen();
 
@@ -29,7 +29,7 @@
         }
 
         [Fact]
-        public void Listen_DeveChamarServerListenUmaVez()
+        public void ListenDeveChamarServerListenUmaVez()
         {
             this.server.Listen();
 

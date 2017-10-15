@@ -1,14 +1,14 @@
 ﻿namespace Chess.Multiplayer
 {
-    using Chess.Multiplayer.EventHandlers;
+    using System;
 
     public interface IGameMultiplayer : IGame
     {
-        event ErrorEventHandler Error;
+        event Action<Exception> Error;
 
-        event PlayedEventHandler Played;
+        event Action Connected;
 
-        event ConnectedEventHandler Connected;
+        event Action<string, string> Played;
 
         void Connect(string ipAddress, string port);
 
