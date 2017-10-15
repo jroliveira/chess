@@ -1,8 +1,7 @@
 ﻿namespace Chess.Multiplayer
 {
+    using System;
     using System.Net;
-
-    using Chess.Multiplayer.EventHandlers;
 
     public class GameMultiplayer : Game, IGameMultiplayer
     {
@@ -17,11 +16,11 @@
             this.client = new Client();
         }
 
-        public event ErrorEventHandler Error;
+        public event Action<Exception> Error;
 
-        public event PlayedEventHandler Played;
+        public event Action Connected;
 
-        public event ConnectedEventHandler Connected;
+        public event Action<string, string> Played;
 
         public override void Move(string piecePosition, string newPosition)
         {
@@ -67,16 +66,14 @@
         {
             this.player.Played += this.OnPlayed;
 
-            var handler = this.Connected;
-            handler?.Invoke();
+            this.Connected?.Invoke();
         }
 
         private void OnPlayed(string piecePosition, string newPosition)
         {
             base.Move(piecePosition, newPosition);
 
-            var handler = this.Played;
-            handler?.Invoke(piecePosition, newPosition);
+            this.Played?.Invoke(piecePosition, newPosition);
         }
     }
 }

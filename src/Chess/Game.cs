@@ -1,34 +1,41 @@
 ﻿namespace Chess
 {
-    using Chess.Commands;
-    using Chess.Exceptions;
-    using Chess.Extensions;
+    using System.Collections.Generic;
+
+    using Chess.Entities;
+    using Chess.Lib;
+    using Chess.Lib.Data.Commands;
+    using Chess.Lib.Exceptions;
+    using Chess.Lib.Extensions;
     using Chess.Models;
 
-    public class Game : IGame
+    public class Game : Observable<IGame>, IGame
     {
         private readonly Chessboard chessboard;
         private readonly MountChessboardCommand mountChessboard;
 
         public Game()
+            : this(new Chessboard(), new MountChessboardCommand())
         {
-            this.chessboard = new Chessboard();
-            this.mountChessboard = new MountChessboardCommand(this.chessboard);
         }
 
         internal Game(Chessboard chessboard, MountChessboardCommand mountChessboard)
         {
             this.chessboard = chessboard;
+            Observer<Chessboard>
+                .Observe(this.chessboard)
+                .Updated += _ => this.OnUpdate(this);
+
             this.mountChessboard = mountChessboard;
         }
 
-        public char[] Files => this.chessboard.Files;
+        public IReadOnlyCollection<char> Files => this.chessboard.Files;
 
-        public char[] Ranks => this.chessboard.Ranks;
+        public IReadOnlyCollection<char> Ranks => this.chessboard.Ranks;
 
         public void Start()
         {
-            this.mountChessboard.Execute();
+            this.mountChessboard.Execute(this.chessboard);
         }
 
         public virtual void Move(string piecePosition, string newPosition)
@@ -38,7 +45,7 @@
 
             if (piece == null)
             {
-                throw new ChessException("Peça não existe.");
+                throw new ChessException($"Piece '{piecePosition}' don't exist.");
             }
 
             this.chessboard.MovePiece(piece, position);
@@ -51,7 +58,7 @@
 
             return piece == null
                 ? null
-                : new Piece(piece.Name, piece.Player);
+                : new Piece(piece.Name, piece.Owner);
         }
     }
 }

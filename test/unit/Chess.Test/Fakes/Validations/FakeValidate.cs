@@ -1,6 +1,7 @@
 namespace Chess.Test.Fakes.Validations
 {
-    using Chess.Validations;
+    using Chess.Entities;
+    using Chess.Lib.Validations;
 
     internal class FakeValidate : Validate
     {

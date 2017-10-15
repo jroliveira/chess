@@ -1,7 +1,8 @@
 ﻿namespace Chess.Test.Validations
 {
+    using Chess.Entities;
+    using Chess.Lib.Validations;
     using Chess.Test.Fakes.Validations;
-    using Chess.Validations;
 
     using FluentAssertions;
 
@@ -24,7 +25,7 @@
         }
 
         [Fact]
-        public void IsValid_DadaUmaPosicaoInvalidaSemNextValidate_DeveRetornarFalse()
+        public void IsValidDadaUmaPosicaoInvalidaSemNextValidateDeveRetornarFalse()
         {
             this.validate = new FakeValidate(false);
 
@@ -34,7 +35,7 @@
         }
 
         [Fact]
-        public void IsValid_DadaUmaPosicaoInvalidaComNextValidate_DeveChamarNextValidateIsValidUmaVez()
+        public void IsValidDadaUmaPosicaoInvalidaComNextValidateDeveChamarNextValidateIsValidUmaVez()
         {
             this.validate = new FakeValidate(false);
             this.validate.SetNextValidate(this.validateMock.Object);
@@ -45,7 +46,7 @@
         }
 
         [Fact]
-        public void IsValid_DadaUmaPosicaoValida_DeveRetornarTrue()
+        public void IsValidDadaUmaPosicaoValidaDeveRetornarTrue()
         {
             var actual = this.validate.IsValid(It.IsAny<Position>());
 
@@ -53,7 +54,7 @@
         }
 
         [Fact]
-        public void IsValid_DadaUmaPosicaoValidaComNextValidate_NaoDeveChamarNextValidateIsValid()
+        public void IsValidDadaUmaPosicaoValidaComNextValidateNaoDeveChamarNextValidateIsValid()
         {
             this.validate.IsValid(It.IsAny<Position>());
 

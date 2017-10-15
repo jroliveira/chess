@@ -1,5 +1,7 @@
 ﻿namespace Chess.Test
 {
+    using Chess.Entities;
+
     using FluentAssertions;
 
     using Xunit;
@@ -14,7 +16,7 @@
         }
 
         [Fact]
-        public void ToString_DadaPosicaoA1_DeveRetornarStringA1()
+        public void ToStringDadaPosicaoA1DeveRetornarStringA1()
         {
             var actual = this.position.ToString();
 
@@ -25,7 +27,7 @@
         [InlineData('b', '1', false)]
         [InlineData('a', '2', false)]
         [InlineData('a', '1', true)]
-        public void Equals_DadaPosicaoEPosicao_DeveRetornar(char file, char rank, bool expected)
+        public void EqualsDadaPosicaoEPosicaoDeveRetornar(char file, char rank, bool expected)
         {
             var other = new Position(file, rank);
 

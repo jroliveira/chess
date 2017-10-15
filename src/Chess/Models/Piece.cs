@@ -1,15 +1,15 @@
-﻿namespace Chess.Models
+namespace Chess.Models
 {
-    public class Piece
+    public sealed class Piece
     {
-        public Piece(string name, int player)
+        public Piece(string name, Owner owner)
         {
             this.Name = name;
-            this.Player = player;
+            this.Owner = owner;
         }
 
         public string Name { get; }
 
-        public int Player { get; }
+        public Owner Owner { get; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Chess.Test.Extensions
 {
-    using Chess.Extensions;
+    using Chess.Lib.Extensions;
 
     using FluentAssertions;
 
@@ -16,23 +16,7 @@
         }
 
         [Fact]
-        public void IsFirst_DadoCharA_DeveRetornarTrue()
-        {
-            var actual = this.collection.IsFirst('a');
-
-            actual.Should().BeTrue();
-        }
-
-        [Fact]
-        public void IsFirst_DadoCharB_DeveRetornarFalse()
-        {
-            var actual = this.collection.IsFirst('b');
-
-            actual.Should().BeFalse();
-        }
-
-        [Fact]
-        public void IsLast_DadoCharC_DeveRetornarTrue()
+        public void IsLastDadoCharCDeveRetornarTrue()
         {
             var actual = this.collection.IsLast('c');
 
@@ -40,7 +24,7 @@
         }
 
         [Fact]
-        public void IsLast_DadoCharB_DeveRetornarFalse()
+        public void IsLastDadoCharBDeveRetornarFalse()
         {
             var actual = this.collection.IsLast('b');
 
