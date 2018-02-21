@@ -3,10 +3,11 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
-
     using Chess.Entities.Pieces;
     using Chess.Lib;
     using Chess.Lib.Exceptions;
+    using Chess.Lib.Monad;
+    using Chess.Lib.Monad.Extensions;
 
     internal class Chessboard : Observable<Chessboard>
     {
@@ -25,12 +26,12 @@
 
         public IReadOnlyCollection<char> Files => new[]
         {
-            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'
+            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
         };
 
         public IReadOnlyCollection<char> Ranks => new[]
         {
-            '8', '7', '6', '5', '4', '3', '2', '1'
+            '1', '2', '3', '4', '5', '6', '7', '8',
         };
 
         public virtual IReadOnlyCollection<Piece> Pieces => this.pieces
@@ -38,10 +39,7 @@
             .ThenBy(piece => piece.Position.File)
             .ToList();
 
-        public virtual void AddPiece(Piece piece)
-        {
-            this.pieces.Add(piece);
-        }
+        public virtual void AddPiece(Piece piece) => this.pieces.Add(piece);
 
         public virtual void MovePiece(Piece piece, Position newPosition)
         {
@@ -50,7 +48,8 @@
                 throw new ChessException($"Cannot move the piece '{piece}'.");
             }
 
-            var otherPiece = this.GetPiece(newPosition);
+            var otherPieceOption = this.GetPiece(newPosition);
+            var otherPiece = otherPieceOption.GetOrElse(default);
             if (otherPiece != null && !this.pieces.Remove(otherPiece))
             {
                 throw new ChessException($"Cannot move the piece '{piece}'.");
@@ -61,14 +60,8 @@
             this.AddPiece(newPiece);
         }
 
-        public virtual bool HasPiece(Position position)
-        {
-            return this.GetPiece(position) != null;
-        }
+        public virtual bool HasPiece(Position position) => this.GetPiece(position).GetOrElse(default) != null;
 
-        public virtual Piece GetPiece(Position position)
-        {
-            return this.Pieces.FirstOrDefault(piece => piece.Equals(position));
-        }
+        public virtual Option<Piece> GetPiece(Position position) => this.Pieces.FirstOrDefault(piece => piece.Equals(position));
     }
 }

@@ -7,14 +7,8 @@ namespace Chess.Test.Fakes.Validations
     {
         private readonly bool isValid;
 
-        public FakeValidate(bool isValid)
-        {
-            this.isValid = isValid;
-        }
+        public FakeValidate(bool isValid) => this.isValid = isValid;
 
-        protected override bool IsValidRule(Position newPosition)
-        {
-            return this.isValid;
-        }
+        protected override bool IsValidRule(Position newPosition) => this.isValid;
     }
 }

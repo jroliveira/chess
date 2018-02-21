@@ -1,11 +1,10 @@
 namespace Chess.Entities.Pieces
 {
     using Chess.Lib.Validations;
-    using Chess.Models;
 
     internal class Rook : Piece
     {
-        public Rook(Owner owner, Position position, Chessboard chessboard)
+        public Rook(Models.Owner owner, Position position, Chessboard chessboard)
             : base(owner, position, chessboard)
         {
         }

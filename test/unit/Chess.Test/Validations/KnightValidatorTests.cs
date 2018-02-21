@@ -3,9 +3,7 @@
     using Chess.Entities;
     using Chess.Lib.Validations;
     using Chess.Lib.Validations.KnightValidations;
-
     using Moq;
-
     using Xunit;
 
     public class KnightValidatorTests
@@ -21,15 +19,11 @@
         }
 
         [Fact]
-        public void ValidateDeveChamarFileAndRankLimitValidateSetNextValidateUmaVez()
-        {
-            this.fileAndRankLimitValidateMock.Verify(v => v.SetNextValidate(It.IsAny<Validate>()), Times.Once);
-        }
+        public void ValidateDeveChamarFileAndRankLimitValidateSetNextValidateUmaVez() => this.fileAndRankLimitValidateMock
+            .Verify(v => v.SetNextValidate(It.IsAny<Validate>()), Times.Once);
 
         [Fact]
-        public void ValidateDeveChamarFileAndRankLimitValidateIsValidUmaVez()
-        {
-            this.fileAndRankLimitValidateMock.Verify(v => v.IsValid(It.IsAny<Position>()), Times.Once);
-        }
+        public void ValidateDeveChamarFileAndRankLimitValidateIsValidUmaVez() => this.fileAndRankLimitValidateMock
+            .Verify(v => v.IsValid(It.IsAny<Position>()), Times.Once);
     }
 }

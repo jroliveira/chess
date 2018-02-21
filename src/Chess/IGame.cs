@@ -1,20 +1,12 @@
 ﻿namespace Chess
 {
-    using System;
-    using System.Collections.Generic;
-
+    using Chess.Lib.Monad;
     using Chess.Models;
 
-    public interface IGame : IObservable<IGame>
+    public interface IGame
     {
-        IReadOnlyCollection<char> Files { get; }
+        Try<Chessboard> Start();
 
-        IReadOnlyCollection<char> Ranks { get; }
-
-        void Start();
-
-        void Move(string piecePosition, string newPosition);
-
-        Piece GetPiece(char file, char rank);
+        Try<Chessboard> Move(Option<string> piecePosition, Option<string> newPosition);
     }
 }

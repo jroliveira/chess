@@ -1,13 +1,10 @@
 ﻿namespace Chess.Test.Commands
 {
     using System;
-
     using Chess.Entities;
     using Chess.Entities.Pieces;
     using Chess.Lib.Data.Commands;
-
     using Moq;
-
     using Xunit;
 
     public class MountChessboardCommandTests

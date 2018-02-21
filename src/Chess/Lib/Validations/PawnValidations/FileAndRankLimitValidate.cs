@@ -1,7 +1,6 @@
 ﻿namespace Chess.Lib.Validations.PawnValidations
 {
     using System;
-
     using Chess.Entities;
     using Chess.Models;
 

@@ -1,11 +1,10 @@
 namespace Chess.Entities.Pieces
 {
     using Chess.Lib.Validations;
-    using Chess.Models;
 
     internal class Pawn : Piece
     {
-        public Pawn(Owner owner, Position position, Chessboard chessboard)
+        public Pawn(Models.Owner owner, Position position, Chessboard chessboard)
             : base(owner, position, chessboard)
         {
         }

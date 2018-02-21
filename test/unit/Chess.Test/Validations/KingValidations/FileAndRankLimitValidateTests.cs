@@ -3,11 +3,8 @@
     using Chess.Entities;
     using Chess.Entities.Pieces;
     using Chess.Lib.Validations.KingValidations;
-
     using FluentAssertions;
-
     using Moq;
-
     using Xunit;
 
     public class FileAndRankLimitValidateTests

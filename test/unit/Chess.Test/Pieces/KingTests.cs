@@ -2,12 +2,8 @@ namespace Chess.Test.Pieces
 {
     using Chess.Entities;
     using Chess.Entities.Pieces;
-    using Chess.Models;
-
     using FluentAssertions;
-
     using Moq;
-
     using Xunit;
 
     public class KingTests
@@ -21,13 +17,13 @@ namespace Chess.Test.Pieces
             this.positionStub = new Mock<Position>();
             this.chessboardStub = new Mock<Chessboard>();
 
-            this.king = new King(Owner.FirstPlayer, this.positionStub.Object, this.chessboardStub.Object);
+            this.king = new King(Models.Owner.FirstPlayer, this.positionStub.Object, this.chessboardStub.Object);
         }
 
         [Theory]
-        [InlineData(Owner.FirstPlayer, "♔")]
-        [InlineData(Owner.SecondPlayer, "♚")]
-        public void NameDadoJogadorDeveRetornarPeca(Owner owner, string piece)
+        [InlineData(Models.Owner.FirstPlayer, "♔")]
+        [InlineData(Models.Owner.SecondPlayer, "♚")]
+        public void NameDadoJogadorDeveRetornarPeca(Models.Owner owner, string piece)
         {
             this.king = new King(owner, this.positionStub.Object, this.chessboardStub.Object);
 

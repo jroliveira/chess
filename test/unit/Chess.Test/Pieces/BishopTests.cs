@@ -2,12 +2,8 @@
 {
     using Chess.Entities;
     using Chess.Entities.Pieces;
-    using Chess.Models;
-
     using FluentAssertions;
-
     using Moq;
-
     using Xunit;
 
     public class BishopTests
@@ -21,13 +17,13 @@
             this.positionStub = new Mock<Position>();
             this.chessboardStub = new Mock<Chessboard>();
 
-            this.bishop = new Bishop(Owner.FirstPlayer, this.positionStub.Object, this.chessboardStub.Object);
+            this.bishop = new Bishop(Models.Owner.FirstPlayer, this.positionStub.Object, this.chessboardStub.Object);
         }
 
         [Theory]
-        [InlineData(Owner.FirstPlayer, "♗")]
-        [InlineData(Owner.SecondPlayer, "♝")]
-        public void NameDadoJogadorDeveRetornarPeca(Owner owner, string piece)
+        [InlineData(Models.Owner.FirstPlayer, "♗")]
+        [InlineData(Models.Owner.SecondPlayer, "♝")]
+        public void NameDadoJogadorDeveRetornarPeca(Models.Owner owner, string piece)
         {
             this.bishop = new Bishop(owner, this.positionStub.Object, this.chessboardStub.Object);
 

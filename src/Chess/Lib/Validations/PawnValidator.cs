@@ -13,10 +13,7 @@ namespace Chess.Lib.Validations
         {
         }
 
-        internal PawnValidator(FileAndRankLimitValidate fileAndRankLimitValidate)
-        {
-            this.fileAndRankLimitValidate = fileAndRankLimitValidate;
-        }
+        internal PawnValidator(FileAndRankLimitValidate fileAndRankLimitValidate) => this.fileAndRankLimitValidate = fileAndRankLimitValidate;
 
         public bool Validate(Position newPosition)
         {
