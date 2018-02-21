@@ -9,10 +9,7 @@
     {
         private readonly ICollection<IObserver<T>> observers;
 
-        public Observable()
-        {
-            this.observers = new List<IObserver<T>>();
-        }
+        public Observable() => this.observers = new List<IObserver<T>>();
 
         public IDisposable Subscribe(IObserver<T> observer)
         {
@@ -24,11 +21,7 @@
             return new Unsubscriber(this.observers, observer);
         }
 
-        protected void OnUpdate(T value)
-        {
-            this.observers
-                .Subscribe(observer => observer.OnNext(value));
-        }
+        protected void OnUpdate(T value) => this.observers.Subscribe(observer => observer.OnNext(value));
 
         private class Unsubscriber : IDisposable
         {

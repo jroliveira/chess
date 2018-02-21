@@ -10,6 +10,9 @@
 
     using Xunit;
 
+    using static Moq.It;
+    using static Moq.Times;
+
     public class MountChessboardCommandTests
     {
         private readonly MountChessboardCommand mountChessboard;
@@ -33,47 +36,47 @@
         {
             this.mountChessboard.Execute(this.chessboardMock.Object);
 
-            this.chessboardMock.Verify(m => m.AddPiece(It.Is<Piece>(p => p.GetType() == type)), Times.Exactly(times));
+            this.chessboardMock.Verify(m => m.AddPiece(Is<Piece>(p => p.GetType() == type)), Exactly(times));
         }
 
         [Theory]
-        [InlineData('a', '1', typeof(Rook))]
-        [InlineData('b', '1', typeof(Knight))]
-        [InlineData('c', '1', typeof(Bishop))]
-        [InlineData('d', '1', typeof(King))]
-        [InlineData('e', '1', typeof(Queen))]
-        [InlineData('f', '1', typeof(Bishop))]
-        [InlineData('g', '1', typeof(Knight))]
-        [InlineData('h', '1', typeof(Rook))]
-        [InlineData('a', '2', typeof(Pawn))]
-        [InlineData('b', '2', typeof(Pawn))]
-        [InlineData('c', '2', typeof(Pawn))]
-        [InlineData('d', '2', typeof(Pawn))]
-        [InlineData('e', '2', typeof(Pawn))]
-        [InlineData('f', '2', typeof(Pawn))]
-        [InlineData('g', '2', typeof(Pawn))]
-        [InlineData('h', '2', typeof(Pawn))]
-        [InlineData('a', '7', typeof(Pawn))]
-        [InlineData('b', '7', typeof(Pawn))]
-        [InlineData('c', '7', typeof(Pawn))]
-        [InlineData('d', '7', typeof(Pawn))]
-        [InlineData('e', '7', typeof(Pawn))]
-        [InlineData('f', '7', typeof(Pawn))]
-        [InlineData('g', '7', typeof(Pawn))]
-        [InlineData('h', '7', typeof(Pawn))]
-        [InlineData('a', '8', typeof(Rook))]
-        [InlineData('b', '8', typeof(Knight))]
-        [InlineData('c', '8', typeof(Bishop))]
-        [InlineData('d', '8', typeof(King))]
-        [InlineData('e', '8', typeof(Queen))]
-        [InlineData('f', '8', typeof(Bishop))]
-        [InlineData('g', '8', typeof(Knight))]
-        [InlineData('h', '8', typeof(Rook))]
-        public void ExecuteDadoTabuleiroVazioDeveChamarChessboardAddPieceParaAPosicaoEoTipoUmaVez(char file, char rank, Type type)
+        [InlineData('a', 1, typeof(Rook))]
+        [InlineData('b', 1, typeof(Knight))]
+        [InlineData('c', 1, typeof(Bishop))]
+        [InlineData('d', 1, typeof(King))]
+        [InlineData('e', 1, typeof(Queen))]
+        [InlineData('f', 1, typeof(Bishop))]
+        [InlineData('g', 1, typeof(Knight))]
+        [InlineData('h', 1, typeof(Rook))]
+        [InlineData('a', 2, typeof(Pawn))]
+        [InlineData('b', 2, typeof(Pawn))]
+        [InlineData('c', 2, typeof(Pawn))]
+        [InlineData('d', 2, typeof(Pawn))]
+        [InlineData('e', 2, typeof(Pawn))]
+        [InlineData('f', 2, typeof(Pawn))]
+        [InlineData('g', 2, typeof(Pawn))]
+        [InlineData('h', 2, typeof(Pawn))]
+        [InlineData('a', 7, typeof(Pawn))]
+        [InlineData('b', 7, typeof(Pawn))]
+        [InlineData('c', 7, typeof(Pawn))]
+        [InlineData('d', 7, typeof(Pawn))]
+        [InlineData('e', 7, typeof(Pawn))]
+        [InlineData('f', 7, typeof(Pawn))]
+        [InlineData('g', 7, typeof(Pawn))]
+        [InlineData('h', 7, typeof(Pawn))]
+        [InlineData('a', 8, typeof(Rook))]
+        [InlineData('b', 8, typeof(Knight))]
+        [InlineData('c', 8, typeof(Bishop))]
+        [InlineData('d', 8, typeof(King))]
+        [InlineData('e', 8, typeof(Queen))]
+        [InlineData('f', 8, typeof(Bishop))]
+        [InlineData('g', 8, typeof(Knight))]
+        [InlineData('h', 8, typeof(Rook))]
+        public void ExecuteDadoTabuleiroVazioDeveChamarChessboardAddPieceParaAPosicaoEoTipoUmaVez(char file, uint rank, Type type)
         {
             this.mountChessboard.Execute(this.chessboardMock.Object);
 
-            this.chessboardMock.Verify(m => m.AddPiece(It.Is<Piece>(p => p.Position.File == file && p.Position.Rank == rank && p.GetType() == type)), Times.Once);
+            this.chessboardMock.Verify(m => m.AddPiece(Is<Piece>(p => p.Position.File == file && p.Position.Rank == rank && p.GetType() == type)), Once);
         }
 
         [Fact]
@@ -81,7 +84,7 @@
         {
             this.mountChessboard.Execute(this.chessboardMock.Object);
 
-            this.chessboardMock.Verify(m => m.AddPiece(It.IsAny<Piece>()), Times.Exactly(32));
+            this.chessboardMock.Verify(m => m.AddPiece(IsAny<Piece>()), Exactly(32));
         }
     }
 }

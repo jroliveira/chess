@@ -2,9 +2,11 @@
 {
     using System;
 
+    using static System.Convert;
+
     internal class Position : IEquatable<Position>
     {
-        public Position(char file, char rank)
+        internal Position(char file, uint rank)
         {
             this.File = file;
             this.Rank = rank;
@@ -14,19 +16,16 @@
         {
         }
 
-        public virtual char File { get; }
+        internal virtual char File { get; }
 
-        public virtual char Rank { get; }
+        internal virtual uint Rank { get; }
 
-        public virtual bool Equals(Position other)
-        {
-            return this.File == other.File
-                && this.Rank == other.Rank;
-        }
+        public virtual bool Equals(Position other) => this.File == other.File && this.Rank == other.Rank;
 
-        public override string ToString()
-        {
-            return $"{this.File}{this.Rank}";
-        }
+        public override string ToString() => $"{this.File}{this.Rank}";
+
+        internal int GetFileMoves(char file) => this.File - file;
+
+        internal int GetRankMoves(uint rank) => ToInt32(this.Rank) - ToInt32(rank);
     }
 }

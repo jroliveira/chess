@@ -7,12 +7,16 @@
     using Chess.Entities.Pieces;
     using Chess.Lib;
     using Chess.Lib.Exceptions;
+    using Chess.Lib.Monad;
+    using Chess.Lib.Monad.Extensions;
+
+    using static Chess.Lib.Monad.Utils.Util;
 
     internal class Chessboard : Observable<Chessboard>
     {
         private readonly ObservableCollection<Piece> pieces;
 
-        public Chessboard()
+        internal Chessboard()
             : this(new ObservableCollection<Piece>())
         {
         }
@@ -23,52 +27,45 @@
             this.pieces.CollectionChanged += (_, args) => this.OnUpdate(this);
         }
 
-        public IReadOnlyCollection<char> Files => new[]
+        internal IReadOnlyCollection<char> Files => new[]
         {
-            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'
+            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
         };
 
-        public IReadOnlyCollection<char> Ranks => new[]
+        internal IReadOnlyCollection<uint> Ranks => new[]
         {
-            '8', '7', '6', '5', '4', '3', '2', '1'
+            1u, 2u, 3u, 4u, 5u, 6u, 7u, 8u,
         };
 
-        public virtual IReadOnlyCollection<Piece> Pieces => this.pieces
+        internal virtual IReadOnlyCollection<Piece> Pieces => this.pieces
             .OrderBy(piece => piece.Position.Rank)
             .ThenBy(piece => piece.Position.File)
             .ToList();
 
-        public virtual void AddPiece(Piece piece)
-        {
-            this.pieces.Add(piece);
-        }
+        internal virtual void AddPiece(Piece piece) => this.pieces.Add(piece);
 
-        public virtual void MovePiece(Piece piece, Position newPosition)
+        internal virtual Try<Unit> MovePiece(Piece piece, Position newPosition)
         {
             if (!piece.CanMove(newPosition))
             {
-                throw new ChessException($"Cannot move the piece '{piece}'.");
+                return new ChessException($"Cannot move the piece '{piece}'.");
             }
 
-            var otherPiece = this.GetPiece(newPosition);
+            var otherPiece = this.GetPiece(newPosition).GetOrElse(default);
             if (otherPiece != null && !this.pieces.Remove(otherPiece))
             {
-                throw new ChessException($"Cannot move the piece '{piece}'.");
+                return new ChessException($"Cannot move the piece '{piece}'.");
             }
 
-            var newPiece = Piece.Clone(piece, newPosition);
+            var newPiece = piece.Move(newPosition);
             this.pieces.Remove(piece);
             this.AddPiece(newPiece);
+
+            return Unit();
         }
 
-        public virtual bool HasPiece(Position position)
-        {
-            return this.GetPiece(position) != null;
-        }
+        internal virtual bool HasPiece(Position position) => this.GetPiece(position).GetOrElse(default) != null;
 
-        public virtual Piece GetPiece(Position position)
-        {
-            return this.Pieces.FirstOrDefault(piece => piece.Equals(position));
-        }
+        internal virtual Option<Piece> GetPiece(Position position) => this.Pieces.FirstOrDefault(piece => piece.Equals(position));
     }
 }

@@ -23,21 +23,15 @@
         }
 
         [Fact]
-        public void ValidateDeveChamarBishopFileAndRankLimitValidateSetNextValidateUmaVez()
-        {
-            this.bishopFileAndRankLimitValidateMock.Verify(v => v.SetNextValidate(It.IsAny<Validate>()), Times.Once);
-        }
+        public void ValidateDeveChamarBishopFileAndRankLimitValidateSetNextValidateUmaVez() => this.bishopFileAndRankLimitValidateMock
+            .Verify(v => v.SetNextValidate(It.IsAny<Validate>()), Times.Once);
 
         [Fact]
-        public void ValidateDeveChamarBishopFileAndRankLimitValidateIsValidUmaVez()
-        {
-            this.bishopFileAndRankLimitValidateMock.Verify(v => v.IsValid(It.IsAny<Position>()), Times.Once);
-        }
+        public void ValidateDeveChamarBishopFileAndRankLimitValidateIsValidUmaVez() => this.bishopFileAndRankLimitValidateMock
+            .Verify(v => v.IsValid(It.IsAny<Position>()), Times.Once);
 
         [Fact]
-        public void ValidateDeveChamarRookFileAndRankLimitValidateSetNextValidateUmaVez()
-        {
-            this.rookFileAndRankLimitValidateMock.Verify(v => v.SetNextValidate(It.IsAny<Validate>()), Times.Once);
-        }
+        public void ValidateDeveChamarRookFileAndRankLimitValidateSetNextValidateUmaVez() => this.rookFileAndRankLimitValidateMock
+            .Verify(v => v.SetNextValidate(It.IsAny<Validate>()), Times.Once);
     }
 }

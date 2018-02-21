@@ -10,10 +10,7 @@
     {
         private readonly Position position;
 
-        public PositionTests()
-        {
-            this.position = new Position('a', '1');
-        }
+        public PositionTests() => this.position = new Position('a', 1);
 
         [Fact]
         public void ToStringDadaPosicaoA1DeveRetornarStringA1()
@@ -24,10 +21,10 @@
         }
 
         [Theory]
-        [InlineData('b', '1', false)]
-        [InlineData('a', '2', false)]
-        [InlineData('a', '1', true)]
-        public void EqualsDadaPosicaoEPosicaoDeveRetornar(char file, char rank, bool expected)
+        [InlineData('b', 1, false)]
+        [InlineData('a', 2, false)]
+        [InlineData('a', 1, true)]
+        public void EqualsDadaPosicaoEPosicaoDeveRetornar(char file, uint rank, bool expected)
         {
             var other = new Position(file, rank);
 

@@ -21,15 +21,11 @@
         }
 
         [Fact]
-        public void ValidateDeveChamarFileAndRankLimitValidateSetNextValidateUmaVez()
-        {
-            this.fileAndRankLimitValidateMock.Verify(v => v.SetNextValidate(It.IsAny<Validate>()), Times.Once);
-        }
+        public void ValidateDeveChamarFileAndRankLimitValidateSetNextValidateUmaVez() => this.fileAndRankLimitValidateMock
+            .Verify(v => v.SetNextValidate(It.IsAny<Validate>()), Times.Once);
 
         [Fact]
-        public void ValidateDeveChamarFileAndRankLimitValidateIsValidUmaVez()
-        {
-            this.fileAndRankLimitValidateMock.Verify(v => v.IsValid(It.IsAny<Position>()), Times.Once);
-        }
+        public void ValidateDeveChamarFileAndRankLimitValidateIsValidUmaVez() => this.fileAndRankLimitValidateMock
+            .Verify(v => v.IsValid(It.IsAny<Position>()), Times.Once);
     }
 }

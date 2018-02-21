@@ -16,19 +16,13 @@
             return observer;
         }
 
-        public void OnCompleted()
-        {
-            this.Unsubscribe();
-        }
+        public void OnCompleted() => this.Unsubscribe();
 
         public void OnError(Exception error)
         {
         }
 
-        public void OnNext(T value)
-        {
-            this.Updated?.Invoke(value);
-        }
+        public void OnNext(T value) => this.Updated?.Invoke(value);
 
         public void Subscribe(IObservable<T> observable)
         {
@@ -38,9 +32,6 @@
             }
         }
 
-        public void Unsubscribe()
-        {
-            this.unsubscriber.Dispose();
-        }
+        public void Unsubscribe() => this.unsubscriber.Dispose();
     }
 }

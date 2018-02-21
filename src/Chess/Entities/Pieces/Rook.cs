@@ -1,12 +1,11 @@
-namespace Chess.Entities.Pieces
+﻿namespace Chess.Entities.Pieces
 {
     using Chess.Lib.Validations;
-    using Chess.Models;
 
     internal class Rook : Piece
     {
-        public Rook(Owner owner, Position position, Chessboard chessboard)
-            : base(owner, position, chessboard)
+        public Rook(Position position, Chessboard chessboard)
+            : base(position, chessboard, "♖", "♜")
         {
         }
 
@@ -15,7 +14,5 @@ namespace Chess.Entities.Pieces
         }
 
         protected override IValidator Validator => new RookValidator(this);
-
-        protected override (string FirstPlayer, string SecondPlayer) Symbols => ("♖", "♜");
     }
 }

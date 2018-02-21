@@ -1,4 +1,4 @@
-namespace Chess.Lib.Validations
+﻿namespace Chess.Lib.Validations
 {
     using Chess.Entities;
     using Chess.Entities.Pieces;
@@ -13,10 +13,7 @@ namespace Chess.Lib.Validations
         {
         }
 
-        internal RookValidator(FileAndRankLimitValidate fileAndRankLimitValidate)
-        {
-            this.fileAndRankLimitValidate = fileAndRankLimitValidate;
-        }
+        internal RookValidator(FileAndRankLimitValidate fileAndRankLimitValidate) => this.fileAndRankLimitValidate = fileAndRankLimitValidate;
 
         public bool Validate(Position newPosition)
         {

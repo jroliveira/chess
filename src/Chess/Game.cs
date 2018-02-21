@@ -1,64 +1,103 @@
 ﻿namespace Chess
 {
+    using System;
     using System.Collections.Generic;
 
-    using Chess.Entities;
-    using Chess.Lib;
     using Chess.Lib.Data.Commands;
     using Chess.Lib.Exceptions;
     using Chess.Lib.Extensions;
+    using Chess.Lib.Monad;
+    using Chess.Lib.Monad.Extensions;
     using Chess.Models;
 
-    public class Game : Observable<IGame>, IGame
+    public sealed class Game : IGame
     {
-        private readonly Chessboard chessboard;
+        private readonly Entities.Chessboard chessboard;
         private readonly MountChessboardCommand mountChessboard;
+        private readonly IDictionary<string, Player> players;
 
         public Game()
-            : this(new Chessboard(), new MountChessboardCommand())
+            : this(new Entities.Chessboard(), new MountChessboardCommand(), new Dictionary<string, Player>())
         {
         }
 
-        internal Game(Chessboard chessboard, MountChessboardCommand mountChessboard)
+        internal Game(
+            Entities.Chessboard chessboard,
+            MountChessboardCommand mountChessboard,
+            IDictionary<string, Player> players)
         {
             this.chessboard = chessboard;
-            Observer<Chessboard>
-                .Observe(this.chessboard)
-                .Updated += _ => this.OnUpdate(this);
-
             this.mountChessboard = mountChessboard;
+            this.players = players;
         }
 
-        public IReadOnlyCollection<char> Files => this.chessboard.Files;
-
-        public IReadOnlyCollection<char> Ranks => this.chessboard.Ranks;
-
-        public void Start()
+        public Try<Chessboard> Start()
         {
             this.mountChessboard.Execute(this.chessboard);
+
+            return this.chessboard.ToModel();
         }
 
-        public virtual void Move(string piecePosition, string newPosition)
+        public Try<Player> JoinPlayer(Option<string> playerName)
         {
-            var position = newPosition.ToPosition();
-            var piece = this.chessboard.GetPiece(piecePosition.ToPosition());
+            if (!playerName.IsDefined)
+            {
+                return new ArgumentNullException(nameof(playerName), "Player name cannot be null or empty.");
+            }
+
+            var playerCount = this.players.Count;
+            if (playerCount == 2)
+            {
+                return new ChessException("Too many players in the game.");
+            }
+
+            var player = new Player(playerName.Get(), playerCount == 0);
+            this.players.Add(player, player);
+
+            return player;
+        }
+
+        public Try<Chessboard> MovePiece(Option<string> piecePosition, Option<string> newPosition, Option<string> playerName)
+        {
+            if (!piecePosition.IsDefined)
+            {
+                return new ArgumentNullException(nameof(piecePosition), "Piece position cannot be null or empty.");
+            }
+
+            if (!newPosition.IsDefined)
+            {
+                return new ArgumentNullException(nameof(newPosition), "New position cannot be null or empty.");
+            }
+
+            if (!playerName.IsDefined)
+            {
+                return new ArgumentNullException(nameof(playerName), "Player name cannot be null or empty.");
+            }
+
+            if (!this.players.TryGetValue(playerName.Get(), out var player))
+            {
+                return new KeyNotFoundException($"Player name {playerName.Get()} is not playing.");
+            }
+
+            var piece = this.chessboard
+                .GetPiece(piecePosition.Get().ToPosition())
+                .GetOrElse(default);
 
             if (piece == null)
             {
-                throw new ChessException($"Piece '{piecePosition}' don't exist.");
+                return new ChessException($"Piece '{piecePosition}' don't exist.");
             }
 
-            this.chessboard.MovePiece(piece, position);
-        }
+            if (piece.IsWhite != player.IsWhitePiece)
+            {
+                return new ChessException("Piece does not belong to this player.");
+            }
 
-        public Piece GetPiece(char file, char rank)
-        {
-            var position = new Position(file, rank);
-            var piece = this.chessboard.GetPiece(position);
-
-            return piece == null
-                ? null
-                : new Piece(piece.Name, piece.Owner);
+            return this.chessboard
+                .MovePiece(piece, newPosition.Get().ToPosition())
+                .Match<Try<Chessboard>>(
+                    _ => _,
+                    _ => this.chessboard.ToModel());
         }
     }
 }

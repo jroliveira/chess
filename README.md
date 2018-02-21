@@ -1,55 +1,76 @@
-﻿# chess
+﻿![Game's logo](logo.png)
+
+# Chess 
 
 [![Build status](https://ci.appveyor.com/api/projects/status/h516hk65yj3fmypr/branch/master?svg=true)](https://ci.appveyor.com/project/junioro/chess/branch/master)
 [![Build Status](https://travis-ci.org/jroliveira/chess.svg?branch=master)](https://travis-ci.org/jroliveira/chess)
 [![Coverage Status](https://coveralls.io/repos/jroliveira/chess/badge.svg?branch=master&service=github)](https://coveralls.io/github/jroliveira/chess?branch=master)
+[![CodeFactor](https://www.codefactor.io/repository/github/jroliveira/chess/badge)](https://www.codefactor.io/repository/github/jroliveira/chess)
+[![License: MIT](http://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-## O que é?
+Chess game built in C# and ASCII art.
 
-É um jogo de Xadrez feito em C#.  
-A aplicação roda em Mono e .NET Framework.  
+## Developing
 
-![Image of Game](https://github.com/jroliveira/chess/blob/master/docs/game.png)
+### Built With
 
-## Partes da aplicação
+ - [.NET Core](https://docs.microsoft.com/en-us/dotnet/core/)
+ - [C#](https://docs.microsoft.com/en-us/dotnet/csharp/)
+ - [Orleans](https://github.com/dotnet/orleans)
+ - [ReactiveX](https://github.com/dotnet/reactive)
 
-### Chess
+### Prerequisites
 
-É o core do jogo.
+Download and install the [.NET Core SDK](https://www.microsoft.com/net/download).
 
-A interface `IGame` contém as definições para jogar e a classe `Game` implementa este contrato.
-  
-#### Chess.Multiplayer
+#### Installing the DejaVu Sans Mono font in Windows 10
 
-É uma extensão da biblioteca **Chess**, que permite jogar com outro jogador.
+This font allows you to display the chess pieces in the Windows console, to install we will follow the steps below:
 
-A interface `IGameMultiplayer` extende a interface `IGame` e nela contém as definições para jogar com outro jogador.
-A classe `GameMultiplayer` implementa o contrato `IGameMultiplayer` e herda da classe `Game`.
+ - Download the **dejavu-fonts-ttf-2.37.zip** from the site [dejavu-fonts.org](https://dejavu-fonts.github.io/Download.html).
+ - Extract the downloaded .zip file and install the **DejaVuSansMono.ttf** font that is in the **ttf** folder.
+ - Open **regedit** go to `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Console\TrueTypeFont`.
+ - Add a new **String Value** `000` with the value `DejaVu Sans Mono`.
 
-#### Chess.UI.Console
+### Setting up Dev
 
-É a interface do jogo que utiliza a classe `GameMultiplayer` para acessar as funcionalidades do jogo.
+```bash
+# Clone this repository
+$ git clone https://github.com/jroliveira/chess.git
 
-## Para instalar
+# Go into the repository
+$ cd chess
 
-### Instalar a fonte DejaVu Sans Mono
+# Restore dependencies
+$ dotnet restore
+```
 
-Esta fonte permite mostrar as peças do Xadrez no console do Windows, para instalar vamos seguir os passos abaixo.
+### Building
 
- - Baixe o arquivo **dejavu-fonts-ttf-2.37.zip** do site [dejavu-fonts.org](https://dejavu-fonts.github.io/Download.html).
- - Extraia o arquivo .zip baixado e instale a fonte **DejaVuSansMono.ttf** que está na pasta **ttf**.
- - Abra o **regedit** vá até `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Console\TrueTypeFont`.
- - Adicione um novo **Valor da Cadeia de Caracteres** `000` com o valor `DejaVu Sans Mono`.
+```bash
+# Build project
+$ dotnet build
 
-### Rodar a aplicação
+# Run all tests
+$ dotnet test -v q
+```
 
- - `git clone https://github.com/jroliveira/chess.git`
- - Rode o projeto, na janela do console vá em Propriedades -> Fonte e escolha a fonte **DejaVu Sans Mono** e tamanho **36**.
+### Running
 
-## Para contribuir 
+Open a **Command Prompt** and execute the code below.
 
-1. Fork it
-2. git checkout -b <branch-name>
-3. git add --all && git commit -m "feature description"
-4. git push origin <branch-name>
-5. Create a pull request
+```bash
+# Run silo project
+$ dotnet run --project src/Chess.SiloHost/
+```
+
+After the message `Press Enter to terminate...` appears, open a new **Command Prompt** and execute the code below.
+
+```bash
+# Run client project
+$ dotnet run --project src/Chess.Client/
+```
+
+## Licensing
+
+The code is available under the [MIT license](LICENSE).

@@ -1,12 +1,11 @@
-namespace Chess.Entities.Pieces
+﻿namespace Chess.Entities.Pieces
 {
     using Chess.Lib.Validations;
-    using Chess.Models;
 
     internal class Pawn : Piece
     {
-        public Pawn(Owner owner, Position position, Chessboard chessboard)
-            : base(owner, position, chessboard)
+        public Pawn(Position position, Chessboard chessboard)
+            : base(position, chessboard, "♙", "♟")
         {
         }
 
@@ -15,7 +14,5 @@ namespace Chess.Entities.Pieces
         }
 
         protected override IValidator Validator => new PawnValidator(this);
-
-        protected override (string FirstPlayer, string SecondPlayer) Symbols => ("♙", "♟");
     }
 }
