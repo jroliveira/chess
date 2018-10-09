@@ -5,14 +5,15 @@
 
     internal abstract class Validate
     {
-        protected readonly Piece Piece;
         private Validate nextValidate;
 
-        internal Validate()
+        protected Validate()
         {
         }
 
         protected Validate(Piece piece) => this.Piece = piece;
+
+        protected Piece Piece { get; }
 
         public virtual void SetNextValidate(Validate nexValidate) => this.nextValidate = nexValidate;
 
