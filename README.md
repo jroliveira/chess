@@ -5,29 +5,10 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/h516hk65yj3fmypr/branch/master?svg=true)](https://ci.appveyor.com/project/junioro/chess/branch/master)
 [![Build Status](https://travis-ci.org/jroliveira/chess.svg?branch=master)](https://travis-ci.org/jroliveira/chess)
 [![Coverage Status](https://coveralls.io/repos/jroliveira/chess/badge.svg?branch=master&service=github)](https://coveralls.io/github/jroliveira/chess?branch=master)
+[![CodeFactor](https://www.codefactor.io/repository/github/jroliveira/chess/badge)](https://www.codefactor.io/repository/github/jroliveira/chess)
+[![License: MIT](http://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 Chess game built in C# and ASCII art.
-
-## Installing / Getting started
-
-Before running the application you need to perform the steps below:
-
- - [Installing the DejaVu Sans Mono font in Windows 10](#installing-the-dejavu-sans-mono-font-in-windows-10)
- - [Setting up Dev](#setting-up-dev)
-
-After performing the previous steps, open a new a new **Command Prompt**.
-
-```bash
-# Run silo project
-$ dotnet run --project src/Chess.SiloHost/
-```
-
-After the message `Press Enter to terminate...` appears, open a new **Command Prompt**.
-
-```bash
-# Run client project
-$ dotnet run --project src/Chess.Client/
-```
 
 ## Developing
 
@@ -39,6 +20,8 @@ $ dotnet run --project src/Chess.Client/
  - [ReactiveX](https://github.com/dotnet/reactive)
 
 ### Prerequisites
+
+Download and install the [.NET Core SDK](https://www.microsoft.com/net/download).
 
 #### Installing the DejaVu Sans Mono font in Windows 10
 
@@ -70,6 +53,22 @@ $ dotnet build
 
 # Run all tests
 $ dotnet test -v q
+```
+
+### Running
+
+Open a **Command Prompt** and execute the code below.
+
+```bash
+# Run silo project
+$ dotnet run --project src/Chess.SiloHost/
+```
+
+After the message `Press Enter to terminate...` appears, open a new **Command Prompt** and execute the code below.
+
+```bash
+# Run client project
+$ dotnet run --project src/Chess.Client/
 ```
 
 ## Licensing

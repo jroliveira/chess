@@ -15,7 +15,9 @@
             var gameServer = await ConnectAndGetGameServer().ConfigureAwait(false);
             await gameServer.Start().ConfigureAwait(false);
 
-            while (true) { }
+            while (true)
+            {
+            }
         }
     }
 }
