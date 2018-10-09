@@ -2,15 +2,11 @@
 {
     using System;
     using System.Collections.ObjectModel;
-
     using Chess.Entities;
     using Chess.Entities.Pieces;
     using Chess.Lib.Exceptions;
-
     using FluentAssertions;
-
     using Moq;
-
     using Xunit;
 
     public class ChessboardTests
@@ -41,7 +37,8 @@
             Action action = () => this.chessboard.MovePiece(this.pieceMock.Object, It.IsAny<Position>());
 
             action
-                .ShouldThrow<ChessException>()
+                .Should()
+                .Throw<ChessException>()
                 .WithMessage("Cannot move the piece ''.");
         }
 
@@ -53,7 +50,8 @@
             Action action = () => this.chessboard.MovePiece(this.pieceMock.Object, It.IsAny<Position>());
 
             action
-                .ShouldThrow<ChessException>()
+                .Should()
+                .Throw<ChessException>()
                 .WithMessage("Cannot move the piece ''.");
         }
 
@@ -82,7 +80,7 @@
 
             var actual = this.chessboard.GetPiece(this.positionStub.Object);
 
-            actual.ShouldBeEquivalentTo(this.pieceMock.Object);
+            actual.Get().Should().BeEquivalentTo(this.pieceMock.Object);
         }
 
         [Fact]
@@ -90,7 +88,7 @@
         {
             var actual = this.chessboard.GetPiece(this.positionStub.Object);
 
-            actual.Should().BeNull();
+            actual.IsDefined.Should().BeFalse();
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿namespace Chess.Lib.Validations.BishopValidations
 {
     using System;
-
     using Chess.Entities;
     using Chess.Entities.Pieces;
 

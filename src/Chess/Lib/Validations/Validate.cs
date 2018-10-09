@@ -12,15 +12,9 @@
         {
         }
 
-        protected Validate(Piece piece)
-        {
-            this.Piece = piece;
-        }
+        protected Validate(Piece piece) => this.Piece = piece;
 
-        public virtual void SetNextValidate(Validate nexValidate)
-        {
-            this.nextValidate = nexValidate;
-        }
+        public virtual void SetNextValidate(Validate nexValidate) => this.nextValidate = nexValidate;
 
         public virtual bool IsValid(Position newPosition)
         {

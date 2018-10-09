@@ -1,19 +1,14 @@
 ﻿namespace Chess.Test
 {
     using Chess.Entities;
-
     using FluentAssertions;
-
     using Xunit;
 
     public class PositionTests
     {
         private readonly Position position;
 
-        public PositionTests()
-        {
-            this.position = new Position('a', '1');
-        }
+        public PositionTests() => this.position = new Position('a', '1');
 
         [Fact]
         public void ToStringDadaPosicaoA1DeveRetornarStringA1()

@@ -2,12 +2,8 @@ namespace Chess.Test.Pieces
 {
     using Chess.Entities;
     using Chess.Entities.Pieces;
-    using Chess.Models;
-
     using FluentAssertions;
-
     using Moq;
-
     using Xunit;
 
     public class PawnTests
@@ -21,13 +17,13 @@ namespace Chess.Test.Pieces
             this.positionStub = new Mock<Position>();
             this.chessboardStub = new Mock<Chessboard>();
 
-            this.pawn = new Pawn(Owner.FirstPlayer, this.positionStub.Object, this.chessboardStub.Object);
+            this.pawn = new Pawn(Models.Owner.FirstPlayer, this.positionStub.Object, this.chessboardStub.Object);
         }
 
         [Theory]
-        [InlineData(Owner.FirstPlayer, "♙")]
-        [InlineData(Owner.SecondPlayer, "♟")]
-        public void NameDadoJogadorDeveRetornarPeca(Owner owner, string piece)
+        [InlineData(Models.Owner.FirstPlayer, "♙")]
+        [InlineData(Models.Owner.SecondPlayer, "♟")]
+        public void NameDadoJogadorDeveRetornarPeca(Models.Owner owner, string piece)
         {
             this.pawn = new Pawn(owner, this.positionStub.Object, this.chessboardStub.Object);
 

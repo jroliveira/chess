@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+
+  <PropertyGroup Label="Code Analysis">
+    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)code-analysis.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <ItemGroup Label="NuGet">
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta007" PrivateAssets="All" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <LangVersion>7.3</LangVersion>
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
+
+</Project>

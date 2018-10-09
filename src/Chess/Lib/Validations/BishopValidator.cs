@@ -13,10 +13,7 @@ namespace Chess.Lib.Validations
         {
         }
 
-        internal BishopValidator(FileAndRankLimitValidate fileAndRankLimitValidate)
-        {
-            this.fileAndRankLimitValidate = fileAndRankLimitValidate;
-        }
+        internal BishopValidator(FileAndRankLimitValidate fileAndRankLimitValidate) => this.fileAndRankLimitValidate = fileAndRankLimitValidate;
 
         public bool Validate(Position newPosition)
         {

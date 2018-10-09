@@ -3,7 +3,7 @@
 #      general configuration      #
 #---------------------------------#
 
-version: 1.0.{build}
+version: 2.0.{build}
 
 branches:
   only:
@@ -45,6 +45,4 @@ build_script:
 #---------------------------------#
 
 test_script:
-  - dotnet test -c %CONFIGURATION% test\unit\Chess.Test\Chess.Test.csproj
-  - dotnet test -c %CONFIGURATION% test\unit\Chess.Multiplayer.Test\Chess.Multiplayer.Test.csproj
-  - dotnet test -c %CONFIGURATION% test\unit\Chess.Terminal.Test\Chess.Terminal.Test.csproj
+  - dotnet test -c %CONFIGURATION%

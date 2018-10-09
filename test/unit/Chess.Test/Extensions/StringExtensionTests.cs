@@ -2,9 +2,7 @@
 {
     using Chess.Entities;
     using Chess.Lib.Extensions;
-
     using FluentAssertions;
-
     using Xunit;
 
     public class StringExtensionTests
@@ -18,7 +16,7 @@
             var actual = position.ToPosition();
             var expected = new Position(file, rank);
 
-            actual.ShouldBeEquivalentTo(expected);
+            actual.Should().BeEquivalentTo(expected);
         }
     }
 }

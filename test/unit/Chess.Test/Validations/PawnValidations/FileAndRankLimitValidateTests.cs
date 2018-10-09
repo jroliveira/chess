@@ -3,12 +3,8 @@
     using Chess.Entities;
     using Chess.Entities.Pieces;
     using Chess.Lib.Validations.PawnValidations;
-    using Chess.Models;
-
     using FluentAssertions;
-
     using Moq;
-
     using Xunit;
 
     public class FileAndRankLimitValidateTests
@@ -47,14 +43,14 @@
         }
 
         [Theory]
-        [InlineData('a', '8', Owner.FirstPlayer)]
-        [InlineData('b', '8', Owner.FirstPlayer)]
-        [InlineData('c', '8', Owner.FirstPlayer)]
-        [InlineData('a', '6', Owner.SecondPlayer)]
-        [InlineData('b', '6', Owner.SecondPlayer)]
-        [InlineData('c', '6', Owner.SecondPlayer)]
-        [InlineData('b', '5', Owner.SecondPlayer)]
-        public void IsValidDadaUmaPosicaoValidaComPecaDoPrimeiroJogadorDeveRetornarTrue(char file, char rank, Owner owner)
+        [InlineData('a', '8', Models.Owner.FirstPlayer)]
+        [InlineData('b', '8', Models.Owner.FirstPlayer)]
+        [InlineData('c', '8', Models.Owner.FirstPlayer)]
+        [InlineData('a', '6', Models.Owner.SecondPlayer)]
+        [InlineData('b', '6', Models.Owner.SecondPlayer)]
+        [InlineData('c', '6', Models.Owner.SecondPlayer)]
+        [InlineData('b', '5', Models.Owner.SecondPlayer)]
+        public void IsValidDadaUmaPosicaoValidaComPecaDoPrimeiroJogadorDeveRetornarTrue(char file, char rank, Models.Owner owner)
         {
             this.pawnStub
                 .Setup(p => p.Owner)

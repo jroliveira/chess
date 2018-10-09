@@ -1,11 +1,10 @@
 namespace Chess.Entities.Pieces
 {
     using Chess.Lib.Validations;
-    using Chess.Models;
 
     internal class Bishop : Piece
     {
-        public Bishop(Owner owner, Position position, Chessboard chessboard)
+        public Bishop(Models.Owner owner, Position position, Chessboard chessboard)
             : base(owner, position, chessboard)
         {
         }

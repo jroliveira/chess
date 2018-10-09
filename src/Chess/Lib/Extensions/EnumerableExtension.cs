@@ -7,18 +7,12 @@
 
     public static class EnumerableExtension
     {
-        public static IDisposable Subscribe<TSource>(this IEnumerable<TSource> source, Action<TSource> onNext)
-        {
-            return source
-                .ToObservable()
-                .Subscribe(onNext);
-        }
+        public static IDisposable Subscribe<TSource>(this IEnumerable<TSource> source, Action<TSource> onNext) => source
+            .ToObservable()
+            .Subscribe(onNext);
 
-        public static void ForEach<TSource>(this IEnumerable<TSource> source, Action<TSource> onNext)
-        {
-            source
-                .ToList()
-                .ForEach(onNext);
-        }
+        public static void ForEach<TSource>(this IEnumerable<TSource> source, Action<TSource> onNext) => source
+            .ToList()
+            .ForEach(onNext);
     }
 }

@@ -1,9 +1,7 @@
 ﻿namespace Chess.Test.Exceptions
 {
     using Chess.Lib.Exceptions;
-
     using FluentAssertions;
-
     using Xunit;
 
     public class ChessExceptionTests

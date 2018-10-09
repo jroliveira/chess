@@ -18,15 +18,8 @@
 
         public virtual char Rank { get; }
 
-        public virtual bool Equals(Position other)
-        {
-            return this.File == other.File
-                && this.Rank == other.Rank;
-        }
+        public virtual bool Equals(Position other) => this.File == other.File && this.Rank == other.Rank;
 
-        public override string ToString()
-        {
-            return $"{this.File}{this.Rank}";
-        }
+        public override string ToString() => $"{this.File}{this.Rank}";
     }
 }
