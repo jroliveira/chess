@@ -33,7 +33,6 @@ $ dotnet run --project src/Chess.Client/
 
 ### Built With
 
-List main libraries, frameworks used including versions (React, Angular etc...)
  - [.NET Core](https://docs.microsoft.com/en-us/dotnet/core/)
  - [C#](https://docs.microsoft.com/en-us/dotnet/csharp/)
  - [Orleans](https://github.com/dotnet/orleans)
