@@ -1,10 +1,9 @@
 ﻿namespace Chess.Lib.Validations.PawnValidations
 {
-    using System;
     using Chess.Entities;
-    using Chess.Models;
+    using Chess.Entities.Pieces;
 
-    using Piece = Chess.Entities.Pieces.Piece;
+    using static System.Math;
 
     internal class FileAndRankLimitValidate : Validate
     {
@@ -19,17 +18,17 @@
 
         protected override bool IsValidRule(Position newPosition)
         {
-            var fileMoved = Math.Abs(this.Piece.Position.File - newPosition.File);
-            var rankMoved = this.Piece.Position.Rank - newPosition.Rank;
+            var fileMoved = Abs(this.Piece.Position.GetFileMoves(newPosition.File));
+            var rankMoved = this.Piece.Position.GetRankMoves(newPosition.Rank);
 
             if (fileMoved > 1)
             {
                 return false;
             }
 
-            if (fileMoved.Equals(0))
+            if (fileMoved == 0)
             {
-                if (rankMoved.Equals(this.Direction(1)) || rankMoved.Equals(this.Direction(2)))
+                if (rankMoved == this.Direction(1) || rankMoved == this.Direction(2))
                 {
                     return true;
                 }
@@ -37,7 +36,7 @@
                 return false;
             }
 
-            if (fileMoved.Equals(1) && rankMoved.Equals(this.Direction(1)))
+            if (fileMoved == 1 && rankMoved == this.Direction(1))
             {
                 return this.Piece.Chessboard.HasPiece(newPosition);
             }
@@ -47,7 +46,7 @@
 
         private int Direction(int value)
         {
-            if (this.Piece.Owner.Equals(Owner.SecondPlayer))
+            if (!this.Piece.IsWhite)
             {
                 return value;
             }

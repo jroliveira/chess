@@ -3,11 +3,13 @@
     using Chess.Entities;
     using Chess.Entities.Pieces;
     using Chess.Lib.Data.Commands;
-    using Chess.Lib.Exceptions;
+
     using FluentAssertions;
+
     using Moq;
+
     using Xunit;
-    using static Chess.Lib.Monad.Utils.Util;
+
     using static Moq.It;
     using static Moq.Times;
 

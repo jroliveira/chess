@@ -1,4 +1,4 @@
-namespace Chess.Test.Fakes.Validations
+﻿namespace Chess.Test.Fakes.Validations
 {
     using Chess.Entities;
     using Chess.Lib.Validations;

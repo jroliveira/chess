@@ -3,7 +3,9 @@
     using Chess.Entities;
     using Chess.Lib.Validations;
     using Chess.Lib.Validations.KingValidations;
+
     using Moq;
+
     using Xunit;
 
     public class KingValidatorTests

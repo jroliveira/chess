@@ -60,7 +60,7 @@
             }
             else
             {
-                WriteValue(" {0} ", piece.Name);
+                WriteValue(" {0} ", piece);
             }
         }
 

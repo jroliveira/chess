@@ -1,8 +1,9 @@
 ﻿namespace Chess.Lib.Validations.RookValidations
 {
-    using System;
     using Chess.Entities;
     using Chess.Entities.Pieces;
+
+    using static System.Math;
 
     internal class FileAndRankLimitValidate : Validate
     {
@@ -17,10 +18,10 @@
 
         protected override bool IsValidRule(Position newPosition)
         {
-            var fileMoved = Math.Abs(this.Piece.Position.File - newPosition.File);
-            var rankMoved = Math.Abs(this.Piece.Position.Rank - newPosition.Rank);
+            var fileMoved = Abs(this.Piece.Position.GetFileMoves(newPosition.File));
+            var rankMoved = Abs(this.Piece.Position.GetRankMoves(newPosition.Rank));
 
-            if (fileMoved.Equals(rankMoved))
+            if (fileMoved == rankMoved)
             {
                 return false;
             }

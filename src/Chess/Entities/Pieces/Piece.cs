@@ -1,41 +1,54 @@
 ﻿namespace Chess.Entities.Pieces
 {
     using System;
+
     using Chess.Lib.Validations;
+
+    using static System.Activator;
 
     internal abstract class Piece : IEquatable<Piece>
     {
-        protected Piece(Models.Owner owner, Position position, Chessboard chessboard)
+        private readonly string whiteSymbol;
+        private readonly string blackSymbol;
+
+        protected Piece(
+            Position position,
+            Chessboard chessboard,
+            string whiteSymbol,
+            string blackSymbol)
         {
-            this.Owner = owner;
+            this.whiteSymbol = whiteSymbol;
+            this.blackSymbol = blackSymbol;
             this.Position = position;
             this.Chessboard = chessboard;
+
+            this.IsWhite = position.Rank < 5;
         }
 
         protected Piece()
         {
         }
 
-        public virtual Chessboard Chessboard { get; }
+        internal virtual Chessboard Chessboard { get; }
 
-        public virtual Position Position { get; }
+        internal virtual Position Position { get; }
 
-        public virtual Models.Owner Owner { get; }
-
-        public virtual string Name => this.Owner == Models.Owner.FirstPlayer ? this.Symbols.FirstPlayer : this.Symbols.SecondPlayer;
+        internal virtual bool IsWhite { get; }
 
         protected abstract IValidator Validator { get; }
 
-        protected abstract (string FirstPlayer, string SecondPlayer) Symbols { get; }
+        public static implicit operator string(Piece piece) => piece.IsWhite
+            ? piece.whiteSymbol
+            : piece.blackSymbol;
 
-        public static Piece Clone(Piece piece, Position newPosition) => Activator.CreateInstance(piece.GetType(), piece.Owner, newPosition, piece.Chessboard) as Piece;
-
-        public virtual bool CanMove(Position newPosition) => this.Validator.Validate(newPosition);
+        public override string ToString() => $"{this.Position.File}{this.Position.Rank}";
 
         public virtual bool Equals(Piece other) => this.Equals(other.Position);
 
-        public virtual bool Equals(Position position) => this.Position.Equals(position);
+        internal virtual Piece Move(Position newPosition) => CreateInstance(this.GetType(), newPosition, this.Chessboard) as Piece;
 
-        public override string ToString() => $"{this.Position.File}{this.Position.Rank}";
+        internal virtual bool CanMove(Position newPosition) => this.Validator.Validate(newPosition);
+
+        internal virtual bool Equals(Position position) => this.Position.Equals(position);
     }
 }

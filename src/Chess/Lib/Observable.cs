@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+
     using Chess.Lib.Extensions;
 
     public class Observable<T> : IObservable<T>

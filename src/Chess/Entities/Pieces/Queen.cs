@@ -1,11 +1,11 @@
-namespace Chess.Entities.Pieces
+﻿namespace Chess.Entities.Pieces
 {
     using Chess.Lib.Validations;
 
     internal class Queen : Piece
     {
-        public Queen(Models.Owner owner, Position position, Chessboard chessboard)
-            : base(owner, position, chessboard)
+        public Queen(Position position, Chessboard chessboard)
+            : base(position, chessboard, "♕", "♛")
         {
         }
 
@@ -14,7 +14,5 @@ namespace Chess.Entities.Pieces
         }
 
         protected override IValidator Validator => new QueenValidator(this);
-
-        protected override (string FirstPlayer, string SecondPlayer) Symbols => ("♕", "♛");
     }
 }

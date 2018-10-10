@@ -1,8 +1,9 @@
 ﻿namespace Chess.Lib.Validations.KnightValidations
 {
-    using System;
     using Chess.Entities;
     using Chess.Entities.Pieces;
+
+    using static System.Math;
 
     internal class FileAndRankLimitValidate : Validate
     {
@@ -17,15 +18,15 @@
 
         protected override bool IsValidRule(Position newPosition)
         {
-            var fileMoved = Math.Abs(this.Piece.Position.File - newPosition.File);
-            var rankMoved = Math.Abs(this.Piece.Position.Rank - newPosition.Rank);
+            var fileMoved = Abs(this.Piece.Position.GetFileMoves(newPosition.File));
+            var rankMoved = Abs(this.Piece.Position.GetRankMoves(newPosition.Rank));
 
-            if (fileMoved.Equals(1) && rankMoved.Equals(2))
+            if (fileMoved == 1 && rankMoved == 2)
             {
                 return true;
             }
 
-            if (fileMoved.Equals(2) && rankMoved.Equals(1))
+            if (fileMoved == 2 && rankMoved == 1)
             {
                 return true;
             }
