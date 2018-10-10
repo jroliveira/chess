@@ -1,4 +1,4 @@
-namespace Chess.Lib.Validations
+﻿namespace Chess.Lib.Validations
 {
     using Chess.Entities;
     using Chess.Entities.Pieces;

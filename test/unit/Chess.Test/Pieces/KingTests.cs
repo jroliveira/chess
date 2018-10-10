@@ -1,64 +1,24 @@
-namespace Chess.Test.Pieces
+﻿namespace Chess.Test.Pieces
 {
-    using Chess.Entities;
     using Chess.Entities.Pieces;
+    using Chess.Lib.Extensions;
+
     using FluentAssertions;
-    using Moq;
+
     using Xunit;
 
-    public class KingTests
+    public class KingTests : PieceTests
     {
-        private readonly Mock<Position> positionStub;
-        private readonly Mock<Chessboard> chessboardStub;
-        private King king;
-
-        public KingTests()
-        {
-            this.positionStub = new Mock<Position>();
-            this.chessboardStub = new Mock<Chessboard>();
-
-            this.king = new King(Models.Owner.FirstPlayer, this.positionStub.Object, this.chessboardStub.Object);
-        }
-
         [Theory]
-        [InlineData(Models.Owner.FirstPlayer, "♔")]
-        [InlineData(Models.Owner.SecondPlayer, "♚")]
-        public void NameDadoJogadorDeveRetornarPeca(Models.Owner owner, string piece)
+        [InlineData("a1", "♔")]
+        [InlineData("a8", "♚")]
+        public void ToString_GivenPosition_ShouldReturnPiece(string position, string expected)
         {
-            this.king = new King(owner, this.positionStub.Object, this.chessboardStub.Object);
+            string actual = new King(position.ToPosition(), default);
 
-            this.king.Name.Should().Be(piece);
+            actual.Should().Be(expected);
         }
 
-        [Fact]
-        public void EqualsDadaPecaNaPosicaoC3ENovaPecaNaPosicaoC3DeveRetornarTrue()
-        {
-            this.positionStub.Setup(p => p.File).Returns('c');
-            this.positionStub.Setup(p => p.Rank).Returns('3');
-            this.positionStub.Setup(m => m.Equals(It.IsAny<Position>())).Returns(true);
-
-            var kingStub = new Mock<King>();
-            kingStub.Setup(p => p.Position).Returns(this.positionStub.Object);
-
-            var actual = this.king.Equals(kingStub.Object);
-            actual.Should().BeTrue();
-        }
-
-        [Fact]
-        public void EqualsDadaPecaNaPosicaoC2ENovaPecaNaPosicaoC3DeveRetornarFalse()
-        {
-            this.positionStub.Setup(p => p.File).Returns('c');
-            this.positionStub.Setup(p => p.Rank).Returns('2');
-
-            var position = new Mock<Position>();
-            position.Setup(p => p.File).Returns('c');
-            position.Setup(p => p.Rank).Returns('3');
-
-            var kingStub = new Mock<King>();
-            kingStub.Setup(p => p.Position).Returns(position.Object);
-
-            var actual = this.king.Equals(kingStub.Object);
-            actual.Should().BeFalse();
-        }
+        internal override Piece CreatePiece(string position) => new King(position.ToPosition(), default);
     }
 }

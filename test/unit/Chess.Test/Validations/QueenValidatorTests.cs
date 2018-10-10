@@ -3,7 +3,9 @@
     using Chess.Entities;
     using Chess.Lib.Validations;
     using Chess.Lib.Validations.BishopValidations;
+
     using Moq;
+
     using Xunit;
 
     public class QueenValidatorTests

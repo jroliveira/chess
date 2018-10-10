@@ -3,8 +3,11 @@
     using Chess.Entities;
     using Chess.Lib.Validations;
     using Chess.Test.Fakes.Validations;
+
     using FluentAssertions;
+
     using Moq;
+
     using Xunit;
 
     public class ValidateTests

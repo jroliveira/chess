@@ -1,4 +1,4 @@
-namespace Chess.Models
+﻿namespace Chess.Models
 {
     using System.Collections.Generic;
 
@@ -8,7 +8,7 @@ namespace Chess.Models
 
         public Chessboard(
             IReadOnlyCollection<char> files,
-            IReadOnlyCollection<char> ranks,
+            IReadOnlyCollection<uint> ranks,
             Piece[,] pieces)
         {
             this.pieces = pieces;
@@ -18,7 +18,7 @@ namespace Chess.Models
 
         public IReadOnlyCollection<char> Files { get; }
 
-        public IReadOnlyCollection<char> Ranks { get; }
+        public IReadOnlyCollection<uint> Ranks { get; }
 
         public Piece this[int file, int rank] => this.pieces[file, rank];
     }

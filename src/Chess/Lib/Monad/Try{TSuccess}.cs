@@ -1,6 +1,7 @@
 ﻿namespace Chess.Lib.Monad
 {
     using System;
+
     using static Chess.Lib.Monad.Utils.Util;
 
     public readonly struct Try<TSuccess>

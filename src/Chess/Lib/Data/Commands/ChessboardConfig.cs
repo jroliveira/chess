@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+
     using Chess.Entities.Pieces;
 
     internal sealed class ChessboardConfig

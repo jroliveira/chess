@@ -1,15 +1,15 @@
-namespace Chess.Models
+﻿namespace Chess.Models
 {
     public sealed class Piece
     {
-        public Piece(string name, Owner owner)
-        {
-            this.Name = name;
-            this.Owner = owner;
-        }
+        private readonly string symbol;
 
-        public string Name { get; }
+        public Piece(string symbol) => this.symbol = symbol;
 
-        public Owner Owner { get; }
+        public static implicit operator string(Piece piece) => piece.symbol;
+
+        public static implicit operator Piece(string symbol) => new Piece(symbol);
+
+        public override string ToString() => this.symbol;
     }
 }

@@ -2,12 +2,14 @@
 {
     using System;
     using System.Linq;
+
     using Chess.Lib.Data.Commands;
     using Chess.Lib.Exceptions;
     using Chess.Lib.Extensions;
     using Chess.Lib.Monad;
     using Chess.Lib.Monad.Extensions;
     using Chess.Models;
+
     using static System.String;
 
     public sealed class Game : IGame
@@ -69,7 +71,7 @@
                 {
                     var file = this.chessboard.Files.ElementAt(fileIndex);
                     var rank = this.chessboard.Ranks.ElementAt(rankIndex);
-                    var pieceOption = this.chessboard.GetPiece(new Chess.Entities.Position(file, rank));
+                    var pieceOption = this.chessboard.GetPiece(new Entities.Position(file, rank));
                     var piece = pieceOption.GetOrElse(default);
 
                     if (piece == null)
@@ -77,7 +79,7 @@
                         continue;
                     }
 
-                    pieces[fileIndex, rankIndex] = new Piece(piece.Name, piece.Owner);
+                    pieces[fileIndex, rankIndex] = new Piece(piece);
                 }
             }
 

@@ -2,6 +2,8 @@
 {
     using System;
 
+    using static System.String;
+
     public class ChessException : Exception
     {
         public ChessException(string message)
@@ -10,7 +12,7 @@
         }
 
         public ChessException(string format, params object[] args)
-            : base(string.Format(format, args))
+            : base(Format(format, args))
         {
         }
     }

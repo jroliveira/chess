@@ -1,7 +1,9 @@
 ﻿namespace Chess.Lib.Monad
 {
     using System;
+
     using Chess.Lib.Monad.Extensions;
+
     using static Chess.Lib.Monad.Utils.Util;
 
     public readonly struct Option<TValue>

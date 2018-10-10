@@ -3,8 +3,11 @@
     using Chess.Entities;
     using Chess.Entities.Pieces;
     using Chess.Lib.Validations.KingValidations;
+
     using FluentAssertions;
+
     using Moq;
+
     using Xunit;
 
     public class FileAndRankLimitValidateTests
@@ -17,23 +20,23 @@
             chessboardStub.Setup(m => m.HasPiece(It.IsAny<Position>())).Returns(true);
 
             var kingStub = new Mock<King>();
-            kingStub.Setup(p => p.Position).Returns(new Position('d', '5'));
+            kingStub.Setup(p => p.Position).Returns(new Position('d', 5));
             kingStub.Setup(p => p.Chessboard).Returns(chessboardStub.Object);
 
             this.validate = new FileAndRankLimitValidate(kingStub.Object);
         }
 
         [Theory]
-        [InlineData('c', '7')]
-        [InlineData('d', '7')]
-        [InlineData('e', '7')]
-        [InlineData('b', '5')]
-        [InlineData('d', '5')]
-        [InlineData('f', '5')]
-        [InlineData('c', '3')]
-        [InlineData('d', '3')]
-        [InlineData('e', '3')]
-        public void IsValidDadaUmaPosicaoInvalidaDeveRetornarFalse(char file, char rank)
+        [InlineData('c', 7)]
+        [InlineData('d', 7)]
+        [InlineData('e', 7)]
+        [InlineData('b', 5)]
+        [InlineData('d', 5)]
+        [InlineData('f', 5)]
+        [InlineData('c', 3)]
+        [InlineData('d', 3)]
+        [InlineData('e', 3)]
+        public void IsValidDadaUmaPosicaoInvalidaDeveRetornarFalse(char file, uint rank)
         {
             var newPosition = new Position(file, rank);
 
@@ -43,15 +46,15 @@
         }
 
         [Theory]
-        [InlineData('c', '6')]
-        [InlineData('d', '6')]
-        [InlineData('e', '6')]
-        [InlineData('c', '5')]
-        [InlineData('e', '5')]
-        [InlineData('c', '4')]
-        [InlineData('d', '4')]
-        [InlineData('e', '4')]
-        public void IsValidDadaUmaPosicaoValidaDeveRetornarTrue(char file, char rank)
+        [InlineData('c', 6)]
+        [InlineData('d', 6)]
+        [InlineData('e', 6)]
+        [InlineData('c', 5)]
+        [InlineData('e', 5)]
+        [InlineData('c', 4)]
+        [InlineData('d', 4)]
+        [InlineData('e', 4)]
+        public void IsValidDadaUmaPosicaoValidaDeveRetornarTrue(char file, uint rank)
         {
             var newPosition = new Position(file, rank);
 
