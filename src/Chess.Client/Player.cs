@@ -12,19 +12,39 @@
     using static System.Threading.Thread;
     using static Chess.Client.Infra.UI.Reader;
     using static Chess.Client.Infra.UI.Writer;
-    using static Chess.Lib.Monad.Utils.Util;
 
-    internal class GameClient : IGameClient
+    internal class PlayerCallback : IPlayerCallback
     {
         private Option<string> playerName;
 
-        public void GameChanged(Try<Chessboard> chessboard, IGameServer gameServer)
-        {
-            chessboard.Match(
-                exception => WriteError(exception.Message),
-                game => game.Draw());
+        public void GameChanged(Try<Chessboard> chessboard) => chessboard.Match(
+            exception => WriteError(exception.Message),
+            game => game.Draw());
 
-            this.NextMove(gameServer);
+        public void YourMove(IBoard board)
+        {
+            ClearOption();
+
+            var (file, rank) = RequestOption("   NEXT MOVE -> piece ");
+            var piecePosition = new string(new[] { file, rank });
+
+            var (newFile, newRank) = RequestOption(" move for ");
+            var newPosition = new string(new[] { newFile, newRank });
+
+            board.MoveAsync(piecePosition, newPosition, this.playerName);
+            ClearOption();
+
+            void ClearOption()
+            {
+                SetCursor(top: 22);
+
+                for (var i = 0; i < 40; i++)
+                {
+                    WriteValue(' ');
+                }
+
+                SetCursor(top: 22);
+            }
         }
 
         public void SetPlayer(Option<string> name) => this.playerName = name;
@@ -64,32 +84,6 @@
 
                 return option;
             };
-        }
-
-        private void NextMove(IGameServer gameServer)
-        {
-            ClearOption();
-
-            var (file, rank) = RequestOption("   NEXT MOVE -> piece ");
-            var piecePosition = new string(new[] { file, rank });
-
-            var (newFile, newRank) = RequestOption(" move for ");
-            var newPosition = new string(new[] { newFile, newRank });
-
-            gameServer.MovePiece(piecePosition, newPosition, this.playerName);
-            ClearOption();
-
-            void ClearOption()
-            {
-                SetCursor(top: 22);
-
-                for (var i = 0; i < 40; i++)
-                {
-                    WriteValue(' ');
-                }
-
-                SetCursor(top: 22);
-            }
         }
     }
 }

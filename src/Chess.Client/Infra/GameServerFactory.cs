@@ -19,7 +19,7 @@
     {
         private const int AttemptsBeforeFailing = 5;
 
-        public static async Task<IGameServer> ConnectAndGetGameServer()
+        public static async Task<IBoard> ConnectAndGetGameServer()
         {
             var attempt = 0;
 
@@ -57,17 +57,15 @@
             return client;
         }
 
-        private static async Task<IGameServer> GetGameServer(IGrainFactory client)
+        private static async Task<IBoard> GetGameServer(IGrainFactory client)
         {
             var playerName = NewGuid().ToString();
+            var playerInstance = GetContainer().GetInstance<IPlayerCallback>();
+            var player = await client.CreateObjectReference<IPlayerCallback>(playerInstance).ConfigureAwait(false);
+            player.SetPlayer(playerName);
 
-            var gameClientInstance = GetContainer().GetInstance<IGameClient>();
-            var gameClient = await client.CreateObjectReference<IGameClient>(gameClientInstance).ConfigureAwait(false);
-            gameClient.SetPlayer(playerName);
-
-            var gameServer = client.GetGrain<IGameServer>("game-test");
-            await gameServer.Subscribe(gameClient).ConfigureAwait(false);
-            await gameServer.JoinPlayer(playerName);
+            var gameServer = client.GetGrain<IBoard>("game-test");
+            await gameServer.JoinAsync(player).ConfigureAwait(false);
 
             return gameServer;
         }
