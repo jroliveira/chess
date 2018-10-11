@@ -7,7 +7,7 @@
 
     internal static class StringExtension
     {
-        public static Position ToPosition(this string position)
+        internal static Position ToPosition(this string position)
         {
             var file = position[0];
             var rank = ToUInt32(GetNumericValue(position[1]));
