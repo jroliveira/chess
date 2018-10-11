@@ -5,9 +5,11 @@
 
     using Orleans;
 
-    public interface IGameClient : IGrainObserver
+    public interface IPlayerCallback : IGrainObserver
     {
-        void GameChanged(Try<Chessboard> chessboard, IGameServer gameServer);
+        void GameChanged(Try<Chessboard> chessboard);
+
+        void YourMove(IMatch board);
 
         void SetPlayer(Option<string> playerName);
     }

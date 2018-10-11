@@ -11,7 +11,7 @@
         {
             ServiceContainer = new ServiceContainer();
 
-            ServiceContainer.Register<IGameClient, GameClient>(new PerContainerLifetime());
+            ServiceContainer.Register<IPlayerCallback, PlayerCallback>(new PerRequestLifeTime());
             ServiceContainer.Register<Main>();
         }
 

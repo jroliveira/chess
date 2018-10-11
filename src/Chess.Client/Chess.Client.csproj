@@ -8,6 +8,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsPackable>false</IsPackable>
     <ApplicationIcon>favicon.ico</ApplicationIcon>
+    <AssemblyName>Chess.Client</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
