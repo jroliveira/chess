@@ -2,58 +2,32 @@
 {
     using System;
     using System.Linq;
+
     using Chess.Client.Infra.Extensions;
     using Chess.Interfaces;
-    using Chess.Lib.Exceptions;
     using Chess.Lib.Extensions;
+    using Chess.Lib.Monad;
     using Chess.Models;
+
+    using static System.Threading.Thread;
     using static Chess.Client.Infra.UI.Reader;
     using static Chess.Client.Infra.UI.Writer;
-    using static System.Threading.Thread;
+    using static Chess.Lib.Monad.Utils.Util;
 
     internal class GameClient : IGameClient
     {
-        public void GameChanged(Chessboard chessboard, IGameServer gameServer)
+        private Option<string> playerName;
+
+        public void GameChanged(Try<Chessboard> chessboard, IGameServer gameServer)
         {
-            chessboard.Draw();
-            NextMove(gameServer);
+            chessboard.Match(
+                exception => WriteError(exception.Message),
+                game => game.Draw());
+
+            this.NextMove(gameServer);
         }
 
-        private static void NextMove(IGameServer gameServer)
-        {
-            ClearOption();
-
-            var (file, rank) = RequestOption("   NEXT MOVE -> piece ");
-            var piecePosition = new string(new[] { file, rank });
-
-            var (newFile, newRank) = RequestOption(" move for ");
-            var newPosition = new string(new[] { newFile, newRank });
-
-            try
-            {
-                gameServer.Move(piecePosition, newPosition);
-            }
-            catch (ChessException exception)
-            {
-                WriteError(exception.Message);
-            }
-            finally
-            {
-                ClearOption();
-            }
-
-            void ClearOption()
-            {
-                SetCursor(top: 22);
-
-                for (var i = 0; i < 40; i++)
-                {
-                    WriteValue(' ');
-                }
-
-                SetCursor(top: 22);
-            }
-        }
+        public void SetPlayer(Option<string> name) => this.playerName = name;
 
         private static (char, char) RequestOption(string text)
         {
@@ -90,6 +64,32 @@
 
                 return option;
             };
+        }
+
+        private void NextMove(IGameServer gameServer)
+        {
+            ClearOption();
+
+            var (file, rank) = RequestOption("   NEXT MOVE -> piece ");
+            var piecePosition = new string(new[] { file, rank });
+
+            var (newFile, newRank) = RequestOption(" move for ");
+            var newPosition = new string(new[] { newFile, newRank });
+
+            gameServer.MovePiece(piecePosition, newPosition, this.playerName);
+            ClearOption();
+
+            void ClearOption()
+            {
+                SetCursor(top: 22);
+
+                for (var i = 0; i < 40; i++)
+                {
+                    WriteValue(' ');
+                }
+
+                SetCursor(top: 22);
+            }
         }
     }
 }

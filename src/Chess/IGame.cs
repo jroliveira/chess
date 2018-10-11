@@ -7,6 +7,8 @@
     {
         Try<Chessboard> Start();
 
-        Try<Chessboard> Move(Option<string> piecePosition, Option<string> newPosition);
+        Try<Player> JoinPlayer(Option<string> playerName);
+
+        Try<Chessboard> MovePiece(Option<string> piecePosition, Option<string> newPosition, Option<string> playerName);
     }
 }

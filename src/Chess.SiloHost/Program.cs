@@ -1,10 +1,15 @@
 ﻿namespace Chess.SiloHost
 {
     using System;
-    using System.Net;
     using System.Threading.Tasks;
+
+    using Microsoft.Extensions.Logging;
+
     using Orleans.Configuration;
     using Orleans.Hosting;
+
+    using static System.Console;
+    using static System.Net.IPAddress;
 
     public class Program
     {
@@ -15,8 +20,8 @@
             try
             {
                 var host = await StartSilo().ConfigureAwait(false);
-                Console.WriteLine("Press Enter to terminate...");
-                Console.ReadLine();
+                WriteLine("Press Enter to terminate...");
+                ReadLine();
 
                 await host.StopAsync().ConfigureAwait(false);
 
@@ -24,7 +29,7 @@
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                WriteLine(ex);
                 return 1;
             }
         }
@@ -33,7 +38,13 @@
         {
             var builder = new SiloHostBuilder()
                 .UseLocalhostClustering()
-                .Configure<EndpointOptions>(options => options.AdvertisedIPAddress = IPAddress.Loopback);
+                .Configure<ClusterOptions>(options =>
+                {
+                    options.ClusterId = "dev";
+                    options.ServiceId = "HelloWorldApp";
+                })
+                .Configure<EndpointOptions>(options => options.AdvertisedIPAddress = Loopback)
+                .ConfigureLogging(logging => logging.AddConsole());
 
             var host = builder.Build();
             await host.StartAsync().ConfigureAwait(false);

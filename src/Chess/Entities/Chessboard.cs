@@ -51,8 +51,7 @@
                 return new ChessException($"Cannot move the piece '{piece}'.");
             }
 
-            var otherPieceOption = this.GetPiece(newPosition);
-            var otherPiece = otherPieceOption.GetOrElse(default);
+            var otherPiece = this.GetPiece(newPosition).GetOrElse(default);
             if (otherPiece != null && !this.pieces.Remove(otherPiece))
             {
                 return new ChessException($"Cannot move the piece '{piece}'.");

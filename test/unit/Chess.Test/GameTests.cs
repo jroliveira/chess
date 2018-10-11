@@ -1,8 +1,10 @@
 ﻿namespace Chess.Test
 {
+    using System.Collections.Generic;
+
     using Chess.Entities;
-    using Chess.Entities.Pieces;
     using Chess.Lib.Data.Commands;
+    using Chess.Models;
 
     using FluentAssertions;
 
@@ -12,6 +14,9 @@
 
     using static Moq.It;
     using static Moq.Times;
+
+    using Chessboard = Chess.Entities.Chessboard;
+    using Piece = Chess.Entities.Pieces.Piece;
 
     public class GameTests
     {
@@ -28,7 +33,14 @@
 
             this.mountChessboardMock = new Mock<MountChessboardCommand>();
 
-            this.game = new Game(this.chessboardMock.Object, this.mountChessboardMock.Object);
+            this.game = new Game(
+                this.chessboardMock.Object,
+                this.mountChessboardMock.Object,
+                new Dictionary<string, Player>
+                {
+                    { "aj", new Player("aj", true) },
+                    { "jr", new Player("jr", false) },
+                });
         }
 
         [Fact]
@@ -42,7 +54,7 @@
         [Fact]
         public void MoveDadaPosicaoEPecaDeveChamarChessboardMovePieceUmaVez()
         {
-            this.game.Move("a5", "a6");
+            this.game.MovePiece("a5", "a6", "jr");
 
             this.chessboardMock.Verify(m => m.MovePiece(IsAny<Piece>(), IsAny<Position>()), Once);
         }
@@ -52,7 +64,7 @@
         {
             this.chessboardMock.Setup(m => m.GetPiece(IsAny<Position>())).Returns(default(Piece));
 
-            var actual = this.game.Move("a5", "a6");
+            var actual = this.game.MovePiece("a5", "a6", "jr");
 
             actual.IsFailure.Should().BeTrue();
         }

@@ -1,14 +1,19 @@
 ﻿namespace Chess.Client.Infra
 {
     using System.Threading.Tasks;
+
     using Chess.Interfaces;
+
     using LightInject;
+
     using Orleans;
     using Orleans.Runtime;
-    using static Chess.Client.Infra.IoC.Container;
-    using static Chess.Client.Infra.UI.Writer;
+
+    using static System.Guid;
     using static System.Threading.Tasks.Task;
     using static System.TimeSpan;
+    using static Chess.Client.Infra.IoC.Container;
+    using static Chess.Client.Infra.UI.Writer;
 
     internal static class GameServerFactory
     {
@@ -54,11 +59,15 @@
 
         private static async Task<IGameServer> GetGameServer(IGrainFactory client)
         {
+            var playerName = NewGuid().ToString();
+
             var gameClientInstance = GetContainer().GetInstance<IGameClient>();
             var gameClient = await client.CreateObjectReference<IGameClient>(gameClientInstance).ConfigureAwait(false);
+            gameClient.SetPlayer(playerName);
 
             var gameServer = client.GetGrain<IGameServer>("game-test");
             await gameServer.Subscribe(gameClient).ConfigureAwait(false);
+            await gameServer.JoinPlayer(playerName);
 
             return gameServer;
         }
