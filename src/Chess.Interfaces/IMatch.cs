@@ -4,8 +4,10 @@
     using Chess.Lib.Monad;
     using Orleans;
 
-    public interface IBoard : IGrainWithStringKey
+    public interface IMatch : IGrainWithStringKey
     {
+        Task WakeUp();
+
         Task JoinAsync(IPlayerCallback player);
 
         Task<Try<Unit>> Start();

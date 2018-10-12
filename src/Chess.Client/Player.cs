@@ -21,7 +21,7 @@
             exception => WriteError(exception.Message),
             game => game.Draw());
 
-        public void YourMove(IBoard board)
+        public void YourMove(IMatch board)
         {
             ClearOption();
 

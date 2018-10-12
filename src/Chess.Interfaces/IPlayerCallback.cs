@@ -9,7 +9,7 @@
     {
         void GameChanged(Try<Chessboard> chessboard);
 
-        void YourMove(IBoard board);
+        void YourMove(IMatch board);
 
         void SetPlayer(Option<string> playerName);
     }

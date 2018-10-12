@@ -30,14 +30,5 @@
             this._players.Add(player);
             return Task.CompletedTask;
         }
-
-        //public Task SetBoard(IBoard board)
-        //{
-        //    this.board = board;
-
-        //    return Task.CompletedTask;
-        //}
-
-        //public async Task GameReadyAsync() => (await this.NextPlayer()).YourMove(this.board);
     }
 }

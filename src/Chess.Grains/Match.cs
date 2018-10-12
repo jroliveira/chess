@@ -12,7 +12,7 @@
     using static System.Threading.Tasks.Task;
     using static Chess.Lib.Monad.Utils.Util;
 
-    public class Board : Grain, IBoard
+    public class Match : Grain, IMatch
     {
         private const int NumberOfPlayers = 2;
         private ObserverSubscriptionManager<IPlayerCallback> players;
@@ -20,9 +20,14 @@
         private IGame game;
         private IDealer dealer;
 
+        public Task WakeUp() => Task.CompletedTask;
+
         public override Task OnActivateAsync()
         {
             this.dealer = this.GrainFactory.GetGrain<IDealer>(Guid.NewGuid());
+
+            var registry = this.GrainFactory.GetGrain<IMatchRegistry>("match_registry");
+            registry.AddMatch(this);
 
             this.game = new Game();
             this.players = new ObserverSubscriptionManager<IPlayerCallback>();
