@@ -52,7 +52,7 @@
         }
 
         [Fact]
-        public void MoveDadaPosicaoEPecaDeveChamarChessboardMovePieceUmaVez()
+        public void MovePieceDadaPosicaoEPecaDeveChamarChessboardMovePieceUmaVez()
         {
             this.game.MovePiece("a5", "a6", "jr");
 
@@ -60,7 +60,7 @@
         }
 
         [Fact]
-        public void MoveDadaPosicaoEPecaQueNaoExisteDeveLancarAExcecaoChessException()
+        public void MovePieceDadaPosicaoEPecaQueNaoExisteDeveLancarAExcecaoChessException()
         {
             this.chessboardMock.Setup(m => m.GetPiece(IsAny<Position>())).Returns(default(Piece));
 

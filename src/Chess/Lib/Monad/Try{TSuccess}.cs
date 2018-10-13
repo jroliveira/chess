@@ -31,7 +31,7 @@
 
         public static implicit operator Try<TSuccess>(TSuccess success) => Success(success);
 
-        public Unit Match(Action<Exception> failure, Action<TSuccess> success) => Match(failure.ToFunc(), success.ToFunc());
+        public Unit Match(Action<Exception> failure, Action<TSuccess> success) => this.Match(failure.ToFunc(), success.ToFunc());
 
         public TReturn Match<TReturn>(Func<Exception, TReturn> failure, Func<TSuccess, TReturn> success) => this.IsFailure
             ? failure(this.failure)

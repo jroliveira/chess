@@ -1,17 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
 
+  <PropertyGroup>
+    <Language>C#</Language>
+    <LangVersion>7.3</LangVersion>
+    <NoWarn>1591</NoWarn>
+
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/jroliveira/http-query-filter</RepositoryUrl>
+
+    <Authors>Junior Oliveira</Authors>
+    <Owners>Junior Oliveira</Owners>
+    <Description>Chess game built in C# and ASCII art.</Description>
+    <Copyright>© Copyright (c) 2019 Junior Oliveira.</Copyright>
+    <PackageProjectUrl>https://github.com/jroliveira/chess</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/jroliveira/chess/master/docs/images/logo.png</PackageIconUrl>
+  </PropertyGroup>
+
+  <!-- Support for building in Visual Studio versions 15.9 and up -->
+  <PropertyGroup Condition="'$(MSBuildVersion)' >= '15.9'">
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Include LICENSE.txt.txt file as licenseUrl has been deprecated in NuGet -->
+    <None Include="$(MSBuildThisFileDirectory)\LICENSE.txt" Pack="true" PackagePath="$(PackageLicenseFile)"/>
+  </ItemGroup>
+
+  <!-- Support for building in Visual Studio versions before 15.9 -->
+  <PropertyGroup Condition="'$(MSBuildVersion)' &lt; '15.9'">
+    <PackageLicenseUrl>https://github.com/jroliveira/http-query-filter/blob/master/LICENSE.txt</PackageLicenseUrl>
+    <!-- Disable licenseUrl deprecation warning in later versions of VS -->
+    <NoWarn>NU5125</NoWarn>
+  </PropertyGroup>
+
   <PropertyGroup Label="Code Analysis">
     <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)code-analysis.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup Label="NuGet">
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta007" PrivateAssets="All" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="All" />
   </ItemGroup>
-
-  <PropertyGroup>
-    <LangVersion>7.3</LangVersion>
-    <NoWarn>1591</NoWarn>
-  </PropertyGroup>
 
 </Project>

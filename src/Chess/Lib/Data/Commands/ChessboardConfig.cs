@@ -18,9 +18,9 @@
             { (new[] { 1, 6 }, new[] { 0, 1, 2, 3, 4, 5, 6, 7, }), typeof(Pawn) },
         };
 
-        public Type this[(IEnumerable<int> Ranks, IEnumerable<int> Files) key] => Config[key];
+        internal Type this[(IEnumerable<int> Ranks, IEnumerable<int> Files) key] => Config[key];
 
-        public bool Contains(int rank, int file, out (IEnumerable<int>, IEnumerable<int>) key)
+        internal bool Contains(int rank, int file, out (IEnumerable<int>, IEnumerable<int>) key)
         {
             key = Config.Keys.FirstOrDefault(item => item.Ranks.Contains(rank) && item.Files.Contains(file));
 

@@ -4,6 +4,7 @@
     using Chess.Lib.Extensions;
 
     using FluentAssertions;
+
     using Xunit;
 
     public class PawnTests : PieceTests

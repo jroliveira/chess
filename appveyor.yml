@@ -33,16 +33,8 @@ pull_requests:
 configuration:
   - Release
 
-before_build:
-  - dotnet restore
+install:
+  - cmd: dotnet tool install --global Cake.Tool --version 0.33.0
 
 build_script:
-  - dotnet build -c %CONFIGURATION%
-
-
-#---------------------------------#
-#       tests configuration       #
-#---------------------------------#
-
-test_script:
-  - dotnet test -c %CONFIGURATION%
+  - cmd: dotnet cake
