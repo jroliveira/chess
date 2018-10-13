@@ -1,6 +1,7 @@
 ﻿namespace Chess.Client
 {
     using LightInject;
+
     using static Chess.Client.Infra.IoC.Container;
 
     public class Program

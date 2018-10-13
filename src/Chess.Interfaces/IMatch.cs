@@ -6,13 +6,13 @@
 
     using Orleans;
 
-    public interface IGameServer : IGrainWithStringKey
+    public interface IMatch : IGrainWithStringKey
     {
-        Task Subscribe(IGameClient gameClient);
+        Task WakeUp();
+
+        Task<Try<Unit>> JoinPlayer(IPlayer player, Option<string> playerName);
 
         Task<Try<Unit>> Start();
-
-        Task<Try<Unit>> JoinPlayer(Option<string> playerName);
 
         Task<Try<Unit>> MovePiece(Option<string> piecePosition, Option<string> newPosition, Option<string> playerName);
     }

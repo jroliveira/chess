@@ -1,6 +1,7 @@
 ﻿namespace Chess.Client.Infra.IoC
 {
     using Chess.Interfaces;
+
     using LightInject;
 
     internal static class Container
@@ -11,7 +12,7 @@
         {
             ServiceContainer = new ServiceContainer();
 
-            ServiceContainer.Register<IGameClient, GameClient>(new PerContainerLifetime());
+            ServiceContainer.Register<IPlayer, Player>(new PerRequestLifeTime());
             ServiceContainer.Register<Main>();
         }
 
