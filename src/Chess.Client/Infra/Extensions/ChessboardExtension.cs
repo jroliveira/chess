@@ -2,6 +2,7 @@
 {
     using Chess.Lib.Extensions;
     using Chess.Models;
+
     using static Chess.Client.Infra.UI.Color;
     using static Chess.Client.Infra.UI.DividerPosition;
     using static Chess.Client.Infra.UI.Writer;

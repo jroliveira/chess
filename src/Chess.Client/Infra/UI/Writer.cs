@@ -2,9 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
+
+    using static System.Math;
     using static Chess.Client.Infra.UI.Color;
     using static Chess.Client.Infra.UI.Symbols;
-    using static System.Math;
 
     internal static class Writer
     {

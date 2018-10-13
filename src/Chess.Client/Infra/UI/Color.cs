@@ -1,6 +1,7 @@
-namespace Chess.Client.Infra.UI
+﻿namespace Chess.Client.Infra.UI
 {
     using System;
+
     using static System.Console;
     using static System.ConsoleColor;
 

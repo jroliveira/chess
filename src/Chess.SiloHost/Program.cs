@@ -41,7 +41,7 @@
                 .Configure<ClusterOptions>(options =>
                 {
                     options.ClusterId = "dev";
-                    options.ServiceId = "HelloWorldApp";
+                    options.ServiceId = "Chess";
                 })
                 .Configure<EndpointOptions>(options => options.AdvertisedIPAddress = Loopback)
                 .ConfigureLogging(logging => logging.AddConsole());

@@ -13,7 +13,7 @@
     using static Chess.Client.Infra.UI.Reader;
     using static Chess.Client.Infra.UI.Writer;
 
-    internal class PlayerCallback : IPlayerCallback
+    internal class Player : IPlayer
     {
         private Option<string> playerName;
 
@@ -21,7 +21,7 @@
             exception => WriteError(exception.Message),
             game => game.Draw());
 
-        public void YourMove(IMatch board)
+        public void YourMove(IMatch match)
         {
             ClearOption();
 
@@ -31,7 +31,7 @@
             var (newFile, newRank) = RequestOption(" move for ");
             var newPosition = new string(new[] { newFile, newRank });
 
-            board.MoveAsync(piecePosition, newPosition, this.playerName);
+            match.MovePiece(piecePosition, newPosition, this.playerName);
             ClearOption();
 
             void ClearOption()
@@ -47,7 +47,7 @@
             }
         }
 
-        public void SetPlayer(Option<string> name) => this.playerName = name;
+        public void SetName(Option<string> name) => this.playerName = name;
 
         private static (char, char) RequestOption(string text)
         {

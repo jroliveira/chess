@@ -3,32 +3,32 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
     using Chess.Interfaces;
+
     using Orleans;
+
+    using static System.Threading.Tasks.Task;
 
     public class Dealer : Grain, IDealer
     {
-        private bool IsFirst;
-        private readonly List<IPlayerCallback> _players = new List<IPlayerCallback>();
+        private readonly ICollection<IPlayer> players = new List<IPlayer>();
+        private bool isFirst;
 
-        public Dealer() => this.IsFirst = false;
-
-        public Task<IPlayerCallback> NextPlayer()
+        public Task<IPlayer> NextPlayer()
         {
-            this.IsFirst = !this.IsFirst;
+            this.isFirst = !this.isFirst;
 
-            if (this.IsFirst)
-            {
-                return Task.FromResult(this._players.First());
-            }
-
-            return Task.FromResult(this._players.ElementAt(1));
+            return FromResult(this.isFirst
+                ? this.players.First()
+                : this.players.ElementAt(1));
         }
 
-        public Task AddPlayer(IPlayerCallback player)
+        public Task AddPlayer(IPlayer player)
         {
-            this._players.Add(player);
-            return Task.CompletedTask;
+            this.players.Add(player);
+
+            return CompletedTask;
         }
     }
 }
