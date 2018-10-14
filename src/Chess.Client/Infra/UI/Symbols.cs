@@ -2,37 +2,37 @@
 {
     internal static class Symbols
     {
-        public static class Board
+        internal static class Board
         {
-            public static char Pipe => '│';
+            internal static char Pipe => '│';
 
-            public static char Dash => '─';
+            internal static char Dash => '─';
 
-            public static class Upper
+            internal static class Upper
             {
-                public static char Left => '┌';
+                internal static char Left => '┌';
 
-                public static char Center => '┬';
+                internal static char Center => '┬';
 
-                public static char Right => '┐';
+                internal static char Right => '┐';
             }
 
-            public static class Middle
+            internal static class Middle
             {
-                public static char Left => '├';
+                internal static char Left => '├';
 
-                public static char Center => '┼';
+                internal static char Center => '┼';
 
-                public static char Right => '┤';
+                internal static char Right => '┤';
             }
 
-            public static class Bottom
+            internal static class Bottom
             {
-                public static char Left => '└';
+                internal static char Left => '└';
 
-                public static char Center => '┴';
+                internal static char Center => '┴';
 
-                public static char Right => '┘';
+                internal static char Right => '┘';
             }
         }
     }

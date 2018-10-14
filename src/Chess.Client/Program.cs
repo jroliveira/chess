@@ -1,14 +1,10 @@
 ﻿namespace Chess.Client
 {
-    using LightInject;
-
-    using static Chess.Client.Infra.IoC.Container;
+    using static Chess.Client.Main;
 
     public class Program
     {
-        public static void Main(string[] args) => GetContainer()
-            .GetInstance<Main>()
-            .Start()
+        public static void Main(string[] args) => StartClient()
             .GetAwaiter()
             .GetResult();
     }

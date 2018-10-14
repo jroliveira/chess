@@ -9,11 +9,11 @@
     using static Chess.Client.Infra.Orleans.ClusterFactory;
     using static Chess.Client.Infra.Orleans.PlayerFactory;
     using static Chess.Client.Infra.UI.Writer;
-    using static Chess.Client.MenuOption;
+    using static Chess.Client.UI.Scenarios.MainMenuScenario;
 
-    internal class Main
+    internal static class Main
     {
-        public async Task Start()
+        internal static async Task StartClient()
         {
             Title = "Chess";
             OutputEncoding = GetEncoding(65001);
@@ -30,11 +30,7 @@
                 async grainFactory =>
                 {
                     var player = await CreatePlayerWith(grainFactory);
-
-                    var menu = new Menu(player);
-                    await menu.Show(
-                        GetMenuOption(grainFactory),
-                        match => match.Start());
+                    await ShowMainMenu(player, grainFactory, match => match.Start());
 
                     while (true)
                     {

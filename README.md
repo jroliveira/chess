@@ -1,4 +1,4 @@
-﻿![Game's logo](logo.png)
+﻿![Game's logo](./docs/images/logo.png)
 
 # Chess 
 

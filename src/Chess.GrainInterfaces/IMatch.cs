@@ -3,6 +3,7 @@
     using System.Threading.Tasks;
 
     using Chess.Lib.Monad;
+    using Chess.Models;
 
     using Orleans;
 
@@ -14,6 +15,6 @@
 
         Task<Try<Unit>> Start();
 
-        Task<Try<Unit>> MovePiece(Option<string> piecePosition, Option<string> newPosition, Option<string> playerName);
+        Task<Try<Chessboard>> MovePiece(Option<string> piecePosition, Option<string> newPosition, Option<string> playerName);
     }
 }

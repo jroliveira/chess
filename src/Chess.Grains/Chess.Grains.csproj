@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Chess.Interfaces\Chess.Interfaces.csproj" />
+    <ProjectReference Include="..\Chess.GrainInterfaces\Chess.GrainInterfaces.csproj" />
     <ProjectReference Include="..\Chess\Chess.csproj" />
   </ItemGroup>
 
