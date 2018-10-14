@@ -13,42 +13,37 @@
 
     public class Program
     {
-        public static int Main(string[] args) => RunMain().Result;
+        public static int Main(string[] args) => RunMain()
+            .GetAwaiter()
+            .GetResult();
 
         private static async Task<int> RunMain()
         {
             try
             {
-                var host = await StartSilo().ConfigureAwait(false);
+                var silo = CreateSilo();
+                await silo.StartAsync();
+
                 WriteLine("Press Enter to terminate...");
                 ReadLine();
 
-                await host.StopAsync().ConfigureAwait(false);
+                await silo.StopAsync();
 
                 return 0;
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                WriteLine(ex);
+                WriteLine(exception);
+
                 return 1;
             }
         }
 
-        private static async Task<ISiloHost> StartSilo()
-        {
-            var builder = new SiloHostBuilder()
-                .UseLocalhostClustering()
-                .Configure<ClusterOptions>(options =>
-                {
-                    options.ClusterId = "dev";
-                    options.ServiceId = "Chess";
-                })
-                .Configure<EndpointOptions>(options => options.AdvertisedIPAddress = Loopback)
-                .ConfigureLogging(logging => logging.AddConsole());
-
-            var host = builder.Build();
-            await host.StartAsync().ConfigureAwait(false);
-            return host;
-        }
+        private static ISiloHost CreateSilo() => new SiloHostBuilder()
+            .UseLocalhostClustering()
+            .Configure<ClusterOptions>(options => options.ServiceId = "Chess")
+            .Configure<EndpointOptions>(options => options.AdvertisedIPAddress = Loopback)
+            .ConfigureLogging(logging => logging.AddConsole())
+            .Build();
     }
 }

@@ -13,7 +13,7 @@
     {
         private static readonly ChessboardConfig Config = new ChessboardConfig();
 
-        public virtual void Execute(Chessboard chessboard) => Range(0, 8).Subscribe(r => Range(0, 8).Subscribe(f =>
+        internal virtual void Execute(Chessboard chessboard) => Range(0, 8).Subscribe(r => Range(0, 8).Subscribe(f =>
         {
             if (!Config.Contains(r, f, out var key))
             {

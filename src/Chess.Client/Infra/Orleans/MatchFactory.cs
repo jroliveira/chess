@@ -10,7 +10,7 @@
 
     internal static class MatchFactory
     {
-        public static async Task<IMatch> CreateMatchWith(IGrainFactory grainFactory, Option<string> name)
+        internal static async Task<IMatch> CreateMatchWith(IGrainFactory grainFactory, Option<string> name)
         {
             var match = grainFactory.GetGrain<IMatch>(name.GetOrElse(name.GetOrElse("default")));
             await match.WakeUp();

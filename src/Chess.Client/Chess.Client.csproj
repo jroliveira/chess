@@ -8,16 +8,14 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsPackable>false</IsPackable>
     <ApplicationIcon>favicon.ico</ApplicationIcon>
-    <AssemblyName>Chess.Client</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LightInject" Version="5.2.0" />
     <PackageReference Include="Microsoft.Orleans.Core" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Chess.Interfaces\Chess.Interfaces.csproj" />
+    <ProjectReference Include="..\Chess.GrainInterfaces\Chess.GrainInterfaces.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace Chess.Client.Infra.Extensions
+﻿namespace Chess.Client.UI.Extensions
 {
     using Chess.Lib.Extensions;
     using Chess.Models;
@@ -9,8 +9,9 @@
 
     internal static class ChessboardExtension
     {
-        public static void Draw(this Chessboard chessboard)
+        internal static void Draw(this Chessboard chessboard)
         {
+            ClearScreen();
             SetCursor();
 
             chessboard.DrawHeaderOrFooter();

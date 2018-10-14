@@ -4,6 +4,7 @@
     using System.Collections.Generic;
 
     using static System.Math;
+
     using static Chess.Client.Infra.UI.Color;
     using static Chess.Client.Infra.UI.Symbols;
 
@@ -16,11 +17,13 @@
             { DividerPosition.Bottom, () => WriteDivider(Board.Bottom.Left, Board.Bottom.Right, Board.Bottom.Center) },
         };
 
-        public static void SetCursor(int top = 1, int left = 0) => Console.SetCursorPosition(left, top);
+        internal static void SetCursor(int top = 1, int left = 0) => Console.SetCursorPosition(left, top);
 
-        public static void WriteDivider(DividerPosition position) => Dividers[position]();
+        internal static void ClearScreen() => Console.Clear();
 
-        public static void WritePipe()
+        internal static void WriteDivider(DividerPosition position) => Dividers[position]();
+
+        internal static void WritePipe()
         {
             var backgroundColor = CurrentBackgroundColor;
 
@@ -34,7 +37,7 @@
             }
         }
 
-        public static void WriteError(string error)
+        internal static void WriteError(string error)
         {
             var left = Abs(Console.CursorLeft - 1);
             var top = Console.CursorTop;
@@ -48,11 +51,13 @@
             SetCursor(top: top, left: left);
         }
 
-        public static void WriteNewLine() => Console.WriteLine();
+        internal static void WriteNewLine() => Console.WriteLine();
 
-        public static void WriteValue(object value) => Console.Write(value);
+        internal static void WriteValue(object value) => Console.Write(value);
 
-        public static void WriteValue(string format, params object[] args) => Console.Write(format, args);
+        internal static void WriteValue(string format, params object[] args) => Console.Write(format, args);
+
+        internal static void WriteText(string text) => Console.WriteLine(text);
 
         private static void WriteDivider(char leftCorner, char rightCorner, char separator)
         {

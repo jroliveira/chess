@@ -7,9 +7,9 @@
 
     internal static class Color
     {
-        public static ConsoleColor CurrentBackgroundColor => BackgroundColor;
+        internal static ConsoleColor CurrentBackgroundColor => BackgroundColor;
 
-        public static void ApplyColor(bool secondColor = false)
+        internal static void ApplyColor(bool secondColor = false)
         {
             if (secondColor)
             {

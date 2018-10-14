@@ -4,6 +4,7 @@
 
     using Chess.Interfaces;
     using Chess.Lib.Monad;
+    using Chess.Models;
 
     using Orleans;
 
@@ -44,18 +45,20 @@
             return FromResult(Success(Unit()));
         }
 
-        public async Task<Try<Unit>> MovePiece(Option<string> piecePosition, Option<string> newPosition, Option<string> playerName)
-        {
-            var chessboard = this.game.MovePiece(piecePosition, newPosition, playerName);
+        public Task<Try<Chessboard>> MovePiece(Option<string> piecePosition, Option<string> newPosition, Option<string> playerName) => this.game
+            .MovePiece(piecePosition, newPosition, playerName)
+            .Match<Task<Try<Chessboard>>>(
+                _ => FromResult(Failure<Chessboard>(_)),
+                async chessboard =>
+                {
+                    this.players.Notify(client => client.GameChanged(chessboard));
+                    this.spectators.Notify(spectator => spectator.GameChanged(chessboard));
 
-            this.players.Notify(client => client.GameChanged(chessboard));
-            this.spectators.Notify(spectator => spectator.GameChanged(chessboard));
+                    var nextPlayer = await this.dealer.NextPlayer();
+                    nextPlayer.YourMove(this);
 
-            var nextPlayer = await this.dealer.NextPlayer();
-            nextPlayer.YourMove(this);
-
-            return Success(Unit());
-        }
+                    return chessboard;
+                });
 
         public async Task<Try<Unit>> JoinPlayer(IPlayer player, Option<string> playerName)
         {
