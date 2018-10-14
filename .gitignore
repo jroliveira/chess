@@ -59,7 +59,7 @@ _ReSharper*
 *.ncrunch*
 .*crunch*.local.xml
 
-# Installshield output folder 
+# Installshield output folder
 [Ee]xpress
 
 # DocProject is a documentation generator add-in
@@ -91,6 +91,9 @@ AppPackages/
 # Others
 [Bb]in
 [Oo]bj
+[Tt]emp
+[Pp]ackages
+[Aa]rtifacts
 sql
 TestResults
 [Tt]est[Rr]esult*
@@ -106,5 +109,12 @@ Generated_Code #added for RIA/Silverlight projects
 _UpgradeReport_Files/
 Backup*/
 UpgradeLog*.XML
-
 .vs
+
+# App config related
+appsettings.json
+api.env
+
+# Build related
+cakebuild/tools/**
+!cakebuild/tools/packages.config
