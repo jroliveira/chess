@@ -23,6 +23,14 @@ Chess game built in C# and ASCII art.
 
 Download and install the [.NET Core SDK](https://www.microsoft.com/net/download).
 
+#### Installing the Cake
+
+[Cake](https://github.com/cake-build/cake) (C# Make) is a cross-platform build automation system with a C# DSL for tasks such as compiling code, copying files and folders, running unit tests, compressing files and building NuGet packages.
+
+```bash
+$ dotnet tool install -g Cake.Tool --version 0.30.0
+```
+
 #### Installing the DejaVu Sans Mono font in Windows 10
 
 This font allows you to display the chess pieces in the Windows console, to install we will follow the steps below:
@@ -40,14 +48,20 @@ $ git clone https://github.com/jroliveira/chess.git
 
 # Go into the repository
 $ cd chess
-
-# Restore dependencies
-$ dotnet restore
 ```
 
 ### Building
 
 ```bash
+$ dotnet cake ./cakebuild/build.cake
+```
+
+or
+
+```bash
+# Restore dependencies
+$ dotnet restore
+
 # Build project
 $ dotnet build
 
