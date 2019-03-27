@@ -16,9 +16,12 @@
             exception => WriteError(exception.Message),
             board => board.Draw());
 
-        public void YourMove(IMatch match) => MovePiece(async (piecePosition, newPosition) =>
+        public void YourMove(IMatch match) => MovePiece((piecePosition, newPosition) =>
         {
-            var chessboard = await match.MovePiece(piecePosition, newPosition, this.playerName);
+            var chessboard = match
+                .MovePiece(piecePosition, newPosition, this.playerName)
+                .GetAwaiter()
+                .GetResult();
 
             chessboard.Match(
                 exception =>

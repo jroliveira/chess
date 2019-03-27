@@ -1,13 +1,14 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Orleans.Core" Version="2.1.0" />
     <PackageReference Include="Microsoft.Orleans.Core.Abstractions" Version="2.1.0" />
-    <PackageReference Include="Microsoft.Orleans.Core.Legacy" Version="2.1.0" />
     <PackageReference Include="Microsoft.Orleans.OrleansCodeGenerator.Build" Version="2.1.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -15,8 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Chess.GrainInterfaces\Chess.GrainInterfaces.csproj" />
-    <ProjectReference Include="..\Chess\Chess.csproj" />
+    <ProjectReference Include="..\..\..\Chess\Chess.csproj" />
   </ItemGroup>
 
 </Project>
