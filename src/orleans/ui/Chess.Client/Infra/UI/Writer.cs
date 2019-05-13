@@ -1,87 +1,66 @@
 ﻿namespace Chess.Client.Infra.UI
 {
     using System;
-    using System.Collections.Generic;
 
-    using static System.Math;
+    using static System.ConsoleColor;
 
     using static Chess.Client.Infra.UI.Color;
-    using static Chess.Client.Infra.UI.Symbols;
+    using static Chess.Client.Infra.UI.WriterBox;
 
     internal static class Writer
     {
-        private static readonly IReadOnlyDictionary<DividerPosition, Action> Dividers = new Dictionary<DividerPosition, Action>
-        {
-            { DividerPosition.Top, () => WriteDivider(Board.Upper.Left, Board.Upper.Right, Board.Upper.Center) },
-            { DividerPosition.Middle, () => WriteDivider(Board.Middle.Left, Board.Middle.Right, Board.Middle.Center) },
-            { DividerPosition.Bottom, () => WriteDivider(Board.Bottom.Left, Board.Bottom.Right, Board.Bottom.Center) },
-        };
-
         internal static void SetCursor(int top = 1, int left = 0) => Console.SetCursorPosition(left, top);
 
-        internal static void ClearScreen() => Console.Clear();
-
-        internal static void WriteDivider(DividerPosition position) => Dividers[position]();
-
-        internal static void WritePipe()
+        internal static void ClearScreen()
         {
-            var backgroundColor = CurrentBackgroundColor;
+            Console.Clear();
+            ApplyColor(White);
 
-            ApplyColor();
+            Console.ForegroundColor = DarkGray;
+            WriteValue(' ', times: (Console.WindowWidth / 2) - 3);
+            WriteValue("CHESS");
+            WriteValue(' ', times: (Console.WindowWidth / 2) - 2);
+            WriteValue(' ', times: Console.WindowWidth);
+            Console.ForegroundColor = White;
 
-            WriteValue(Board.Pipe);
-
-            if (backgroundColor == ConsoleColor.White)
-            {
-                ApplyColor(secondColor: true);
-            }
+            ResetColor();
+            SetCursor(top: 5);
         }
 
         internal static void WriteError(string error)
         {
-            var left = Abs(Console.CursorLeft - 1);
-            var top = Console.CursorTop;
+            ApplyColor(DarkRed);
 
-            SetCursor(top: 23);
+            WriteBox(error.Length, () =>
+            {
+                Console.ForegroundColor = White;
+                WriteValue(error);
+            });
 
-            Console.ForegroundColor = ConsoleColor.Red;
-            WriteValue("   {0}", error);
-            Console.ForegroundColor = ConsoleColor.White;
-
-            SetCursor(top: top, left: left);
+            ResetColor();
         }
 
-        internal static void WriteNewLine() => Console.WriteLine();
+        internal static void WriteInfo(string info)
+        {
+            ApplyColor(DarkBlue);
+
+            WriteBox(info.Length, () =>
+            {
+                Console.ForegroundColor = White;
+                WriteValue(info);
+            });
+
+            ResetColor();
+        }
 
         internal static void WriteValue(object value) => Console.Write(value);
 
-        internal static void WriteValue(string format, params object[] args) => Console.Write(format, args);
-
-        internal static void WriteText(string text) => Console.WriteLine(text);
-
-        private static void WriteDivider(char leftCorner, char rightCorner, char separator)
+        internal static void WriteValue(object value, int times)
         {
-            const int space = 3;
-            const int block = 8;
-
-            WriteValue("     {0}", leftCorner);
-
-            for (var i = 0; i < block; i++)
+            for (var time = 0; time < times; time++)
             {
-                for (var j = 0; j < space; j++)
-                {
-                    WriteValue(Board.Dash);
-                }
-
-                if (!i.Equals(7))
-                {
-                    WriteValue(separator);
-                }
+                WriteValue(value);
             }
-
-            WriteValue(rightCorner);
-
-            WriteNewLine();
         }
     }
 }

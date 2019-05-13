@@ -4,8 +4,8 @@
 
     internal class Rook : Piece
     {
-        public Rook(Position position, Chessboard chessboard)
-            : base(position, chessboard, "♖", "♜")
+        public Rook(Position position, Player player, Chessboard chessboard)
+            : base(position, player, chessboard, "♖", "♜")
         {
         }
 

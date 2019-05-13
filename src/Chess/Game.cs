@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
+
     using Chess.Lib.Data.Commands;
     using Chess.Lib.Exceptions;
     using Chess.Lib.Extensions;
@@ -87,7 +87,7 @@
 
             if (piece.IsWhite != player.IsWhitePiece)
             {
-                return new ChessException($"Piece '{piece}' does not belong to this player '{player}'.");
+                return new ChessException($"Piece '{piece}' does not belong to you.");
             }
 
             return this.chessboard

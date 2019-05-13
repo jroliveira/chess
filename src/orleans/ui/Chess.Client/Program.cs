@@ -1,11 +1,45 @@
 ﻿namespace Chess.Client
 {
-    using static Chess.Client.Main;
+    using System.Threading.Tasks;
+
+    using static System.Console;
+    using static System.Text.Encoding;
+    using static System.Threading.Tasks.Task;
+
+    using static Chess.Client.Infra.Orleans.ClusterFactory;
+    using static Chess.Client.Infra.Orleans.PlayerFactory;
+    using static Chess.Client.Infra.UI.Writer;
+    using static Chess.Client.Infra.Win32.Win32Gateway;
+    using static Chess.Client.Scenarios.MainMenuScenario;
 
     public class Program
     {
-        public static void Main(string[] args) => StartClient()
-            .GetAwaiter()
-            .GetResult();
+        public static async Task Main()
+        {
+            Title = "Chess";
+            OutputEncoding = GetEncoding(65001);
+            SetWindowSize(width: 54, height: 36);
+            SetBufferSize(width: 54, height: 36);
+            DisableWindowResize();
+
+            var cluster = await CreateCluster();
+
+            await cluster.Match(
+                exception =>
+                {
+                    WriteError(exception.Message);
+
+                    return CompletedTask;
+                },
+                async grainFactory =>
+                {
+                    var player = await CreatePlayerWith(grainFactory);
+                    await ShowMainMenu(player, grainFactory, match => match.Start());
+
+                    while (true)
+                    {
+                    }
+                });
+        }
     }
 }

@@ -4,8 +4,8 @@
 
     internal class Pawn : Piece
     {
-        public Pawn(Position position, Chessboard chessboard)
-            : base(position, chessboard, "♙", "♟")
+        public Pawn(Position position, Player player, Chessboard chessboard)
+            : base(position, player, chessboard, "♙", "♟")
         {
         }
 

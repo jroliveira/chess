@@ -36,10 +36,10 @@
             this.game = new Game(
                 this.chessboardMock.Object,
                 this.mountChessboardMock.Object,
-                new Dictionary<string, Player>
+                new Dictionary<string, Models.Player>
                 {
-                    { "aj", new Player("aj", true) },
-                    { "jr", new Player("jr", false) },
+                    { "aj", new Models.Player("aj", true) },
+                    { "jr", new Models.Player("jr", false) },
                 });
         }
 

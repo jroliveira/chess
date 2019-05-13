@@ -10,15 +10,15 @@
     public class QueenTests : PieceTests
     {
         [Theory]
-        [InlineData("a1", "♕")]
-        [InlineData("a8", "♛")]
-        public void ToString_GivenPosition_ShouldReturnPiece(string position, string expected)
+        [InlineData("a1", true, "♕")]
+        [InlineData("a8", false, "♛")]
+        public void ToString_GivenPosition_ShouldReturnPiece(string position, bool playerUseWhitePiece, string expected)
         {
-            string actual = new Queen(position.ToPosition(), default);
+            string actual = new Queen(position.ToPosition(), playerUseWhitePiece, default);
 
             actual.Should().Be(expected);
         }
 
-        internal override Piece CreatePiece(string position) => new Queen(position.ToPosition(), default);
+        internal override Piece CreatePiece(string position, bool playerUseWhitePiece) => new Queen(position.ToPosition(), playerUseWhitePiece, default);
     }
 }

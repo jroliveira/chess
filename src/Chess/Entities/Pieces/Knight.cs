@@ -4,8 +4,8 @@
 
     internal class Knight : Piece
     {
-        public Knight(Position position, Chessboard chessboard)
-            : base(position, chessboard, "♘", "♞")
+        public Knight(Position position, Player player, Chessboard chessboard)
+            : base(position, player, chessboard, "♘", "♞")
         {
         }
 
