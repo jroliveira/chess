@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
+
     using Chess.Lib.Data.Commands;
     using Chess.Lib.Exceptions;
     using Chess.Lib.Extensions;

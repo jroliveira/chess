@@ -23,13 +23,14 @@
             var file = chessboard.Files.ElementAt(f);
             var rank = chessboard.Ranks.ElementAt(r);
             var position = new Position(file, rank);
+            Player player = position.Rank < 5;
 
-            PutPiece(Config[key], position, chessboard);
+            PutPiece(Config[key], position, player, chessboard);
         }));
 
-        private static void PutPiece(Type type, Position position, Chessboard chessboard)
+        private static void PutPiece(Type type, Position position, Player player, Chessboard chessboard)
         {
-            var newPiece = CreateInstance(type, position, chessboard) as Piece;
+            var newPiece = CreateInstance(type, position, player, chessboard) as Piece;
 
             chessboard.AddPiece(newPiece);
         }

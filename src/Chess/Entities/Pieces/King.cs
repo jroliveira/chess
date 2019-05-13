@@ -4,8 +4,8 @@
 
     internal class King : Piece
     {
-        public King(Position position, Chessboard chessboard)
-            : base(position, chessboard, "♔", "♚")
+        public King(Position position, Player player, Chessboard chessboard)
+            : base(position, player, chessboard, "♔", "♚")
         {
         }
 
