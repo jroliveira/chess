@@ -1,12 +1,16 @@
 language: csharp
+sudo: required
+dist: xenial
 mono: none
-dotnet: 2.1.300
-dist: trusty
+dotnet: 2.1.505
+
 branches:
   only:
-   - master
+    - master
+
 install:
- - dotnet restore
+  - dotnet tool install --global Cake.Tool --version 0.33.0
+  - export PATH=$PATH:$HOME/.dotnet/tools
+
 script:
- - dotnet build -c Release
- - dotnet test -c Release
+  - dotnet cake

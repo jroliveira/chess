@@ -8,8 +8,6 @@
 
     public abstract class PieceTests
     {
-        internal abstract Piece CreatePiece(string position);
-
         [Fact]
         public void Equals_GivenPieceInPositionC3AndNewPieceInPositionC3_ShouldReturnTrue()
         {
@@ -31,5 +29,7 @@
 
             actual.Should().BeFalse();
         }
+
+        internal abstract Piece CreatePiece(string position);
     }
 }

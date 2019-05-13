@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Orleans.Core" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Orleans.Core.Legacy" Version="2.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Chess.GrainInterfaces\Chess.GrainInterfaces.csproj" />
+  </ItemGroup>
+
+</Project>

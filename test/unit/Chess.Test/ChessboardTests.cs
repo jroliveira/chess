@@ -54,6 +54,16 @@
         }
 
         [Fact]
+        public void Random()
+        {
+            var chessboard = new Chessboard();
+            var piece = new Pawn(new Position('a', '7'), chessboard);
+            chessboard.AddPiece(piece);
+
+            chessboard.MovePiece(piece, new Position('a', '6'));
+        }
+
+        [Fact]
         public void HasPieceDadaPosicaoQueEstaNasPecasDeveRetornarTrue()
         {
             this.pieceMock.Setup(m => m.Equals(IsAny<Position>())).Returns(true);

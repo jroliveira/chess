@@ -116,5 +116,5 @@ appsettings.json
 api.env
 
 # Build related
-cakebuild/tools/**
-!cakebuild/tools/packages.config
+tools/**
+!tools/packages.config

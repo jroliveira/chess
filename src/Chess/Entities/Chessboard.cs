@@ -42,7 +42,17 @@
             .ThenBy(piece => piece.Position.File)
             .ToList();
 
-        internal virtual void AddPiece(Piece piece) => this.pieces.Add(piece);
+        internal virtual Try<Unit> AddPiece(Piece piece)
+        {
+            if (this.HasPiece(piece.Position))
+            {
+                return new ChessException($"Piece '{piece}' already added.");
+            }
+
+            this.pieces.Add(piece);
+
+            return Unit();
+        }
 
         internal virtual Try<Unit> MovePiece(Piece piece, Position newPosition)
         {

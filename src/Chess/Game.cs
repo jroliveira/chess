@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-
+    using System.Linq;
     using Chess.Lib.Data.Commands;
     using Chess.Lib.Exceptions;
     using Chess.Lib.Extensions;
@@ -29,14 +29,11 @@
             this.chessboard = chessboard;
             this.mountChessboard = mountChessboard;
             this.players = players;
-        }
 
-        public Try<Chessboard> Start()
-        {
             this.mountChessboard.Execute(this.chessboard);
-
-            return this.chessboard.ToModel();
         }
+
+        public Try<Chessboard> Start() => this.chessboard.ToModel();
 
         public Try<Player> JoinPlayer(Option<string> playerName)
         {
@@ -76,7 +73,7 @@
 
             if (!this.players.TryGetValue(playerName.Get(), out var player))
             {
-                return new KeyNotFoundException($"Player name {playerName.Get()} is not playing.");
+                return new KeyNotFoundException($"Player name '{playerName.Get()}' is not playing.");
             }
 
             var piece = this.chessboard
@@ -85,12 +82,12 @@
 
             if (piece == null)
             {
-                return new ChessException($"Piece '{piecePosition}' don't exist.");
+                return new ChessException($"Piece '{piecePosition.Get()}' don't exist.");
             }
 
             if (piece.IsWhite != player.IsWhitePiece)
             {
-                return new ChessException("Piece does not belong to this player.");
+                return new ChessException($"Piece '{piece}' does not belong to this player '{player}'.");
             }
 
             return this.chessboard

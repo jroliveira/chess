@@ -1,6 +1,5 @@
 ﻿namespace Chess.Client.Infra.Orleans
 {
-
     using Chess.Interfaces;
 
     using global::Orleans;

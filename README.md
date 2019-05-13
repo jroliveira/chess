@@ -28,7 +28,7 @@ Download and install the [.NET Core SDK](https://www.microsoft.com/net/download)
 [Cake](https://github.com/cake-build/cake) (C# Make) is a cross-platform build automation system with a C# DSL for tasks such as compiling code, copying files and folders, running unit tests, compressing files and building NuGet packages.
 
 ```bash
-$ dotnet tool install -g Cake.Tool --version 0.30.0
+$ dotnet tool install -g Cake.Tool --version 0.33.0
 ```
 
 #### Installing the DejaVu Sans Mono font in Windows 10
@@ -48,43 +48,23 @@ $ git clone https://github.com/jroliveira/chess.git
 
 # Go into the repository
 $ cd chess
+
+# Configure .githooks
+$ git config core.hooksPath .githooks
 ```
 
 ### Building
 
 ```bash
-$ dotnet cake ./cakebuild/build.cake
-```
-
-or
-
-```bash
-# Restore dependencies
-$ dotnet restore
-
-# Build project
-$ dotnet build
-
-# Run all tests
-$ dotnet test -v q
+$ dotnet cake
 ```
 
 ### Running
 
-Open a **Command Prompt** and execute the code below.
-
 ```bash
-# Run silo project
-$ dotnet run --project src/Chess.SiloHost/
-```
-
-After the message `Press Enter to terminate...` appears, open a new **Command Prompt** and execute the code below.
-
-```bash
-# Run client project
-$ dotnet run --project src/Chess.Client/
+$ dotnet cake --target=Start-Apps
 ```
 
 ## Licensing
 
-The code is available under the [MIT license](LICENSE).
+The code is available under the [MIT license](LICENSE.txt).

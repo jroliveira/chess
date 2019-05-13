@@ -44,6 +44,7 @@
                     attempt++;
 
                     WriteValue("Attempt {0} of {1} failed to initialize the client.", attempt, AttemptsBeforeFailing);
+                    WriteNewLine();
 
                     await Delay(FromSeconds(4));
                 }
