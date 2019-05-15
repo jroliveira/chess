@@ -13,6 +13,7 @@
 
         protected Piece(
             Position position,
+            Player playerUseWhitePiece,
             Chessboard chessboard,
             string whiteSymbol,
             string blackSymbol)
@@ -20,9 +21,10 @@
             this.whiteSymbol = whiteSymbol;
             this.blackSymbol = blackSymbol;
             this.Position = position;
+            this.Player = playerUseWhitePiece;
             this.Chessboard = chessboard;
 
-            this.IsWhite = position.Rank < 5;
+            this.IsWhite = this.Player.UseWhitePiece;
         }
 
         protected Piece()
@@ -32,6 +34,8 @@
         internal virtual Chessboard Chessboard { get; }
 
         internal virtual Position Position { get; }
+
+        internal Player Player { get; }
 
         internal virtual bool IsWhite { get; }
 
@@ -45,7 +49,7 @@
 
         public virtual bool Equals(Piece other) => this.Equals(other.Position);
 
-        internal virtual Piece Move(Position newPosition) => CreateInstance(this.GetType(), newPosition, this.Chessboard) as Piece;
+        internal virtual Piece Move(Position newPosition) => CreateInstance(this.GetType(), newPosition, this.Player, this.Chessboard) as Piece;
 
         internal virtual bool CanMove(Position newPosition) => this.Validator.Validate(newPosition);
 

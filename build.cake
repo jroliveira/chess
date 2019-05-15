@@ -9,10 +9,7 @@ Setup<BuildData>(context =>
     return new BuildData(
         context,
         GetConfiguration(),
-        IsDebugging(),
-        ErrorHandler,
         new SolutionData(
-            GetVersion,
             "./artifacts",
             "./Chess.sln",
             new[]

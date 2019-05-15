@@ -15,15 +15,16 @@
 
         internal static int ReadNumber() => ToInt32(ReadLine());
 
-        internal static string ReadOption(Func<string, bool> condition, string errorMessage)
+        internal static string ReadText(Action setup, Func<string, bool> condition, string errorMessage)
         {
             bool valid;
-            string option;
+            string text;
 
             do
             {
-                option = ReadText();
-                valid = condition(option);
+                setup();
+                text = ReadText();
+                valid = condition(text);
 
                 if (!valid)
                 {
@@ -32,7 +33,28 @@
             }
             while (!valid);
 
-            return option;
+            return text;
+        }
+
+        internal static char ReadChar(Action setup, Func<char, bool> condition, string errorMessage)
+        {
+            bool valid;
+            char @char;
+
+            do
+            {
+                setup();
+                @char = ReadChar();
+                valid = condition(@char);
+
+                if (!valid)
+                {
+                    WriteError(errorMessage);
+                }
+            }
+            while (!valid);
+
+            return @char;
         }
     }
 }

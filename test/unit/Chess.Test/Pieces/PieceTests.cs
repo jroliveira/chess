@@ -11,8 +11,8 @@
         [Fact]
         public void Equals_GivenPieceInPositionC3AndNewPieceInPositionC3_ShouldReturnTrue()
         {
-            var piece1 = this.CreatePiece("c3");
-            var piece2 = this.CreatePiece("c3");
+            var piece1 = this.CreatePiece("c3", true);
+            var piece2 = this.CreatePiece("c3", true);
 
             var actual = piece1.Equals(piece2);
 
@@ -22,14 +22,14 @@
         [Fact]
         public void Equals_GivenPieceInPositionC2AndNewPieceInPositionC3_ShouldReturnFalse()
         {
-            var piece1 = this.CreatePiece("c2");
-            var piece2 = this.CreatePiece("c3");
+            var piece1 = this.CreatePiece("c2", true);
+            var piece2 = this.CreatePiece("c3", true);
 
             var actual = piece1.Equals(piece2);
 
             actual.Should().BeFalse();
         }
 
-        internal abstract Piece CreatePiece(string position);
+        internal abstract Piece CreatePiece(string position, bool playerUseWhitePiece);
     }
 }

@@ -4,8 +4,8 @@
 
     internal class Bishop : Piece
     {
-        public Bishop(Position position, Chessboard chessboard)
-            : base(position, chessboard, "♗", "♝")
+        public Bishop(Position position, Player player, Chessboard chessboard)
+            : base(position, player, chessboard, "♗", "♝")
         {
         }
 

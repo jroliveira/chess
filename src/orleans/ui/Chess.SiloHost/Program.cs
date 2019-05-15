@@ -19,6 +19,8 @@
 
         private static async Task<int> RunMain()
         {
+            Title = "Chess Silo Host";
+
             try
             {
                 var silo = CreateSilo();

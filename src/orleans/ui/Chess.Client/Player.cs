@@ -1,12 +1,11 @@
 ﻿namespace Chess.Client
 {
-    using Chess.Client.UI.Extensions;
     using Chess.Interfaces;
     using Chess.Lib.Monad;
     using Chess.Models;
 
     using static Chess.Client.Infra.UI.Writer;
-    using static Chess.Client.UI.Scenarios.MatchScenario;
+    using static Chess.Client.Scenarios.MatchScenario;
 
     internal class Player : IPlayer
     {
