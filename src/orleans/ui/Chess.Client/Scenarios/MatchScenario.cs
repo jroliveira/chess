@@ -1,69 +1,44 @@
 ﻿namespace Chess.Client.Scenarios
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-
-    using Chess.Client.Infra.UI;
     using Chess.Lib.Extensions;
     using Chess.Models;
 
-    using static System.Threading.Thread;
+    using static System.Environment;
 
     using static Chess.Client.Infra.UI.Color;
-    using static Chess.Client.Infra.UI.DividerPosition;
     using static Chess.Client.Infra.UI.Reader;
-    using static Chess.Client.Infra.UI.Symbols;
+    using static Chess.Client.Infra.UI.Symbols.Board;
     using static Chess.Client.Infra.UI.Writer;
 
     internal static class MatchScenario
     {
-        private static readonly IReadOnlyDictionary<DividerPosition, Action> Dividers = new Dictionary<DividerPosition, Action>
-        {
-            { Top, () => WriteDivider(Board.Upper.Left, Board.Upper.Right, Board.Upper.Center) },
-            { Middle, () => WriteDivider(Board.Middle.Left, Board.Middle.Right, Board.Middle.Center) },
-            { Bottom, () => WriteDivider(Board.Bottom.Left, Board.Bottom.Right, Board.Bottom.Center) },
-        };
-
         internal static void MovePiece(Action<string, string> done)
         {
-            ClearOption();
+            SetCursor(top: 33, left: 0);
+            WriteValue($"   {Pipe} move:~$                                      {Pipe}{NewLine}");
 
-            var (file, rank) = RequestOption("   NEXT MOVE -> piece ", left: 22);
+            var (file, rank) = RequestOption(left: 13);
             var piecePosition = new string(new[] { file, rank });
 
-            var (newFile, newRank) = RequestOption(" move for ", left: 34);
+            WriteValue(" to ");
+
+            var (newFile, newRank) = RequestOption(left: 19);
             var newPosition = new string(new[] { newFile, newRank });
 
             done(piecePosition, newPosition);
 
-            ClearOption();
+            SetCursor(top: 33, left: 0);
+            WriteValue($"   {Pipe} waiting to play...                           {Pipe}{NewLine}");
 
-            void ClearOption()
+            (char, char) RequestOption(int left)
             {
-                SetCursor(top: 23);
-
-                for (var i = 0; i < 40; i++)
-                {
-                    WriteValue(' ');
-                }
-
-                SetCursor(top: 23);
-            }
-
-            (char, char) RequestOption(string text, int left)
-            {
-                text.ForEach(letter =>
-                {
-                    Sleep(60);
-                    WriteValue(letter);
-                });
-
                 var files = new[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
                 var ranks = new[] { '1', '2', '3', '4', '5', '6', '7', '8' };
 
-                var readFile = ReadChar(() => SetCursor(top: 23, left: left), files.Contains, "insert between a and h");
-                var readRank = ReadChar(() => SetCursor(top: 23, left: left + 1), ranks.Contains, "insert between 8 and 1");
+                var readFile = ReadChar(() => SetCursor(top: 33, left: left), files.Contains, "Invalid file.");
+                var readRank = ReadChar(() => SetCursor(top: 33, left: left + 1), ranks.Contains, "Invalid rank.");
 
                 return (readFile, readRank);
             }
@@ -73,26 +48,37 @@
         {
             ClearScreen();
 
-            chessboard.DrawHeaderOrFooter();
-            Dividers[Top]();
+            WriteValue($"   {Upper.Left}");
+            WriteValue(Dash, times: 46);
+            WriteValue($"{Upper.Right}{NewLine}");
 
+            chessboard.DrawHeaderOrFooter();
             var whiteColor = true;
 
             for (var rank = chessboard.Ranks.Count - 1; rank > -1; rank--)
             {
+                WriteDivider(whiteColor);
                 chessboard.DrawRank(rank, whiteColor);
-
-                Dividers[rank == 0 ? Bottom : Middle]();
+                WriteDivider(whiteColor);
 
                 whiteColor = !whiteColor;
             }
 
             chessboard.DrawHeaderOrFooter();
+
+            WriteValue($"   {Middle.Left}");
+            WriteValue(Dash, times: 46);
+            WriteValue($"{Middle.Right}{NewLine}");
+            WriteValue($"   {Pipe} waiting to play...                           {Pipe}{NewLine}");
+            WriteValue($"   {Bottom.Left}");
+            WriteValue(Dash, times: 46);
+            WriteValue($"{Bottom.Right}{NewLine}");
         }
 
         private static void DrawRank(this Chessboard chessboard, int rank, bool whiteColor)
         {
-            WriteValue("   {0} ", rank + 1);
+            ResetColor();
+            WriteValue($"   {Pipe} {rank + 1} ");
 
             for (var file = 0; file < chessboard.Files.Count; file++)
             {
@@ -105,74 +91,56 @@
                 ApplyColor();
             }
 
-            WritePipe();
-            WriteValue(" {0} ", rank + 1);
-            WriteNewLine();
+            ResetColor();
+            WriteValue($" {rank + 1} {Pipe}{NewLine}");
         }
 
         private static void DrawFile(this Chessboard chessboard, int file, int rank)
         {
-            WritePipe();
-
             var piece = chessboard[file, rank];
             if (piece == null)
             {
-                WriteValue("   ");
+                WriteValue(' ', times: 5);
             }
             else
             {
-                WriteValue(" {0} ", piece);
+                WriteValue($"  {piece}  ");
             }
         }
 
         private static void DrawHeaderOrFooter(this Chessboard chessboard)
         {
-            WriteValue("     ");
+            ResetColor();
+
+            WriteValue($"   {Pipe}   ");
 
             chessboard
                 .Files
-                .ForEach(file => WriteValue("  {0} ", file));
+                .ForEach(file => WriteValue($"  {file}  "));
 
-            WriteNewLine();
+            WriteValue($"   {Pipe}{NewLine}");
         }
 
-        private static void WriteDivider(char leftCorner, char rightCorner, char separator)
+        private static void WriteDivider(bool whiteColor)
         {
-            const int space = 3;
-            const int block = 8;
+            const int blocks = 8;
 
-            WriteValue("     {0}", leftCorner);
+            ResetColor();
+            WriteValue($"   {Pipe}   ");
 
-            for (var i = 0; i < block; i++)
+            for (var block = 0; block < blocks; block++)
             {
-                for (var j = 0; j < space; j++)
-                {
-                    WriteValue(Board.Dash);
-                }
+                ApplyColor(whiteColor);
 
-                if (!i.Equals(7))
-                {
-                    WriteValue(separator);
-                }
+                WriteValue(' ', times: 5);
+
+                whiteColor = !whiteColor;
+
+                ApplyColor();
             }
 
-            WriteValue(rightCorner);
-
-            WriteNewLine();
-        }
-
-        private static void WritePipe()
-        {
-            var backgroundColor = CurrentBackgroundColor;
-
-            ApplyColor();
-
-            WriteValue(Board.Pipe);
-
-            if (backgroundColor == ConsoleColor.White)
-            {
-                ApplyColor(secondColor: true);
-            }
+            ResetColor();
+            WriteValue($"   {Pipe}{NewLine}");
         }
     }
 }

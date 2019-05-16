@@ -14,6 +14,7 @@
     using static System.Int32;
 
     using static Chess.Client.Infra.UI.Reader;
+    using static Chess.Client.Infra.UI.Symbols.Board;
     using static Chess.Client.Infra.UI.Writer;
     using static Chess.Client.Scenarios.CreateMatchScenario;
     using static Chess.Client.Scenarios.SelectMatchScenario;
@@ -35,16 +36,24 @@
             {
                 ClearScreen();
 
-                WriteTextWithNewLine("   ╔═══════════════ CHESS ═══════════════╗");
-                WriteTextWithNewLine("   ║                                     ║");
-                WriteTextWithNewLine("   ║ 1 - Create match                    ║");
-                WriteTextWithNewLine("   ║ 2 - List matches                    ║");
-                WriteTextWithNewLine("   ║                                     ║");
-                WriteTextWithNewLine("   ║ 0 - Quit                            ║");
-                WriteTextWithNewLine("   ║                                     ║");
-                WriteTextWithNewLine("   ╠═════════════════════════════════════╣");
-                WriteTextWithNewLine("   ║ option:~$                           ║");
-                WriteTextWithNewLine("   ╚═════════════════════════════════════╝");
+                WriteValue($"   {Upper.Left}");
+                WriteValue(Dash, times: 37);
+                WriteValue($"{Upper.Right}{NewLine}");
+
+                WriteValue($"   {Pipe}                                     {Pipe}{NewLine}");
+                WriteValue($"   {Pipe} 1 - Create match                    {Pipe}{NewLine}");
+                WriteValue($"   {Pipe} 2 - List matches                    {Pipe}{NewLine}");
+                WriteValue($"   {Pipe}                                     {Pipe}{NewLine}");
+                WriteValue($"   {Pipe} 0 - Quit                            {Pipe}{NewLine}");
+                WriteValue($"   {Pipe}                                     {Pipe}{NewLine}");
+
+                WriteValue($"   {Middle.Left}");
+                WriteValue(Dash, times: 37);
+                WriteValue($"{Middle.Right}{NewLine}");
+                WriteValue($"   {Pipe} option:~$                           {Pipe}{NewLine}");
+                WriteValue($"   {Bottom.Left}");
+                WriteValue(Dash, times: 37);
+                WriteValue($"{Bottom.Right}{NewLine}");
 
                 var option = ToInt32(RequestOption(Setup).ToString());
 
@@ -54,7 +63,7 @@
 
             await done(match.Get());
 
-            void Setup() => SetCursor(top: 11, left: 15);
+            void Setup() => SetCursor(top: 13, left: 15);
         }
 
         private static Func<IPlayer, Task<Option<IMatch>>> ExitProgram(IGrainFactory grainFactory)
@@ -66,6 +75,6 @@
         private static char RequestOption(Action setup) => ReadChar(
             setup,
             readValue => TryParse(readValue.ToString(), out var option) && Options.ContainsKey(option),
-            "invalid option");
+            "Invalid option.");
     }
 }
