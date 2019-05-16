@@ -8,6 +8,7 @@
     using global::Orleans;
     using global::Orleans.Runtime;
 
+    using static System.Environment;
     using static System.Threading.Tasks.Task;
     using static System.TimeSpan;
 
@@ -43,8 +44,7 @@
 
                     attempt++;
 
-                    WriteValue("Attempt {0} of {1} failed to initialize the client.", attempt, AttemptsBeforeFailing);
-                    WriteNewLine();
+                    WriteValue($"Attempt {attempt} of {AttemptsBeforeFailing} failed to initialize the client. {NewLine}");
 
                     await Delay(FromSeconds(4));
                 }

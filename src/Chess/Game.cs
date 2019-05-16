@@ -87,7 +87,7 @@
 
             if (piece.IsWhite != player.IsWhitePiece)
             {
-                return new ChessException($"Piece '{piece}' does not belong to this player '{player}'.");
+                return new ChessException($"Piece '{piece}' does not belong to you.");
             }
 
             return this.chessboard

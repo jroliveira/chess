@@ -11,12 +11,14 @@
     using Orleans;
 
     using static System.Convert;
+    using static System.Environment;
     using static System.Guid;
     using static System.Int32;
 
     using static Chess.Client.Infra.Orleans.MatchFactory;
     using static Chess.Client.Infra.Orleans.MatchRegistryFactory;
     using static Chess.Client.Infra.UI.Reader;
+    using static Chess.Client.Infra.UI.Symbols.Board;
     using static Chess.Client.Infra.UI.Writer;
     using static Chess.Lib.Monad.Utils.Util;
 
@@ -31,27 +33,30 @@
 
             ClearScreen();
 
-            WriteTextWithNewLine("   ╔═══════════════ CHESS ═══════════════╗");
-            WriteTextWithNewLine("   ║                                     ║");
+            WriteValue($"   {Upper.Left}");
+            WriteValue(Dash, times: 37);
+            WriteValue($"{Upper.Right}{NewLine}");
+
+            WriteValue($"   {Pipe}                                     {Pipe}{NewLine}");
 
             foreach (var item in menu)
             {
-                WriteValue($"   ║ {item.Key} - {item.Value}");
-
-                for (var i = 0; i < 32 - item.Value.Length; i++)
-                {
-                    WriteValue(' ');
-                }
-
-                WriteTextWithNewLine("║");
+                WriteValue($"   {Pipe} {item.Key} - {item.Value}");
+                WriteValue(' ', times: 32 - item.Value.Length);
+                WriteValue($"{Pipe}{NewLine}");
             }
 
-            WriteTextWithNewLine("   ║                                     ║");
-            WriteTextWithNewLine("   ║ 0 - Quit                            ║");
-            WriteTextWithNewLine("   ║                                     ║");
-            WriteTextWithNewLine("   ╠═════════════════════════════════════╣");
-            WriteTextWithNewLine("   ║ match:~$                            ║");
-            WriteTextWithNewLine("   ╚═════════════════════════════════════╝");
+            WriteValue($"   {Pipe}                                     {Pipe}{NewLine}");
+            WriteValue($"   {Pipe} 0 - Quit                            {Pipe}{NewLine}");
+            WriteValue($"   {Pipe}                                     {Pipe}{NewLine}");
+
+            WriteValue($"   {Middle.Left}");
+            WriteValue(Dash, times: 37);
+            WriteValue($"{Middle.Right}{NewLine}");
+            WriteValue($"   {Pipe} match:~$                            {Pipe}{NewLine}");
+            WriteValue($"   {Bottom.Left}");
+            WriteValue(Dash, times: 37);
+            WriteValue($"{Bottom.Right}{NewLine}");
 
             var option = ToInt32(RequestMatch(menu, Setup).ToString());
 
@@ -65,12 +70,12 @@
 
             return Some(match);
 
-            void Setup() => SetCursor(top: 9 + menu.Count, left: 14);
+            void Setup() => SetCursor(top: 11 + menu.Count, left: 14);
         };
 
         private static char RequestMatch(IReadOnlyDictionary<int, string> menu, Action setup) => ReadChar(
             setup,
             readValue => TryParse(readValue.ToString(), out int option) && menu.ContainsKey(option),
-            "invalid option");
+            "Invalid option.");
     }
 }

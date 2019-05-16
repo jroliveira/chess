@@ -3,53 +3,40 @@
     using System;
     using System.Collections.Generic;
 
+    using static System.Environment;
     using static System.Math;
 
-    using static Chess.Client.Infra.UI.DividerPosition;
     using static Chess.Client.Infra.UI.Writer;
 
     internal static class WriterBox
     {
-        private static readonly IReadOnlyDictionary<DividerPosition, Action<int>> Dividers = new Dictionary<DividerPosition, Action<int>>
-        {
-            { Top,    length => Divider('╔', '╗', length) },
-            { Bottom, length => Divider('╚', '╝', length) },
-        };
-
         internal static void WriteBox(int textLength, Action writeText)
         {
             var left = Abs(Console.CursorLeft - 1);
             var top = Console.CursorTop;
 
-            SetCursor(top: 0);
+            ClearBox();
 
-            const int lengthMargin = 4;
-
-            Dividers[Top](textLength + lengthMargin);
-            WriteValue("   ║  ");
+            WriteValue(' ', (Console.WindowWidth / 2) - (textLength / 2));
 
             writeText();
 
-            WriteValue("  ║");
-
-            WriteNewLine();
-            Dividers[Bottom](textLength + lengthMargin);
+            WriteValue(' ', (Console.WindowWidth / 2) - (textLength / 2));
 
             SetCursor(top: top, left: left);
         }
 
-        private static void Divider(char leftCorner, char rightCorner, int length)
+        private static void ClearBox()
         {
-            WriteValue("   {0}", leftCorner);
+            SetCursor(top: 2);
 
-            for (var j = 0; j < length; j++)
-            {
-                WriteValue('═');
-            }
+            WriteValue(' ', times: Console.WindowWidth);
+            WriteValue(NewLine);
+            WriteValue(' ', times: Console.WindowWidth);
+            WriteValue(NewLine);
+            WriteValue(' ', times: Console.WindowWidth);
 
-            WriteValue(rightCorner);
-
-            WriteNewLine();
+            SetCursor(top: 3);
         }
     }
 }

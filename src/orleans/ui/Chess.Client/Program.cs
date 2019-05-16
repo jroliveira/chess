@@ -9,18 +9,18 @@
     using static Chess.Client.Infra.Orleans.ClusterFactory;
     using static Chess.Client.Infra.Orleans.PlayerFactory;
     using static Chess.Client.Infra.UI.Writer;
+    using static Chess.Client.Infra.Win32.Win32Gateway;
     using static Chess.Client.Scenarios.MainMenuScenario;
 
     public class Program
     {
-        public static void Main(string[] args) => StartClient()
-            .GetAwaiter()
-            .GetResult();
-
-        private static async Task StartClient()
+        public static async Task Main()
         {
             Title = "Chess";
             OutputEncoding = GetEncoding(65001);
+            SetWindowSize(width: 54, height: 36);
+            SetBufferSize(width: 54, height: 36);
+            DisableWindowResize();
 
             var cluster = await CreateCluster();
 

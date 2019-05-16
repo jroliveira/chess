@@ -9,16 +9,20 @@
     {
         internal static ConsoleColor CurrentBackgroundColor => BackgroundColor;
 
+        internal static void ResetColor() => BackgroundColor = Black;
+
+        internal static void ApplyColor(ConsoleColor color) => BackgroundColor = color;
+
         internal static void ApplyColor(bool secondColor = false)
         {
             if (secondColor)
             {
                 BackgroundColor = White;
-                ForegroundColor = Black;
+                ForegroundColor = DarkGray;
             }
             else
             {
-                BackgroundColor = Black;
+                BackgroundColor = DarkGray;
                 ForegroundColor = White;
             }
         }
