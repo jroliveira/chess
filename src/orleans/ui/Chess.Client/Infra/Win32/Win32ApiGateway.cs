@@ -17,24 +17,5 @@
                 DeleteMenu(sysMenu, SC_SIZE, MF_BYCOMMAND);
             }
         }
-
-        internal static void SetConsoleFont(string fontName)
-        {
-            var info = new PCONSOLE_FONT_INFOEX
-            {
-                FaceName = fontName,
-            };
-
-            SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), false, info);
-        }
-
-        internal static void SetConsoleFontSize(short fontSize)
-        {
-            var size = new COORD(fontSize, fontSize);
-            var info = new PCONSOLE_FONT_INFOEX();
-            GetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), false, info);
-            info.FontSize = size;
-            SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), false, info);
-        }
     }
 }

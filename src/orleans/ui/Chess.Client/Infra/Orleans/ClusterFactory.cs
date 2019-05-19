@@ -8,23 +8,25 @@
     using global::Orleans;
     using global::Orleans.Runtime;
 
-    using static System.Environment;
     using static System.Threading.Tasks.Task;
     using static System.TimeSpan;
 
-    using static Chess.Client.Infra.UI.Writer;
     using static Chess.Lib.Monad.Utils.Util;
 
     internal static class ClusterFactory
     {
         private const int AttemptsBeforeFailing = 5;
+        private const int WaitingTimeInSec = 4;
 
-        internal static async Task<Try<IClusterClient>> CreateCluster()
+        internal static async Task<Try<IClusterClient>> CreateCluster(Action<int, int> writeMessage)
         {
             var attempt = 0;
 
             while (true)
             {
+                attempt++;
+                writeMessage(attempt, AttemptsBeforeFailing);
+
                 try
                 {
                     var client = new ClientBuilder()
@@ -37,16 +39,12 @@
                 }
                 catch (SiloUnavailableException exception)
                 {
-                    if (attempt > AttemptsBeforeFailing)
+                    if (attempt >= AttemptsBeforeFailing)
                     {
                         return exception;
                     }
 
-                    attempt++;
-
-                    WriteValue($"Attempt {attempt} of {AttemptsBeforeFailing} failed to initialize the client. {NewLine}");
-
-                    await Delay(FromSeconds(4));
+                    await Delay(FromSeconds(WaitingTimeInSec));
                 }
                 catch (Exception exception)
                 {

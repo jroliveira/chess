@@ -1,24 +1,26 @@
-﻿namespace Chess.Client
+﻿namespace Chess.Client.Scenarios.Match
 {
     using Chess.Interfaces;
     using Chess.Lib.Monad;
     using Chess.Models;
 
-    using static Chess.Client.Infra.UI.Writer;
-    using static Chess.Client.Scenarios.MatchScenario;
+    using static Chess.Client.Infra.UI.Terminal;
+    using static Chess.Client.Scenarios.Match.MatchScenario;
 
     internal class Player : IPlayer
     {
-        private Option<string> playerName;
+        private readonly Option<string> name;
+
+        public Player(Option<string> name) => this.name = name;
 
         public void GameChanged(Try<Chessboard> chessboard) => chessboard.Match(
             exception => WriteError(exception.Message),
-            board => board.Draw());
+            board => ShowMatch(board));
 
         public void YourMove(IMatch match) => MovePiece((piecePosition, newPosition) =>
         {
             var chessboard = match
-                .MovePiece(piecePosition, newPosition, this.playerName)
+                .MovePiece(piecePosition, newPosition, this.name)
                 .GetAwaiter()
                 .GetResult();
 
@@ -26,12 +28,9 @@
                 exception =>
                 {
                     WriteError(exception.Message);
-
                     this.YourMove(match);
                 },
-                _ => { });
+                board => ShowMatch(board));
         });
-
-        public void SetName(Option<string> name) => this.playerName = name;
     }
 }

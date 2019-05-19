@@ -10,7 +10,5 @@
         void GameChanged(Try<Chessboard> chessboard);
 
         void YourMove(IMatch match);
-
-        void SetName(Option<string> name);
     }
 }

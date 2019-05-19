@@ -40,7 +40,7 @@
         public Task<Try<Unit>> Start()
         {
             var chessboard = this.game.Start();
-            this.players.Notify(client => client.GameChanged(chessboard));
+            this.players.Notify(player => player.GameChanged(chessboard));
 
             return FromResult(Success(Unit()));
         }
@@ -51,7 +51,7 @@
                 _ => FromResult(Failure<Chessboard>(_)),
                 async chessboard =>
                 {
-                    this.players.Notify(client => client.GameChanged(chessboard));
+                    this.players.Notify(player => player.GameChanged(chessboard));
                     this.spectators.Notify(spectator => spectator.GameChanged(chessboard));
 
                     var nextPlayer = await this.dealer.NextPlayer();
@@ -62,7 +62,6 @@
 
         public async Task<Try<Unit>> JoinPlayer(IPlayer player, Option<string> playerName)
         {
-            player.SetName(playerName);
             this.game.JoinPlayer(playerName);
 
             if (this.players.Count == NumberOfPlayers)

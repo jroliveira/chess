@@ -1,4 +1,4 @@
-#addin "Cake.Figlet&version=1.2.0"
+#addin "Cake.Figlet&version=1.3.1"
 
 #load "build/*.cake"
 
