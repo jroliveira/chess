@@ -68,12 +68,12 @@
 
             if (!playerName.IsDefined)
             {
-                return new ArgumentNullException(nameof(playerName), "Player name cannot be null or empty.");
+                return new ArgumentNullException(nameof(playerName), "Player cannot be null or empty.");
             }
 
             if (!this.players.TryGetValue(playerName.Get(), out var player))
             {
-                return new KeyNotFoundException($"Player name '{playerName.Get()}' is not playing.");
+                return new KeyNotFoundException($"Player '{playerName.Get()}' is not playing.");
             }
 
             var piece = this.chessboard
