@@ -1,4 +1,4 @@
-﻿![Game's logo](./docs/images/logo.png)
+﻿![Chess - Logo](./docs/images/logo.v2.png)
 
 # Chess 
 
@@ -19,17 +19,12 @@ Chess game built in C# and ASCII art.
  - [Orleans](https://github.com/dotnet/orleans)
  - [ReactiveX](https://github.com/dotnet/reactive)
 
-### Prerequisites
+### Pre requisites
 
-Download and install the [.NET Core SDK](https://www.microsoft.com/net/download).
+Download and install:
 
-#### Installing the Cake
-
-[Cake](https://github.com/cake-build/cake) (C# Make) is a cross-platform build automation system with a C# DSL for tasks such as compiling code, copying files and folders, running unit tests, compressing files and building NuGet packages.
-
-```bash
-$ dotnet tool install -g Cake.Tool --version 0.33.0
-```
+ - [.NET Core SDK](https://www.microsoft.com/net/download)
+ - [Node.js](https://nodejs.org/en/download/)
 
 #### Installing the DejaVu Sans Mono font in Windows 10
 
@@ -49,8 +44,8 @@ $ git clone https://github.com/jroliveira/chess.git
 # Go into the repository
 $ cd chess
 
-# Configure .githooks
-$ git config core.hooksPath .githooks
+# Download node packages and install Cake
+$ npm install
 ```
 
 ### Building
@@ -62,7 +57,7 @@ $ dotnet cake
 ### Running
 
 ```bash
-$ dotnet cake --target=Start-Apps
+$ dotnet cake --target=Start
 ```
 
 ## Licensing

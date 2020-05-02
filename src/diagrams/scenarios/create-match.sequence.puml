@@ -1,0 +1,73 @@
+@startuml create-match.sequence
+
+title Create Match Scenario
+
+actor "Chess Player" as chessPlayer
+
+box "Console Application" #LightBlue
+  participant "Scenario" as scenario
+  participant Player as player
+end box
+
+box "Orleans Core" #LightGray
+	participant "Cluster Client" as clusterClient
+end box
+
+box "Orleans Grain" #LightGray
+  participant "Match Registry" as matchRegistry
+  participant Match as match
+  participant Dealer as dealer
+end box
+
+participant Game as game
+
+activate scenario
+
+!startsub Main
+  scenario -> scenario : Draw scenario
+  chessPlayer -> scenario : Match's name
+
+  scenario -> clusterClient : Get grain match
+  activate clusterClient
+
+  clusterClient --> scenario
+  deactivate clusterClient
+
+  scenario ->> match : Wake up
+  activate match
+
+  scenario ->> match : Join player
+  match -> game : Join player
+  activate game
+
+  game -> match
+  deactivate game
+
+  match ->> dealer : Add player
+  activate dealer
+  deactivate dealer
+
+  alt players total is equal to 2
+    match ->> dealer : Next player
+    activate dealer
+
+    dealer -->> match
+    deactivate dealer
+
+    match -> player : Your move
+    activate player #DarkSalmon
+    activate scenario #DarkSalmon
+
+    player -> scenario : Draw scenario
+    deactivate player
+    deactivate scenario
+  end
+
+  match -->> scenario
+  deactivate dealer
+  deactivate match
+
+  scenario -> scenario : Draw game
+!endsub
+
+@enduml

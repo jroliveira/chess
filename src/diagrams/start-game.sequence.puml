@@ -1,0 +1,56 @@
+@startuml start-game.sequence
+
+title Start Game
+
+actor "Chess Player" as chessPlayer
+
+box "Console Application" #LightBlue
+  participant "Scenario" as scenario
+  participant Player as player
+end box
+
+box "Orleans Core" #LightGray
+	participant "Cluster Client" as clusterClient
+end box
+
+box "Orleans Grain" #LightGray
+  participant "Match Registry" as matchRegistry
+  participant Match as match
+  participant Dealer as dealer
+end box
+
+participant Game as game
+
+activate scenario
+
+loop until client connected or 5 attempts
+  scenario ->> clusterClient : Connect
+  activate clusterClient
+  deactivate clusterClient
+  ...4 seconds later...
+end
+
+group Create Player Scenario
+  !includesub scenarios/create-player.sequence.puml!Main
+end
+
+loop until the option is valid
+  chessPlayer -> scenario : Menu option selected
+end
+
+alt option is equal to __Create a new match__
+  group Create Match Scenario
+    !includesub scenarios/create-match.sequence.puml!Main
+  end
+
+else option is equal to __List all matches__
+  group Select Match Scenario
+    !includesub scenarios/select-match.sequence.puml!Main
+  end
+
+else option is equal to __Close the game__
+  scenario -> scenario
+  destroy scenario
+end
+
+@enduml

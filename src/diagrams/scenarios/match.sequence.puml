@@ -1,0 +1,72 @@
+@startuml match.sequence
+
+title Match Scenario
+
+actor "Chess Player" as chessPlayer
+
+box "Console Application" #LightBlue
+  participant "Scenario" as scenario
+  participant Player as player
+end box
+
+box "Orleans Grain" #LightGray
+  participant Match as match
+  participant Dealer as dealer
+end box
+
+participant Game as game
+
+activate scenario #FFDDDD
+activate player #FFDDDD
+
+loop until end game
+  scenario -> scenario : Draw scenario
+
+  loop until the next move is valid
+    chessPlayer -> scenario : Next move
+  end
+
+  scenario ->> match : Move piece
+  activate match
+
+  match -> game : Move piece
+  activate game
+
+  game --> match
+  deactivate game
+
+  loop until players are notified
+    match -> player : Game changed
+    activate player #FF7777
+    activate scenario #FF7777
+
+    player -> scenario : Show match
+    scenario -> scenario : Draw game
+
+    deactivate player
+    deactivate scenario
+  end
+
+  match ->> dealer : Next player
+  activate dealer
+
+  dealer -->> match
+  deactivate dealer
+
+  match -> player : Your move
+  activate player #FFAAAA
+  activate scenario #FFAAAA
+
+  player -> scenario : Move piece
+  deactivate player
+  deactivate scenario
+end
+
+match -->> player
+deactivate match
+
+player -> scenario : Show match
+scenario -> scenario : Draw game
+
+
+@enduml

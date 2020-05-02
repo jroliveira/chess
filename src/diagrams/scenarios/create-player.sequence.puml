@@ -1,0 +1,30 @@
+@startuml create-player_flow
+
+title Create Player Scenario
+
+actor "Chess Player" as chessPlayer
+
+box "Console Application" #LightBlue
+  participant "Scenario" as scenario
+end box
+
+box "Orleans Core" #LightGray
+	participant "Cluster Client" as clusterClient
+end box
+
+activate scenario
+
+!startsub Main
+  scenario -> scenario : Draw scenario
+  chessPlayer -> scenario : Player's name
+
+  scenario ->> clusterClient : Create player
+  activate clusterClient
+
+  clusterClient -->> scenario
+  deactivate clusterClient
+
+  scenario -> scenario : Draw main menu
+!endsub
+
+@enduml

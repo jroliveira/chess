@@ -1,14 +1,16 @@
 ﻿namespace Chess
 {
-    using Chess.Lib.Monad;
-    using Chess.Models;
+    using Chess.Infra.Monad;
 
     public interface IGame
     {
-        Try<Chessboard> Start();
+        Try<Match> JoinUser(
+            Option<string> userNameOption,
+            Option<PieceColor> playingWithOption = default);
 
-        Try<Player> JoinPlayer(Option<string> playerName);
-
-        Try<Chessboard> MovePiece(Option<string> piecePosition, Option<string> newPosition, Option<string> playerName);
+        Try<Match> MovePiece(
+            Option<string> piecePositionOption,
+            Option<string> newPositionOption,
+            Option<string> userNameOption);
     }
 }

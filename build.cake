@@ -14,14 +14,17 @@ Setup<BuildData>(context =>
             "./Chess.sln",
             new[]
             {
-                "./src/orleans/ui/Chess.Client",
-                "./src/orleans/ui/Chess.SiloHost",
+                "./src/orleans/Chess.Orleans.ConsoleApp",
+                "./src/orleans/Chess.Orleans.SiloHost",
             },
             new[]
             {
-                "dotnet artifacts/Chess.Client.dll",
-                "dotnet artifacts/Chess.Client.dll",
-                "dotnet artifacts/Chess.SiloHost.dll",
+                "dotnet artifacts/Chess.Orleans.SiloHost.dll",
+                "dotnet artifacts/Chess.Orleans.ConsoleApp.dll",
+                "dotnet artifacts/Chess.Orleans.ConsoleApp.dll",
+                "dotnet artifacts/Chess.Orleans.ConsoleApp.dll",
+                "dotnet artifacts/Chess.Orleans.ConsoleApp.dll",
+                "dotnet artifacts/Chess.Orleans.ConsoleApp.dll",
             }));
 });
 
@@ -31,11 +34,15 @@ Task("Default")
     .IsDependentOn("Build-Solution")
     .IsDependentOn("Run-Tests");
 
-Task("Start-Apps")
+Task("Start")
     .IsDependentOn("Delete-Temp-Directories")
     .IsDependentOn("Restore-NuGet-Packages")
     .IsDependentOn("Build-Solution")
+    .IsDependentOn("Run-Tests")
     .IsDependentOn("Publish-Console-Apps")
+    .IsDependentOn("Run-Cmds");
+
+Task("Start-Apps")
     .IsDependentOn("Run-Cmds");
 
 RunTarget(Argument("target", "Default"));

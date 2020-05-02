@@ -3,11 +3,11 @@
 
   <PropertyGroup>
     <Language>C#</Language>
-    <LangVersion>7.3</LangVersion>
+    <LangVersion>8.0</LangVersion>
     <NoWarn>1591</NoWarn>
 
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/jroliveira/http-query-filter</RepositoryUrl>
+    <RepositoryUrl>https://github.com/jroliveira/chess</RepositoryUrl>
 
     <Authors>Junior Oliveira</Authors>
     <Owners>Junior Oliveira</Owners>
@@ -15,6 +15,13 @@
     <Copyright>© Copyright (c) 2019 Junior Oliveira.</Copyright>
     <PackageProjectUrl>https://github.com/jroliveira/chess</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/jroliveira/chess/master/docs/images/logo.png</PackageIconUrl>
+  </PropertyGroup>
+
+  <!-- C# 8 nullability checks -->
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <NullableContextOptions>enable</NullableContextOptions>
+    <NullableReferenceTypes>true</NullableReferenceTypes>
   </PropertyGroup>
 
   <!-- Support for building in Visual Studio versions 15.9 and up -->
@@ -29,7 +36,7 @@
 
   <!-- Support for building in Visual Studio versions before 15.9 -->
   <PropertyGroup Condition="'$(MSBuildVersion)' &lt; '15.9'">
-    <PackageLicenseUrl>https://github.com/jroliveira/http-query-filter/blob/master/LICENSE.txt</PackageLicenseUrl>
+    <PackageLicenseUrl>https://github.com/jroliveira/chess/blob/master/LICENSE.txt</PackageLicenseUrl>
     <!-- Disable licenseUrl deprecation warning in later versions of VS -->
     <NoWarn>NU5125</NoWarn>
   </PropertyGroup>

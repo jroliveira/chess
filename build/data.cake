@@ -10,8 +10,8 @@ public sealed class BuildData
 
         this.DirectoriesToDelete = context
             .GetDirectories(this.Solution.ArtifactsDirectory)
-            .Concat(context.GetDirectories("./**/bin"))
-            .Concat(context.GetDirectories("./**/obj"))
+            .Concat(context.GetDirectories("./src/**/bin"))
+            .Concat(context.GetDirectories("./src/**/obj"))
             .OrderBy(directory => directory.ToString())
             .ToList();
     }

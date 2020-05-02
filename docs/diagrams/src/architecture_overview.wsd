@@ -1,3 +1,0 @@
-@startuml architecture_overview
-Alice -> Bob: test
-@enduml

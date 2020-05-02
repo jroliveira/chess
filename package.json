@@ -1,0 +1,51 @@
+{
+  "name": "chess",
+  "version": "2.0.0",
+  "description": "Chess game built in C# and ASCII art.",
+  "homepage": "https://github.com/jroliveira/chess#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jroliveira/chess.git"
+  },
+  "keywords": [
+    "chess",
+    "csharp",
+    "game",
+    "console-application",
+    "reactive-programming",
+    "dotnet-core",
+    "dotnet-standard",
+    "orleans",
+    "cake-build",
+    "ascii-art"
+  ],
+  "author": "Junior Oliveira (https://jroliveira.net)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jroliveira/chess/issues"
+  },
+  "readmeFilename": "README.md",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "release": "standard-version",
+    "postinstall": "dotnet tool install Cake.Tool --version 0.35.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "8.0.0",
+    "@commitlint/config-conventional": "8.0.0",
+    "cz-conventional-changelog": "2.1.0",
+    "husky": "3.0.0",
+    "standard-version": "6.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "dotnet cake",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}

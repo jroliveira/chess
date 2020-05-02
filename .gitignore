@@ -81,6 +81,11 @@ publish
 # NuGet Packages Directory
 packages
 
+# NPM Packages Directory
+node_modules
+npm-debug.log*
+package-lock.json
+
 # Windows Azure Build Output
 csx
 *.build.csdef
@@ -113,6 +118,7 @@ UpgradeLog*.XML
 
 # App config related
 appsettings.json
+ci-env.json
 api.env
 
 # Build related

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.572
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chess", "src\Chess\Chess.csproj", "{E5860CAD-4454-4492-831A-D8A45E0DD350}"
 EndProject
@@ -22,12 +22,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		build.ps1 = build.ps1
 		build.sh = build.sh
 		code-analysis.ruleset = code-analysis.ruleset
+		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
+		commitlint.config.js = commitlint.config.js
 		CONTRIBUTING.md = CONTRIBUTING.md
 		Directory.Build.props = Directory.Build.props
 		Directory.Build.targets = Directory.Build.targets
-		global.json = global.json
 		LICENSE.txt = LICENSE.txt
 		NuGet.config = NuGet.config
+		package.json = package.json
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -41,11 +43,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "orleans", "orleans", "{255BB87D-B51B-43AF-A808-51789309C2ED}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{275C037E-FCC1-4543-BA75-AF4E142345F2}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".githooks", ".githooks", "{D00DB8C3-F067-4A46-8F4F-D4DEF3D8D69B}"
-	ProjectSection(SolutionItems) = preProject
-		.githooks\pre-commit = .githooks\pre-commit
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{C3646A2F-E4D9-43D9-8B5E-65C384D67B8D}"
 	ProjectSection(SolutionItems) = preProject
@@ -64,23 +61,74 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{CBD4CCD0
 		tools\packages.config = tools\packages.config
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "contracts", "contracts", "{24B2CB98-9214-4F85-AC53-E133154BD535}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".config", ".config", "{85720CF9-2EE2-41A2-AED0-A890987D29DA}"
 	ProjectSection(SolutionItems) = preProject
-		src\orleans\contracts\Directory.Build.props = src\orleans\contracts\Directory.Build.props
+		.config\dotnet-tools.json = .config\dotnet-tools.json
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ui", "ui", "{BF7E2DBF-7573-46CD-9760-5CEE640304BB}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{F3B68841-2217-41B1-AFFE-5F2372D0CCA4}"
 	ProjectSection(SolutionItems) = preProject
-		src\orleans\ui\Directory.Build.props = src\orleans\ui\Directory.Build.props
+		.github\PULL_REQUEST_TEMPLATE.md = .github\PULL_REQUEST_TEMPLATE.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chess.Grains", "src\orleans\contracts\Chess.Grains\Chess.Grains.csproj", "{AF6B5F5C-A504-4ECE-8D5C-B07F30D84ED8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{269FC1B3-DD69-4C32-A09B-015D9BD648EB}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\nuget.exe = .nuget\nuget.exe
+	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chess.GrainInterfaces", "src\orleans\contracts\Chess.GrainInterfaces\Chess.GrainInterfaces.csproj", "{45F59100-B738-47DB-A3F0-3C2FD4C9541A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ISSUE_TEMPLATE", "ISSUE_TEMPLATE", "{C7D84FEA-9E27-408D-B758-E178056D2892}"
+	ProjectSection(SolutionItems) = preProject
+		.github\ISSUE_TEMPLATE\1-bug-report.md = .github\ISSUE_TEMPLATE\1-bug-report.md
+		.github\ISSUE_TEMPLATE\2-feature-request.md = .github\ISSUE_TEMPLATE\2-feature-request.md
+		.github\ISSUE_TEMPLATE\3-help.md = .github\ISSUE_TEMPLATE\3-help.md
+	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chess.Client", "src\orleans\ui\Chess.Client\Chess.Client.csproj", "{9596D3A8-92A2-4702-BFA0-20D8DAEDE10A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chess.Orleans.ConsoleApp", "src\orleans\Chess.Orleans.ConsoleApp\Chess.Orleans.ConsoleApp.csproj", "{741506B0-679A-453D-979E-0255B1729EAE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chess.SiloHost", "src\orleans\ui\Chess.SiloHost\Chess.SiloHost.csproj", "{86477B39-AF80-466B-B753-0A89832058D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chess.Orleans.Contract", "src\orleans\Chess.Orleans.Contract\Chess.Orleans.Contract.csproj", "{7535E00A-B562-47BA-B6B9-27182BEB4881}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chess.Orleans.Grain", "src\orleans\Chess.Orleans.Grain\Chess.Orleans.Grain.csproj", "{22249436-C3CA-4A25-B186-6666A3854F23}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chess.Orleans.SiloHost", "src\orleans\Chess.Orleans.SiloHost\Chess.Orleans.SiloHost.csproj", "{59068D7B-42ED-410D-9B90-374ABB275E10}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "diagrams", "diagrams", "{B28D181A-B388-4E36-BFB6-E63CC56AE32B}"
+	ProjectSection(SolutionItems) = preProject
+		src\diagrams\architecture-overview.component.puml = src\diagrams\architecture-overview.component.puml
+		src\diagrams\start-game.sequence.puml = src\diagrams\start-game.sequence.puml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scenarios", "scenarios", "{F4E02EA8-57D7-4571-9541-6FED644FEDC8}"
+	ProjectSection(SolutionItems) = preProject
+		src\diagrams\scenarios\create-match.sequence.puml = src\diagrams\scenarios\create-match.sequence.puml
+		src\diagrams\scenarios\create-player.sequence.puml = src\diagrams\scenarios\create-player.sequence.puml
+		src\diagrams\scenarios\match.sequence.puml = src\diagrams\scenarios\match.sequence.puml
+		src\diagrams\scenarios\select-match.sequence.puml = src\diagrams\scenarios\select-match.sequence.puml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{0374F67F-9AEE-4493-9B2A-265E8D40F46D}"
+	ProjectSection(SolutionItems) = preProject
+		docs\README.md = docs\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "diagrams", "diagrams", "{62CC56D4-42DB-4325-B837-C240772484BB}"
+	ProjectSection(SolutionItems) = preProject
+		docs\diagrams\architecture-overview.component.png = docs\diagrams\architecture-overview.component.png
+		docs\diagrams\start-game.sequence.png = docs\diagrams\start-game.sequence.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{F2AD5DA8-BA99-4A7F-952C-171051606834}"
+	ProjectSection(SolutionItems) = preProject
+		docs\images\logo.v1.png = docs\images\logo.v1.png
+		docs\images\logo.v2.png = docs\images\logo.v2.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scenarios", "scenarios", "{B39B73CD-B5C6-4836-980E-CFA3F5A386F1}"
+	ProjectSection(SolutionItems) = preProject
+		docs\diagrams\scenarios\create-match.sequence.png = docs\diagrams\scenarios\create-match.sequence.png
+		docs\diagrams\scenarios\create-player_flow.png = docs\diagrams\scenarios\create-player_flow.png
+		docs\diagrams\scenarios\match.sequence.png = docs\diagrams\scenarios\match.sequence.png
+		docs\diagrams\scenarios\select-match.sequence.png = docs\diagrams\scenarios\select-match.sequence.png
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -96,22 +144,22 @@ Global
 		{AB3831DB-241A-4BCD-8CA6-BEA6EE3E4EED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB3831DB-241A-4BCD-8CA6-BEA6EE3E4EED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB3831DB-241A-4BCD-8CA6-BEA6EE3E4EED}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AF6B5F5C-A504-4ECE-8D5C-B07F30D84ED8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AF6B5F5C-A504-4ECE-8D5C-B07F30D84ED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AF6B5F5C-A504-4ECE-8D5C-B07F30D84ED8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AF6B5F5C-A504-4ECE-8D5C-B07F30D84ED8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{45F59100-B738-47DB-A3F0-3C2FD4C9541A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{45F59100-B738-47DB-A3F0-3C2FD4C9541A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{45F59100-B738-47DB-A3F0-3C2FD4C9541A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{45F59100-B738-47DB-A3F0-3C2FD4C9541A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9596D3A8-92A2-4702-BFA0-20D8DAEDE10A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9596D3A8-92A2-4702-BFA0-20D8DAEDE10A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9596D3A8-92A2-4702-BFA0-20D8DAEDE10A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9596D3A8-92A2-4702-BFA0-20D8DAEDE10A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{86477B39-AF80-466B-B753-0A89832058D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{86477B39-AF80-466B-B753-0A89832058D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{86477B39-AF80-466B-B753-0A89832058D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{86477B39-AF80-466B-B753-0A89832058D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{741506B0-679A-453D-979E-0255B1729EAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{741506B0-679A-453D-979E-0255B1729EAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{741506B0-679A-453D-979E-0255B1729EAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{741506B0-679A-453D-979E-0255B1729EAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7535E00A-B562-47BA-B6B9-27182BEB4881}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7535E00A-B562-47BA-B6B9-27182BEB4881}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7535E00A-B562-47BA-B6B9-27182BEB4881}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7535E00A-B562-47BA-B6B9-27182BEB4881}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22249436-C3CA-4A25-B186-6666A3854F23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22249436-C3CA-4A25-B186-6666A3854F23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22249436-C3CA-4A25-B186-6666A3854F23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22249436-C3CA-4A25-B186-6666A3854F23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59068D7B-42ED-410D-9B90-374ABB275E10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59068D7B-42ED-410D-9B90-374ABB275E10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59068D7B-42ED-410D-9B90-374ABB275E10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59068D7B-42ED-410D-9B90-374ABB275E10}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -121,12 +169,16 @@ Global
 		{91ADD03D-EF24-4E85-B276-7C7CE2657AD3} = {C70833A7-249C-4A90-8BF1-8D51A728DD34}
 		{AB3831DB-241A-4BCD-8CA6-BEA6EE3E4EED} = {91ADD03D-EF24-4E85-B276-7C7CE2657AD3}
 		{255BB87D-B51B-43AF-A808-51789309C2ED} = {275C037E-FCC1-4543-BA75-AF4E142345F2}
-		{24B2CB98-9214-4F85-AC53-E133154BD535} = {255BB87D-B51B-43AF-A808-51789309C2ED}
-		{BF7E2DBF-7573-46CD-9760-5CEE640304BB} = {255BB87D-B51B-43AF-A808-51789309C2ED}
-		{AF6B5F5C-A504-4ECE-8D5C-B07F30D84ED8} = {24B2CB98-9214-4F85-AC53-E133154BD535}
-		{45F59100-B738-47DB-A3F0-3C2FD4C9541A} = {24B2CB98-9214-4F85-AC53-E133154BD535}
-		{9596D3A8-92A2-4702-BFA0-20D8DAEDE10A} = {BF7E2DBF-7573-46CD-9760-5CEE640304BB}
-		{86477B39-AF80-466B-B753-0A89832058D7} = {BF7E2DBF-7573-46CD-9760-5CEE640304BB}
+		{C7D84FEA-9E27-408D-B758-E178056D2892} = {F3B68841-2217-41B1-AFFE-5F2372D0CCA4}
+		{741506B0-679A-453D-979E-0255B1729EAE} = {255BB87D-B51B-43AF-A808-51789309C2ED}
+		{7535E00A-B562-47BA-B6B9-27182BEB4881} = {255BB87D-B51B-43AF-A808-51789309C2ED}
+		{22249436-C3CA-4A25-B186-6666A3854F23} = {255BB87D-B51B-43AF-A808-51789309C2ED}
+		{59068D7B-42ED-410D-9B90-374ABB275E10} = {255BB87D-B51B-43AF-A808-51789309C2ED}
+		{B28D181A-B388-4E36-BFB6-E63CC56AE32B} = {275C037E-FCC1-4543-BA75-AF4E142345F2}
+		{F4E02EA8-57D7-4571-9541-6FED644FEDC8} = {B28D181A-B388-4E36-BFB6-E63CC56AE32B}
+		{62CC56D4-42DB-4325-B837-C240772484BB} = {0374F67F-9AEE-4493-9B2A-265E8D40F46D}
+		{F2AD5DA8-BA99-4A7F-952C-171051606834} = {0374F67F-9AEE-4493-9B2A-265E8D40F46D}
+		{B39B73CD-B5C6-4836-980E-CFA3F5A386F1} = {62CC56D4-42DB-4325-B837-C240772484BB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E58213C-2D33-4BFA-89AE-84D2F8A51218}
