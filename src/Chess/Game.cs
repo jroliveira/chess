@@ -1,100 +1,101 @@
 ﻿namespace Chess
 {
-    using System;
-    using System.Collections.Generic;
+    using System.Linq;
 
-    using Chess.Lib.Data.Commands;
-    using Chess.Lib.Exceptions;
-    using Chess.Lib.Extensions;
-    using Chess.Lib.Monad;
-    using Chess.Lib.Monad.Extensions;
-    using Chess.Models;
+    using Chess.Domain.Chessboard;
+    using Chess.Domain.User;
+    using Chess.Infra.Monad;
+    using Chess.Infra.Monad.Extensions;
+    using Chess.Infra.Monad.Linq;
+
+    using static System.String;
+
+    using static Chess.Constants.ErrorMessages;
+    using static Chess.Constants.ErrorMessages.Piece;
+    using static Chess.Constants.ErrorMessages.User;
+    using static Chess.Domain.Chessboard.MountChessboardCommand;
+    using static Chess.Match;
 
     public sealed class Game : IGame
     {
-        private readonly Entities.Chessboard chessboard;
-        private readonly MountChessboardCommand mountChessboard;
-        private readonly IDictionary<string, Player> players;
+        private readonly Users users;
+        private Chessboard chessboard;
 
         public Game()
-            : this(new Entities.Chessboard(), new MountChessboardCommand(), new Dictionary<string, Player>())
         {
+            this.users = new Users();
+            this.chessboard = MountChessboard();
         }
 
-        internal Game(
-            Entities.Chessboard chessboard,
-            MountChessboardCommand mountChessboard,
-            IDictionary<string, Player> players)
+        public Try<Match> JoinUser(
+            Option<string> userNameOption,
+            Option<PieceColor> playingWithOption = default)
         {
-            this.chessboard = chessboard;
-            this.mountChessboard = mountChessboard;
-            this.players = players;
+            var userName = userNameOption.GetOrElse(Empty);
+            if (userName == Empty)
+            {
+                return CannotBeNullOrEmpty("User name");
+            }
 
-            this.mountChessboard.Execute(this.chessboard);
+            return this.users
+                .AddUser(userName, playingWithOption)
+                .Select(_ => CreateMatch(
+                    this.chessboard,
+                    this.users.Players.Select(item => item.ToUser()).ToList(),
+                    this.users.Spectators.Select(item => item.ToUser()).ToList()));
         }
 
-        public Try<Chessboard> Start() => this.chessboard.ToModel();
-
-        public Try<Player> JoinPlayer(Option<string> playerName)
+        public Try<Match> MovePiece(
+            Option<string> piecePositionOption,
+            Option<string> newPositionOption,
+            Option<string> userNameOption)
         {
-            if (!playerName.IsDefined)
+            var piecePosition = piecePositionOption.GetOrElse(Empty);
+            if (piecePosition == Empty)
             {
-                return new ArgumentNullException(nameof(playerName), "Player name cannot be null or empty.");
+                return CannotBeNullOrEmpty("Piece position");
             }
 
-            var playerCount = this.players.Count;
-            if (playerCount == 2)
+            var newPosition = newPositionOption.GetOrElse(Empty);
+            if (newPosition == Empty)
             {
-                return new ChessException("Too many players in the game.");
+                return CannotBeNullOrEmpty("New position");
             }
 
-            var player = new Player(playerName.Get(), playerCount == 0);
-            this.players.Add(player, player);
-
-            return player;
-        }
-
-        public Try<Chessboard> MovePiece(Option<string> piecePosition, Option<string> newPosition, Option<string> playerName)
-        {
-            if (!piecePosition.IsDefined)
+            var userName = userNameOption.GetOrElse(Empty);
+            if (userName == Empty)
             {
-                return new ArgumentNullException(nameof(piecePosition), "Piece position cannot be null or empty.");
+                return CannotBeNullOrEmpty("Player");
             }
 
-            if (!newPosition.IsDefined)
+            var user = this.users.GetUser(userName).GetOrElse(null);
+            if (user == null || !(user is Player player))
             {
-                return new ArgumentNullException(nameof(newPosition), "New position cannot be null or empty.");
+                return IsNotPlaying(userName);
             }
 
-            if (!playerName.IsDefined)
-            {
-                return new ArgumentNullException(nameof(playerName), "Player cannot be null or empty.");
-            }
-
-            if (!this.players.TryGetValue(playerName.Get(), out var player))
-            {
-                return new KeyNotFoundException($"Player '{playerName.Get()}' is not playing.");
-            }
-
-            var piece = this.chessboard
-                .GetPiece(piecePosition.Get().ToPosition())
-                .GetOrElse(default);
-
+            var piece = this.chessboard.GetPiece(piecePosition).GetOrElse(null);
             if (piece == null)
             {
-                return new ChessException($"Piece '{piecePosition.Get()}' don't exist.");
+                return DoesNotExist(piecePosition);
             }
 
-            if (piece.IsWhite != player.IsWhitePiece)
+            if (!piece.BelongsTo(player))
             {
-                return new ChessException($"Piece '{piece}' does not belong to you.");
+                return DoesNotBelongToYou(piece);
             }
 
             return this.chessboard
-                .MovePiece(piece, newPosition.Get().ToPosition())
-                .Match<Try<Chessboard>>(
-                    _ => _,
-                    _ => this.chessboard.ToModel());
+                .MovePiece(piece, newPosition)
+                .Select(newChessboard =>
+                {
+                    this.chessboard = newChessboard;
+
+                    return CreateMatch(
+                        this.chessboard,
+                        this.users.Players.Select(item => item.ToUser()).ToList(),
+                        this.users.Spectators.Select(item => item.ToUser()).ToList());
+                });
         }
     }
 }

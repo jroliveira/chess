@@ -1,0 +1,20 @@
+@startuml architecture-overview.component
+
+package Orleans {
+  [Console App] as consoleApp
+  [Contract] as contract
+  [Grain] as grain
+  [Silo Host] as siloHost
+
+  consoleApp -[hidden]right- contract
+  contract -[hidden]right- grain
+  grain -[hidden]right- siloHost
+}
+
+package Core {
+  [Chess] as chess
+}
+
+Orleans -[hidden]down- Core
+
+@enduml
