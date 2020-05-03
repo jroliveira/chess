@@ -17,7 +17,7 @@ Chess game built in C# and ASCII art.
  - [.NET Core](https://docs.microsoft.com/en-us/dotnet/core/)
  - [C#](https://docs.microsoft.com/en-us/dotnet/csharp/)
  - [Orleans](https://github.com/dotnet/orleans)
- - [ReactiveX](https://github.com/dotnet/reactive)
+ - [Paket](https://fsprojects.github.io/Paket/index.html)
 
 ### Pre requisites
 

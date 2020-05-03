@@ -29,14 +29,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Build.targets = Directory.Build.targets
 		LICENSE.txt = LICENSE.txt
 		NuGet.config = NuGet.config
+		package-lock.json = package-lock.json
 		package.json = package.json
+		paket.dependencies = paket.dependencies
+		paket.lock = paket.lock
 		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unit", "unit", "{91ADD03D-EF24-4E85-B276-7C7CE2657AD3}"
-	ProjectSection(SolutionItems) = preProject
-		test\unit\Directory.Build.props = test\unit\Directory.Build.props
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chess.Test", "test\unit\Chess.Test\Chess.Test.csproj", "{AB3831DB-241A-4BCD-8CA6-BEA6EE3E4EED}"
 EndProject
@@ -128,6 +128,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scenarios", "scenarios", "{
 		docs\diagrams\scenarios\create-player_flow.png = docs\diagrams\scenarios\create-player_flow.png
 		docs\diagrams\scenarios\match.sequence.png = docs\diagrams\scenarios\match.sequence.png
 		docs\diagrams\scenarios\select-match.sequence.png = docs\diagrams\scenarios\select-match.sequence.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{FFDF0786-5597-414A-B23B-E304A0291E85}"
+	ProjectSection(SolutionItems) = preProject
+		.paket\Paket.Restore.targets = .paket\Paket.Restore.targets
 	EndProjectSection
 EndProject
 Global

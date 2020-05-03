@@ -1,1 +1,1 @@
-readonly Func<string> GetConfiguration = () => Argument("configuration", "Release");
+﻿readonly Func<string> GetConfiguration = () => Argument("configuration", "Release");

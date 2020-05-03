@@ -1,0 +1,3 @@
+﻿group Orleans
+  Microsoft.Orleans.Core.Abstractions
+  Microsoft.Orleans.OrleansCodeGenerator.Build

@@ -32,7 +32,7 @@ configuration:
   - Release
 
 install:
-  - cmd: dotnet tool install Cake.Tool --version 0.35.0
+  - cmd: dotnet tool restore
 
 build_script:
   - cmd: dotnet cake

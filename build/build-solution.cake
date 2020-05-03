@@ -1,4 +1,4 @@
-Task("Build-Solution")
+﻿Task("Build-Solution")
     .Does<BuildData>(data => DotNetCoreBuild(data.Solution.SlnPath, new DotNetCoreBuildSettings()
     {
         Configuration = data.Configuration,

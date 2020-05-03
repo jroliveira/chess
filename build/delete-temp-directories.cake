@@ -1,4 +1,4 @@
-Task("Delete-Temp-Directories")
+﻿Task("Delete-Temp-Directories")
     .ContinueOnError()
     .Does<BuildData>(data =>
     {

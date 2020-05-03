@@ -9,7 +9,7 @@ branches:
     - master
 
 install:
-  - dotnet tool install Cake.Tool --version 0.35.0
+  - dotnet tool restore
 
 script:
   - dotnet cake

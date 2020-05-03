@@ -1,4 +1,4 @@
-Task("Publish-Console-Apps")
+﻿Task("Publish-Console-Apps")
     .DoesForEach<BuildData, string>(
         data => data.Solution.ProjectsPath,
         (data, projectPath, _) => DotNetCorePublish(projectPath, new DotNetCorePublishSettings
