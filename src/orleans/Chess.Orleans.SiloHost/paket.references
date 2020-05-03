@@ -1,0 +1,6 @@
+﻿group Orleans
+  Microsoft.Extensions.Logging.Console
+
+  Microsoft.Orleans.Core
+  Microsoft.Orleans.OrleansProviders
+  Microsoft.Orleans.OrleansRuntime

@@ -12,7 +12,7 @@ end_of_line = lf
 trim_trailing_whitespace = true
 
 # Code files
-[*.{cs,csx,vb,vbx}]
+[*.{cs,csx,vb,vbx,cake}]
 indent_size = 4
 charset = utf-8-bom
 

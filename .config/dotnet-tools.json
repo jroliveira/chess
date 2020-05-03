@@ -7,6 +7,12 @@
       "commands": [
         "dotnet-cake"
       ]
+    },
+    "paket": {
+      "version": "5.244.2",
+      "commands": [
+        "paket"
+      ]
     }
   }
 }

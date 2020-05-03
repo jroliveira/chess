@@ -1,7 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Chess\Chess.csproj" />
   </ItemGroup>
+
+  <Import Project="..\..\..\.paket\Paket.Restore.targets" />
 
 </Project>

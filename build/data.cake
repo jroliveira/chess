@@ -1,4 +1,4 @@
-public sealed class BuildData
+﻿public sealed class BuildData
 {
     public BuildData(
         ICakeContext context,
