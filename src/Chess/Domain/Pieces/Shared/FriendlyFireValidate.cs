@@ -1,5 +1,7 @@
 ﻿namespace Chess.Domain.Pieces.Shared
 {
+    using System.Linq;
+
     using Chess.Domain.Chessboard;
     using Chess.Domain.Shared;
     using Chess.Infra.Monad;
@@ -14,8 +16,8 @@
         protected override bool IsValidRule(
             PieceBase piece,
             Position newPosition,
-            Chessboard chessboard) => chessboard.GetPiece(newPosition).Match(
-                otherPiece => !piece.SameColor(otherPiece),
-                () => true);
+            Chessboard chessboard) => chessboard
+                .GetPiece(newPosition)
+                .Fold(true)(otherPiece => !piece.SameColor(otherPiece));
     }
 }

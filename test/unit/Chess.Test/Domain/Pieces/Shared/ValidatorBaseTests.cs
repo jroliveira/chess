@@ -7,6 +7,8 @@
 
     using FluentAssertions;
 
+    using static Chess.Domain.Shared.Position;
+
     public abstract class ValidatorBaseTests
     {
         private readonly ValidatorBase validator;
@@ -20,9 +22,9 @@
 
         protected virtual void Validate(string position, string newPosition, bool expected)
         {
-            var piece = this.chessboard.GetPiece(position).Get();
+            var piece = this.chessboard.GetPiece(CreatePosition(position));
 
-            var actual = this.validator.Validate(piece, newPosition, this.chessboard);
+            var actual = this.validator.Validate(piece, CreatePosition(newPosition), this.chessboard);
 
             actual.Should().Be(expected);
         }

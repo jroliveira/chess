@@ -6,8 +6,10 @@
     using Chess.Infra.Monad;
     using Chess.Infra.Monad.Extensions;
 
+    using static System.String;
+
     using static Chess.Constants.ErrorMessages;
-    using static Chess.Constants.ErrorMessages.User;
+    using static Chess.Constants.ErrorMessages.UserError;
     using static Chess.Domain.User.Player;
     using static Chess.Domain.User.Spectator;
     using static Chess.Infra.Monad.Utils.Util;
@@ -57,8 +59,14 @@
             }
         }
 
-        internal Try<UserBase> AddUser(string name, Option<PieceColor> playingWithOption)
+        internal Try<UserBase> AddUser(Option<string> nameOption, Option<PieceColor> playingWithOption)
         {
+            var name = nameOption.GetOrElse(Empty);
+            if (name == Empty)
+            {
+                return CannotBeNullOrEmpty("User name");
+            }
+
             if (this.users.Any(item => item.Value.Equals(name)))
             {
                 return IsAlreadyInUse(name);
@@ -91,8 +99,9 @@
             return newUser;
         }
 
-        internal Option<UserBase> GetUser(string name) => this.users.TryGetValue(name, out var user)
-            ? Some(user)
-            : None();
+        internal Try<UserBase> GetUser(Option<string> nameOption) => nameOption
+            .Fold(Failure<UserBase>(CannotBeNullOrEmpty("User")))(name => this.users.TryGetValue(name, out var user)
+                ? Success(user)
+                : IsNotPlaying(name));
     }
 }

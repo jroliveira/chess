@@ -6,11 +6,18 @@
     using Chess;
     using Chess.Domain.Pieces.Shared;
     using Chess.Domain.Shared;
+    using Chess.Domain.User;
     using Chess.Infra.Monad;
-    using Chess.Infra.Monad.Linq;
+    using Chess.Infra.Monad.Extensions;
+
+    using static System.String;
 
     using static Chess.Constants.Chessboard;
-    using static Chess.Constants.ErrorMessages.Piece;
+    using static Chess.Constants.ErrorMessages;
+    using static Chess.Constants.ErrorMessages.PieceError;
+    using static Chess.Constants.ErrorMessages.UserError;
+    using static Chess.Domain.Shared.Position;
+    using static Chess.Infra.Monad.Utils.Util;
     using static Chess.Pieces;
 
     internal sealed class Chessboard
@@ -23,34 +30,60 @@
 
         public static implicit operator Pieces(Chessboard chessboard) => chessboard.ToPieces();
 
-        internal Try<Chessboard> MovePiece(PieceBase piece, Position newPosition)
+        internal Try<Chessboard> MovePiece(
+            Option<Player> playerOption,
+            Option<Position> piecePositionOption,
+            Option<Position> newPositionOption)
         {
-            if (!piece.CanMove(newPosition, this))
+            var piecePosition = piecePositionOption.GetOrElse(Empty);
+            if (piecePosition == Empty)
             {
-                return CannotMove(piece);
+                return CannotBeNullOrEmpty("Piece position");
             }
 
-            IReadOnlyCollection<PieceBase> newPieces = new List<PieceBase>(this.pieces);
-
-            this.GetPiece(newPosition)
-                .Select(otherPiece => newPieces = newPieces.RemoveItem(otherPiece));
-
-            return piece
-                .Move(newPosition)
-                .Select(newPiece =>
+            return this.GetPiece(piecePositionOption)
+                .Select(piece =>
                 {
-                    newPieces = newPieces.RemoveItem(piece);
-                    newPieces = newPieces.AddItem(newPiece);
+                    if (!piece.BelongsTo(playerOption))
+                    {
+                        return DoesNotBelongToYou(piece);
+                    }
 
-                    return new Chessboard(newPieces);
+                    if (!piece.CanMove(newPositionOption, this))
+                    {
+                        return CannotMove(piece);
+                    }
+
+                    IReadOnlyCollection<PieceBase> newPieces = new List<PieceBase>(this.pieces);
+
+                    this.GetPiece(newPositionOption)
+                        .ForEach(otherPiece => newPieces = newPieces.RemoveItem(otherPiece));
+
+                    return piece
+                        .Move(newPositionOption)
+                        .Select(newPiece =>
+                        {
+                            newPieces = newPieces.RemoveItem(piece);
+                            newPieces = newPieces.AddItem(newPiece);
+
+                            return new Chessboard(newPieces);
+                        });
                 });
         }
 
-        internal Option<PieceBase> GetPiece(Position position) => this.pieces.FirstOrDefault(piece => piece.Equals(position));
+        internal Try<PieceBase> GetPiece(Option<Position> positionOption) => positionOption
+            .Fold(Failure<PieceBase>(CannotBeNullOrEmpty("Position")))(position =>
+            {
+                var piece = this.pieces.FirstOrDefault(item => item.Equals(position));
+
+                return piece == null
+                    ? Failure<PieceBase>(DoesNotExist(position))
+                    : Success(piece);
+            });
 
         internal Pieces ToPieces()
         {
-            var newPieces = new Piece[Files.Count, Ranks.Count];
+            var newPieces = new Chess.Piece[Files.Count, Ranks.Count];
 
             for (var fileIndex = 0; fileIndex < Files.Count; fileIndex++)
             {
@@ -62,8 +95,8 @@
                     var fileLocalIndex = fileIndex;
                     var rankLocalIndex = rankIndex;
 
-                    this.GetPiece($"{file}{rank}")
-                        .Select(piece => newPieces[fileLocalIndex, rankLocalIndex] = piece);
+                    this.GetPiece(CreatePosition($"{file}{rank}"))
+                        .ForEach(piece => newPieces[fileLocalIndex, rankLocalIndex] = piece);
                 }
             }
 

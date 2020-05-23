@@ -22,22 +22,22 @@
         {
             public static ChessException CannotBeNullOrEmpty(string property) => new ChessException($"{property} can't be null or empty");
 
-            public static class Piece
+            public static class PieceError
             {
                 public static ChessException CannotMove(string piece) => new ChessException($"Can't move the piece '{piece}'");
 
                 public static ChessException DoesNotExist(Type type) => new ChessException($"Piece type '{type.Name}' doesn't exist");
 
-                public static ChessException DoesNotExist(PieceColor color) => new ChessException($"Piece color '{color.ToString()}' doesn't exist");
+                public static ChessException DoesNotExist(PieceColor color) => new ChessException($"Piece color '{color}' doesn't exist");
 
                 public static ChessException DoesNotExist(string position) => new ChessException($"Piece '{position}' don't exist");
             }
 
-            public static class User
+            public static class UserError
             {
                 public static ChessException IsAlreadyInUse(string user) => new ChessException($"User name '{user}' is already in use");
 
-                public static ChessException IsAlreadyInUse(PieceColor color) => new ChessException($"Piece color '{color.ToString()}' is already in use");
+                public static ChessException IsAlreadyInUse(PieceColor color) => new ChessException($"Piece color '{color}' is already in use");
 
                 public static ChessException IsNotPlaying(string user) => new ChessException($"Player '{user}' isn't playing");
 

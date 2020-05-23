@@ -11,6 +11,8 @@
     using Xunit;
 
     using static Chess.Domain.Pieces.Pawn.Pawn;
+    using static Chess.Domain.Shared.Position;
+    using static Chess.Domain.User.Player;
     using static Chess.PieceColor;
 
     public sealed class ChessboardTests
@@ -42,7 +44,7 @@
             Chessboard chessboard = new List<PieceBase> { CreatePawn("a2", WhitePiece) };
 
             var actual = chessboard
-                .MovePiece(chessboard.GetPiece("a2").Get(), "b3")
+                .MovePiece(CreatePlayer("jr", WhitePiece), CreatePosition("a2"), CreatePosition("b3"))
                 .Match(_ => _, _ => default);
 
             actual.ShouldBeEquivalentTo(expected);
@@ -74,9 +76,10 @@
             Piece[,] expected = (Pieces)(Chessboard)new List<PieceBase> { CreatePawn("a4", WhitePiece) };
             Chessboard chessboard = new List<PieceBase> { CreatePawn("a2", WhitePiece) };
 
-            Piece[,] actual = (Pieces)chessboard
-                .MovePiece(chessboard.GetPiece("a2").Get(), "a4")
-                .Match(_ => default, _ => _);
+            Piece[,] actual = chessboard
+                .MovePiece(CreatePlayer("jr", WhitePiece), CreatePosition("a2"), CreatePosition("a4"))
+                .Match(_ => default, _ => _)
+                .ToPieces();
 
             actual.ShouldBeEquivalentTo(expected);
         }

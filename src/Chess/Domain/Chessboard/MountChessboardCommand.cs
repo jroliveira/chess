@@ -4,12 +4,10 @@
     using System.Linq;
 
     using Chess.Domain.Pieces.Shared;
-    using Chess.Infra.Monad.Linq;
 
     using static Chess.Constants.Chessboard;
     using static Chess.Domain.Chessboard.InitialChessboardSetup;
     using static Chess.Domain.Pieces.Shared.PieceBase;
-    using static Chess.Infra.Monad.Utils.Util;
     using static Chess.PieceColor;
 
     internal static class MountChessboardCommand
@@ -26,15 +24,11 @@
                     var rank = Ranks.ElementAt(rankIndex);
 
                     GetPieceType($"{file}{rank}")
-                        .Select(type => CreatePiece(
+                        .ForEach(type => CreatePiece(
                             type,
                             $"{file}{rank}",
-                            rank < 5 ? WhitePiece : BlackPiece).Select(
-                                piece =>
-                                {
-                                    pieces.Add(piece);
-                                    return Unit();
-                                }));
+                            rank < 5 ? WhitePiece : BlackPiece)
+                                .ForEach(pieces.Add));
                 }
             }
 

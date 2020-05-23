@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using Chess.Domain.Chessboard;
     using Chess.Domain.Pieces.Bishop;
@@ -14,13 +15,15 @@
     using Chess.Domain.User;
     using Chess.Infra.Monad;
 
-    using static Chess.Constants.ErrorMessages.Piece;
+    using static Chess.Constants.ErrorMessages;
+    using static Chess.Constants.ErrorMessages.PieceError;
     using static Chess.Domain.Pieces.Bishop.Bishop;
     using static Chess.Domain.Pieces.King.King;
     using static Chess.Domain.Pieces.Knight.Knight;
     using static Chess.Domain.Pieces.Pawn.Pawn;
     using static Chess.Domain.Pieces.Queen.Queen;
     using static Chess.Domain.Pieces.Rook.Rook;
+    using static Chess.Infra.Monad.Utils.Util;
     using static Chess.PieceColor;
 
     internal abstract class PieceBase : IEquatable<PieceBase>
@@ -78,28 +81,30 @@
 
         internal static Try<PieceBase> CreatePiece(
             Type type,
-            Position position,
+            Option<Position> positionOption,
             PieceColor color,
-            IReadOnlyCollection<Position> logMoves) => type.Name switch
-            {
-                nameof(Bishop) => CreateBishop(position, color, logMoves),
-                nameof(King) => CreateKing(position, color, logMoves),
-                nameof(Knight) => CreateKnight(position, color, logMoves),
-                nameof(Pawn) => CreatePawn(position, color, logMoves),
-                nameof(Queen) => CreateQueen(position, color, logMoves),
-                nameof(Rook) => CreateRook(position, color, logMoves),
-                _ => DoesNotExist(type)
-            };
+            IReadOnlyCollection<Position> logMoves) => positionOption
+                .Fold(Failure<PieceBase>(CannotBeNullOrEmpty("Position")))(position => type.Name switch
+                {
+                    nameof(Bishop) => CreateBishop(position, color, logMoves),
+                    nameof(King) => CreateKing(position, color, logMoves),
+                    nameof(Knight) => CreateKnight(position, color, logMoves),
+                    nameof(Pawn) => CreatePawn(position, color, logMoves),
+                    nameof(Queen) => CreateQueen(position, color, logMoves),
+                    nameof(Rook) => CreateRook(position, color, logMoves),
+                    _ => DoesNotExist(type)
+                });
 
-        internal Try<PieceBase> Move(Position newPosition) => CreatePiece(
+        internal Try<PieceBase> Move(Option<Position> newPositionOption) => CreatePiece(
             this.GetType(),
-            newPosition,
+            newPositionOption,
             this.Color,
             this.logMoves);
 
-        internal bool CanMove(Position newPosition, Chessboard chessboard) => this.validator.Validate(this, newPosition, chessboard);
+        internal bool CanMove(Option<Position> newPositionOption, Chessboard chessboard) => this.validator.Validate(this, newPositionOption, chessboard);
 
-        internal bool BelongsTo(Player player) => this.Color.Equals(player.PlayingWith);
+        internal bool BelongsTo(Option<Player> playerOption) => playerOption
+            .Fold(false)(player => this.Color.Equals(player.PlayingWith));
 
         internal bool SameColor(PieceBase other) => this.Color.Equals(other.Color);
 

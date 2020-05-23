@@ -11,7 +11,7 @@
 
     internal static class MatchExtension
     {
-        internal static Unit Draw(this Option<Match> @this) => Draw(@this.Get());
+        internal static Unit Draw(this Option<Match> @this) => @this.ForEach(match => match.Draw());
 
         internal static Unit Draw(this Match @this)
         {

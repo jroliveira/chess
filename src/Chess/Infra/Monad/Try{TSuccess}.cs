@@ -33,8 +33,6 @@
             ? failureFunc(this.failure)
             : successFunc(this.success);
 
-        public TSuccess Get() => this.success;
-
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             if (this.failure != default)
