@@ -1,10 +1,10 @@
 ﻿namespace Chess.Test.Domain.User
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     using Chess;
     using Chess.Domain.User;
-    using Chess.Infra.Monad.Extensions;
 
     using FluentAssertions;
 
@@ -60,9 +60,9 @@
             var expected = CreatePlayer("test", WhitePiece);
             var users = new Users(new List<UserBase> { CreatePlayer("test", WhitePiece) });
 
-            var actual = users.GetUser("test").GetOrElse(default);
-
-            actual.ShouldBeEquivalentTo(expected);
+            users
+                .GetUser("test")
+                .ForEach(actual => actual.ShouldBeEquivalentTo(expected));
         }
 
         [Fact]
@@ -71,7 +71,7 @@
             const bool expected = false;
             var users = new Users();
 
-            var actual = users.GetUser("test").IsDefined;
+            bool actual = users.GetUser("test");
 
             actual.ShouldBeEquivalentTo(expected);
         }

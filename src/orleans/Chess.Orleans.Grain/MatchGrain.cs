@@ -1,10 +1,10 @@
 ﻿namespace Chess.Orleans.Grain
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Chess.Infra.Monad;
-    using Chess.Infra.Monad.Linq;
     using Chess.Orleans.Contract;
 
     using global::Orleans;
@@ -37,48 +37,36 @@
             Option<string> userNameOption,
             Option<PieceColor> playingWithOption = default) => this.game
                 .JoinUser(userNameOption, playingWithOption)
-                .Match(
-                    exception => Task(Failure<Match>(exception)),
-                    async match =>
+                .Select(async match =>
+                {
+                    this.usersGrain.AddItem(userGrainOption);
+
+                    var unitOption = await this.dealerGrain.AddUserGrain(userGrainOption);
+                    unitOption.ForEach(async _ =>
                     {
-                        this.usersGrain.AddItem(userGrainOption);
-
-                        var unitOption = await this.dealerGrain.AddUserGrain(userGrainOption);
-                        unitOption.Select(async _ =>
-                        {
-                            var nextUserGrainOption = await this.dealerGrain.NextUserGrain();
-                            return nextUserGrainOption.Select(nextUserGrain =>
-                            {
-                                nextUserGrain.YourMove(match, this);
-                                return Unit();
-                            });
-                        });
-
-                        return Success(match);
+                        var nextUserGrainOption = await this.dealerGrain.NextUserGrain();
+                        nextUserGrainOption.ForEach(nextUserGrain => nextUserGrain.YourMove(match, this));
                     });
+
+                    return Success(match);
+                });
 
         public Task<Try<Match>> MovePiece(
             Option<string> piecePositionOption,
             Option<string> newPositionOption,
             Option<string> userNameOption) => this.game
                 .MovePiece(piecePositionOption, newPositionOption, userNameOption)
-                .Match(
-                    _ => Task(Failure<Match>(_)),
-                    async match =>
+                .Select(async match =>
+                {
+                    foreach (var userGrain in this.usersGrain)
                     {
-                        foreach (var userGrain in this.usersGrain)
-                        {
-                            userGrain.GameChanged(match);
-                        }
+                        userGrain.GameChanged(match);
+                    }
 
-                        var nextUserGrainOption = await this.dealerGrain.NextUserGrain();
-                        nextUserGrainOption.Select(nextUserGrain =>
-                        {
-                            nextUserGrain.YourMove(match, this);
-                            return Unit();
-                        });
+                    var nextUserGrainOption = await this.dealerGrain.NextUserGrain();
+                    nextUserGrainOption.ForEach(nextUserGrain => nextUserGrain.YourMove(match, this));
 
-                        return Success(match);
-                    });
+                    return Success(match);
+                });
     }
 }
